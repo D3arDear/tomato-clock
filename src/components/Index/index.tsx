@@ -1,9 +1,9 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 
-const Index: React.FunctionComponent = () => {
+const Index: React.FunctionComponent<any> = (props) => {
   const login = () => {
-    console.log("点击了登录");
+    props.history.push("/login");
   };
   return (
     <div>

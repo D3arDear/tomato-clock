@@ -10,20 +10,20 @@ export default function App() {
       <div>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">Index</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/signUp">SignUp</Link>
           </li>
         </ul>
 
         <Switch>
           <Route exact path="/" component={Index} />
-          <Route path="/about" component={Login} />
-          <Route path="/dashboard" component={SignUp} />
+          <Route path="/login" component={Login} />
+          <Route path="/signUp" component={SignUp} />
         </Switch>
       </div>
     </Router>
