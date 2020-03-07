@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Index from "./components/Index/index";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/signUp";
@@ -39,18 +39,6 @@ export default function App() {
     <MuiThemeProvider theme={theme}>
       <Router>
         <div className={sc("wrapper")}>
-          <ul>
-            <li>
-              <Link to="/">Index</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signUp">SignUp</Link>
-            </li>
-          </ul>
-
           <Switch>
             <Route exact path="/" component={Index} />
             <Route path="/login" component={Login} />

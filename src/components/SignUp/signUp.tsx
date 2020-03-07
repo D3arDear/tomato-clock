@@ -11,22 +11,31 @@ interface State {
   passwordConformation: string;
 }
 const useStyles = makeStyles({
+  buttonWrapper: {
+    display: "flex",
+  },
   button: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     border: 0,
-    width: "100%",
-    borderRadius: 3,
+    width: "50%",
     marginTop: "10px",
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    marginRight: "10px",
     color: "white",
     height: 40,
     padding: "0 30px",
+  },
+  secondaryButton: {
+    height: 40,
+    marginTop: "10px",
+    padding: "0 30px",
+    width: "50%",
   },
   input: {
     width: "100%",
   },
   paper: {
-    minWidth: "300px",
+    width: "700px",
     "@media (max-width:800px)": {
       maxWidth: "300px",
       boxShadow: "none",
@@ -79,6 +88,9 @@ const SignUp: React.FunctionComponent<any> = (props) => {
       throw new Error(e);
     }
   };
+  const linkTo = () => {
+    props.history.push("/login");
+  };
   return (
     <div className={classes.paper}>
       <div className={classes.card}>
@@ -114,9 +126,14 @@ const SignUp: React.FunctionComponent<any> = (props) => {
           value={passwordConformation}
           onChange={handleChange("passwordConformation")}
         />
-        <Button className={classes.button} color="secondary" onClick={submit} variant="contained">
-          注册
-        </Button>
+        <div className={classes.buttonWrapper}>
+          <Button className={classes.button} color="secondary" onClick={submit} variant="contained">
+            注册
+          </Button>
+          <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>
+            登录
+          </Button>
+        </div>
       </div>
       <div className={classes.cover}></div>
     </div>
