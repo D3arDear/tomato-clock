@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import "./signUp.scss";
 import { makeStyles } from "@material-ui/core";
+import axios from "src/config/axios";
 
 interface State {
   username: string;
@@ -39,6 +40,7 @@ const useStyles = makeStyles({
     width: "50%",
     "@media (max-width:800px)": {
       width: "100%",
+      height: "100vh",
     },
     padding: "120px 40px 50px 40px",
   },
@@ -59,14 +61,23 @@ const SignUp: React.FunctionComponent<any> = (props) => {
     password: "",
     passwordConformation: "",
   });
+  const { username, password, passwordConformation } = userForm;
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserForm({
       ...userForm,
       [prop]: event.target.value,
     });
   };
-  const signUp = () => {
-    props.history.push("");
+  const submit = async () => {
+    try {
+      await axios.post("sign_up/user", {
+        account: username,
+        password,
+        password_conformation: passwordConformation,
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
   };
   return (
     <div className={classes.paper}>
@@ -78,7 +89,7 @@ const SignUp: React.FunctionComponent<any> = (props) => {
           label="用户名"
           placeholder="用户名"
           variant="filled"
-          value={userForm.username}
+          value={username}
           onChange={handleChange("username")}
         />
         <TextField
@@ -89,7 +100,7 @@ const SignUp: React.FunctionComponent<any> = (props) => {
           label="密码"
           placeholder="密码"
           variant="filled"
-          value={userForm.password}
+          value={password}
           onChange={handleChange("password")}
         />
         <TextField
@@ -100,10 +111,10 @@ const SignUp: React.FunctionComponent<any> = (props) => {
           label="确认密码"
           placeholder="确认密码"
           variant="filled"
-          value={userForm.passwordConformation}
+          value={passwordConformation}
           onChange={handleChange("passwordConformation")}
         />
-        <Button className={classes.button} color="secondary" onClick={signUp} variant="contained">
+        <Button className={classes.button} color="secondary" onClick={submit} variant="contained">
           注册
         </Button>
       </div>
