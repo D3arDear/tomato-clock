@@ -1,4 +1,5 @@
 import axios from "axios";
+import history from "./history";
 
 const appID = "2acmcPV36o2Y7HpZCX93FuHo";
 const appSecret = "a4R9QmDp3PHM2PnPqRzG82k6";
@@ -21,21 +22,21 @@ instance.interceptors.request.use(
     return config;
   },
   function(error) {
-    console.error(error);
     return Promise.reject(error);
   },
 );
 
 // 响应拦截器
 instance.interceptors.response.use(
-  function(response) {
+  (response) => {
     // 获得 data 的时候
     if (response.headers["x-token"]) {
       localStorage.setItem("x-token", response.headers["x-token"]);
     }
     return response;
   },
-  function(error) {
+  (error) => {
+    error.response.status === 401 && history.push("/login");
     // 抛出 error 的时候
     return Promise.reject(error);
   },

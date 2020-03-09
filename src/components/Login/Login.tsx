@@ -92,7 +92,7 @@ const Login: React.FunctionComponent<any> = (props) => {
         account: username,
         password,
       });
-      console.log("成功");
+      props.history.push("/");
     } catch (e) {
       console.log("失败");
       console.log(e);

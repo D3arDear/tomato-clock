@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
+import history from "./config/history";
 import Index from "./components/Index/index";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/signUp";
@@ -37,7 +38,7 @@ const theme = createMuiTheme({
 export default function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <Router>
+      <Router history={history}>
         <div className={sc("wrapper")}>
           <Switch>
             <Route exact path="/" component={Index} />

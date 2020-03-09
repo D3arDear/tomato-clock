@@ -96,6 +96,7 @@ const SignUp: React.FunctionComponent<any> = (props) => {
         password,
         password_confirmation: passwordConfirmation,
       });
+      props.history.push("/");
     } catch (e) {
       throw new Error(e);
     }
