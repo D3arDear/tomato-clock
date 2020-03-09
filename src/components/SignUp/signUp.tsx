@@ -8,9 +8,18 @@ import axios from "src/config/axios";
 interface State {
   username: string;
   password: string;
-  passwordConformation: string;
+  passwordConfirmation: string;
 }
 const useStyles = makeStyles({
+  title: {
+    fontWeight: "normal",
+    fontSize: "35px",
+    color: "rgba(255, 179, 113, 1)",
+    marginBottom: "20px",
+  },
+  subTitle: {
+    fontSize: "14px",
+  },
   buttonWrapper: {
     display: "flex",
   },
@@ -50,8 +59,11 @@ const useStyles = makeStyles({
     "@media (max-width:800px)": {
       width: "100%",
       height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
     },
-    padding: "120px 40px 50px 40px",
+    padding: "50px 40px 60px 40px",
   },
   cover: {
     display: "flex",
@@ -68,9 +80,9 @@ const SignUp: React.FunctionComponent<any> = (props) => {
   const [userForm, setUserForm] = useState<State>({
     username: "",
     password: "",
-    passwordConformation: "",
+    passwordConfirmation: "",
   });
-  const { username, password, passwordConformation } = userForm;
+  const { username, password, passwordConfirmation } = userForm;
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserForm({
       ...userForm,
@@ -82,7 +94,7 @@ const SignUp: React.FunctionComponent<any> = (props) => {
       await axios.post("sign_up/user", {
         account: username,
         password,
-        password_conformation: passwordConformation,
+        password_confirmation: passwordConfirmation,
       });
     } catch (e) {
       throw new Error(e);
@@ -94,6 +106,10 @@ const SignUp: React.FunctionComponent<any> = (props) => {
   return (
     <div className={classes.paper}>
       <div className={classes.card}>
+        <div className={classes.title}>
+          <div>注册</div>
+          <div className={classes.subTitle}>注册账号以保存您的番茄进度</div>
+        </div>
         <TextField
           className={classes.input}
           margin="dense"
@@ -123,8 +139,8 @@ const SignUp: React.FunctionComponent<any> = (props) => {
           label="确认密码"
           placeholder="确认密码"
           variant="filled"
-          value={passwordConformation}
-          onChange={handleChange("passwordConformation")}
+          value={passwordConfirmation}
+          onChange={handleChange("passwordConfirmation")}
         />
         <div className={classes.buttonWrapper}>
           <Button className={classes.button} color="secondary" onClick={submit} variant="contained">

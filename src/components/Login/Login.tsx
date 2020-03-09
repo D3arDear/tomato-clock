@@ -9,6 +9,15 @@ interface State {
   password: string;
 }
 const useStyles = makeStyles({
+  title: {
+    fontWeight: "normal",
+    fontSize: "35px",
+    color: "rgba(255, 179, 113, 1)",
+    marginBottom: "80px",
+  },
+  subTitle: {
+    fontSize: "14px",
+  },
   buttonWrapper: {
     display: "flex",
   },
@@ -48,8 +57,11 @@ const useStyles = makeStyles({
     "@media (max-width:800px)": {
       width: "100%",
       height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
     },
-    padding: "180px 40px 50px 40px",
+    padding: "50px 40px 60px 40px",
   },
   cover: {
     display: "flex",
@@ -76,12 +88,15 @@ const Login: React.FunctionComponent<any> = (props) => {
   };
   const submit = async () => {
     try {
-      await axios.post("sign_up/user", {
+      await axios.post("sign_in/user", {
         account: username,
         password,
       });
+      console.log("成功");
     } catch (e) {
-      throw new Error(e);
+      console.log("失败");
+      console.log(e);
+      // throw new Error(e);
     }
   };
   const linkTo = () => {
@@ -90,6 +105,10 @@ const Login: React.FunctionComponent<any> = (props) => {
   return (
     <div className={classes.paper}>
       <div className={classes.card}>
+        <div className={classes.title}>
+          <div>登录</div>
+          <div className={classes.subTitle}>欢迎使用番茄闹钟</div>
+        </div>
         <TextField
           className={classes.input}
           margin="dense"
