@@ -4,10 +4,14 @@ import TextField from "@material-ui/core/TextField";
 import "./Login.scss";
 import { makeStyles } from "@material-ui/core";
 import axios from "src/config/axios";
+import { History } from "history";
 
 interface State {
   username: string;
   password: string;
+}
+interface Props extends React.FunctionComponent {
+  history: History;
 }
 const useStyles = makeStyles({
   title: {
@@ -74,7 +78,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Login: React.FunctionComponent<any> = (props) => {
+const Login: React.FunctionComponent<Props> = (props) => {
   const classes = useStyles();
   const [userForm, setUserForm] = useState<State>({
     username: "",

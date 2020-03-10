@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "src/config/axios";
 import "./index.scss";
 import UserMenu from "./userMenu";
-import { MenuItem, makeStyles, ListItemIcon } from "@material-ui/core";
+import Todos from "src/components/Todos/Todos";
+import { MenuItem, makeStyles, ListItemIcon, Toolbar, Typography, AppBar } from "@material-ui/core";
 import { ExitToApp, Settings } from "@material-ui/icons";
 
 interface IndexState {
@@ -36,25 +37,30 @@ const Index: React.FunctionComponent<any> = (props) => {
   }, []);
   return (
     <div>
-      <header className="index-header">
-        <p>LOGO</p>
-        <div className="index-header-userButton">
-          <UserMenu username={user.account}>
-            <MenuItem className={classes.menuItem} onClick={logout}>
-              <ListItemIcon>
-                <Settings fontSize="small"></Settings>
-              </ListItemIcon>
-              偏好设置
-            </MenuItem>
-            <MenuItem className={classes.menuItem} onClick={logout}>
-              <ListItemIcon>
-                <ExitToApp fontSize="small"></ExitToApp>
-              </ListItemIcon>
-              注销
-            </MenuItem>
-          </UserMenu>
-        </div>
-      </header>
+      <AppBar color="default">
+        <Toolbar variant="dense" className="index-header">
+          <Typography variant="h6">LOGO</Typography>
+          <div className="index-header-userButton">
+            <UserMenu username={user.account}>
+              <MenuItem className={classes.menuItem}>
+                <ListItemIcon>
+                  <Settings fontSize="small"></Settings>
+                </ListItemIcon>
+                偏好设置
+              </MenuItem>
+              <MenuItem className={classes.menuItem} onClick={logout}>
+                <ListItemIcon>
+                  <ExitToApp fontSize="small"></ExitToApp>
+                </ListItemIcon>
+                注销
+              </MenuItem>
+            </UserMenu>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <main className="index-main">
+        <Todos></Todos>
+      </main>
     </div>
   );
 };
