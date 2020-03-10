@@ -41,15 +41,24 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
   };
   const pressEnter: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
-    props.addTodo();
-    e.keyCode === 13 && console.log("add todo");
+    if (e.keyCode === 13 && props.description !== "") {
+      submitDescription();
+    }
   };
-  const submitDescription = () => {};
+  const submitDescription = () => {
+    if (props.description !== "") {
+      props.addTodo();
+      pressClear();
+    }
+  };
   const pressClear = () => {
     props.handleChange("");
   };
+  const dontReload = (e: any) => {
+    e.preventDefault();
+  };
   return (
-    <Paper component="form" className={classes.root}>
+    <Paper className={classes.root}>
       <Edit />
       <InputBase
         className={classes.input}
@@ -58,13 +67,14 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
         value={props.description}
         onChange={handleChange}
         onKeyUp={pressEnter}
+        onSubmit={dontReload}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={submitDescription}>
-        <SubdirectoryArrowLeft />
+      <IconButton color="primary" className={classes.iconButton} aria-label="clear" onClick={pressClear}>
+        <Close />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={pressClear}>
-        <Close />
+      <IconButton className={classes.iconButton} aria-label="enter" onClick={submitDescription}>
+        <SubdirectoryArrowLeft />
       </IconButton>
     </Paper>
   );
