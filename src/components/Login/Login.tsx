@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import "./Login.scss";
 import { makeStyles } from "@material-ui/core";
 import axios from "src/config/axios";
 
@@ -103,43 +104,45 @@ const Login: React.FunctionComponent<any> = (props) => {
     props.history.push("/signUp");
   };
   return (
-    <div className={classes.paper}>
-      <div className={classes.card}>
-        <div className={classes.title}>
-          <div>登录</div>
-          <div className={classes.subTitle}>欢迎使用番茄闹钟</div>
+    <div className="login-wrapper">
+      <div className={classes.paper}>
+        <div className={classes.card}>
+          <div className={classes.title}>
+            <div>登录</div>
+            <div className={classes.subTitle}>欢迎使用番茄闹钟</div>
+          </div>
+          <TextField
+            className={classes.input}
+            margin="dense"
+            required
+            label="用户名"
+            placeholder="用户名"
+            variant="filled"
+            value={username}
+            onChange={handleChange("username")}
+          />
+          <TextField
+            className={classes.input}
+            required
+            margin="dense"
+            type="password"
+            label="密码"
+            placeholder="密码"
+            variant="filled"
+            value={password}
+            onChange={handleChange("password")}
+          />
+          <div className={classes.buttonWrapper}>
+            <Button className={classes.button} color="secondary" onClick={submit} variant="contained">
+              登录
+            </Button>
+            <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>
+              注册
+            </Button>
+          </div>
         </div>
-        <TextField
-          className={classes.input}
-          margin="dense"
-          required
-          label="用户名"
-          placeholder="用户名"
-          variant="filled"
-          value={username}
-          onChange={handleChange("username")}
-        />
-        <TextField
-          className={classes.input}
-          required
-          margin="dense"
-          type="password"
-          label="密码"
-          placeholder="密码"
-          variant="filled"
-          value={password}
-          onChange={handleChange("password")}
-        />
-        <div className={classes.buttonWrapper}>
-          <Button className={classes.button} color="secondary" onClick={submit} variant="contained">
-            登录
-          </Button>
-          <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>
-            注册
-          </Button>
-        </div>
+        <div className={classes.cover}></div>
       </div>
-      <div className={classes.cover}></div>
     </div>
   );
 };

@@ -1,0 +1,10 @@
+.index-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f8f8;
+  width: 100vw;
+  &-userButton {
+    margin-right: 10px;
+  }
+}
