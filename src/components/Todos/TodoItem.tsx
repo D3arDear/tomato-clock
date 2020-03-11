@@ -59,12 +59,12 @@ const TodoItem: React.FunctionComponent<Props> = (props) => {
   };
   const keyUpHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.keyCode === 13 && props.description !== "") {
-      props.update(props.id, { description: editText });
+      update({ description: editText });
     }
   };
   const Editing = (
     <div className="todoItem-editing">
-      <IconButton color="primary" className={classes.iconButton}>
+      <IconButton color="primary" className={classes.iconButton} onClick={(e) => update({ description: editText })}>
         <Check />
       </IconButton>
       <TextField
