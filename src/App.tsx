@@ -6,23 +6,29 @@ import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/signUp";
 import { scopeClassMaker } from "./helper/classes";
 import "./App.scss";
+import "./App.css";
 import { MuiThemeProvider } from "@material-ui/core";
 import theme from "src/config/theme";
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
+
 const sc = scopeClassMaker("app-page");
 
 export default function App() {
   return (
-    <MuiThemeProvider theme={theme}>
-      <Router history={history}>
-        <div className={sc("wrapper")}>
-          <Switch>
-            <Route exact path="/" component={Index} />
-            <Route path="/login" component={Login} />
-            <Route path="/signUp" component={SignUp} />
-          </Switch>
-        </div>
-      </Router>
-    </MuiThemeProvider>
+    <SimpleBar style={{ maxHeight: "100vh" }}>
+      <MuiThemeProvider theme={theme}>
+        <Router history={history}>
+          <div className={sc("wrapper")}>
+            <Switch>
+              <Route exact path="/" component={Index} />
+              <Route path="/login" component={Login} />
+              <Route path="/signUp" component={SignUp} />
+            </Switch>
+          </div>
+        </Router>
+      </MuiThemeProvider>
+    </SimpleBar>
   );
 }
 

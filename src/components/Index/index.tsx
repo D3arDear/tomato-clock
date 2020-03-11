@@ -36,7 +36,7 @@ const Index: React.FunctionComponent<any> = (props) => {
     getMe();
   }, []);
   return (
-    <div>
+    <div className="index">
       <AppBar color="default">
         <Toolbar variant="dense" className="index-header">
           <Typography variant="h6">LOGO</Typography>
@@ -59,6 +59,7 @@ const Index: React.FunctionComponent<any> = (props) => {
         </Toolbar>
       </AppBar>
       <main className="index-main">
+        <div className="index-main-clock">这里是闹钟</div>
         <Todos></Todos>
       </main>
     </div>

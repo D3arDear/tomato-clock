@@ -1,14 +1,25 @@
-.index-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f8f8f8;
-  width: 100vw;
-  &-userButton {
-    margin-right: 10px;
+.index {
+  width: 100%;
+  .index-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f8f8;
+    width: 100%;
+    &-userButton {
+      margin-right: 10px;
+    }
   }
-}
 
-.index-main {
-  margin-top: 50px;
+  .index-main {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    flex: 1;
+    width: 100%;
+    &-clock {
+      margin-right: 5px;
+    }
+  }
 }
