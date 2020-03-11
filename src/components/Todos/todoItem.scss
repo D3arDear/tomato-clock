@@ -1,19 +1,8 @@
 .todoItem {
   &-editing {
-    position: relative;
     margin: 5px 0;
-    // &-input {
-    // }
-    &-iconWrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 0 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }

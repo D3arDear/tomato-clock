@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   Theme,
@@ -43,12 +43,13 @@ const useStyle = makeStyles((theme: Theme) =>
       fontSize: "15px",
     },
     iconButton: {
-      padding: 5,
+      padding: 10,
     },
   }),
 );
 
 const TodoItem: React.FunctionComponent<Props> = (props) => {
+  const [editText, setEditText] = useState(props.description);
   const update = (payload: any) => {
     props.update(props.id, payload);
   };
@@ -56,22 +57,27 @@ const TodoItem: React.FunctionComponent<Props> = (props) => {
   const toggleEditMode: React.MouseEventHandler<HTMLDivElement> = (e) => {
     props.toggleEditMode(props.id);
   };
+  const keyUpHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.keyCode === 13 && props.description !== "") {
+      props.update(props.id, { description: editText });
+    }
+  };
   const Editing = (
     <div className="todoItem-editing">
+      <IconButton color="primary" className={classes.iconButton}>
+        <Check />
+      </IconButton>
       <TextField
         className="todoItem-editing-input"
-        style={{ width: "100%", padding: "6px 5px 6px 50px" }}
-        defaultValue={props.description}
+        style={{ paddingLeft: 8, width: "100%" }}
         placeholder={props.description}
+        value={editText}
+        onChange={(e) => setEditText(e.target.value)}
+        onKeyUp={keyUpHandler}
       />
-      <div className="todoItem-editing-iconWrapper">
-        <IconButton color="primary" className={classes.iconButton}>
-          <Check />
-        </IconButton>
-        <IconButton className={classes.iconButton} onClick={(e) => update({ deleted: true })}>
-          <Delete />
-        </IconButton>
-      </div>
+      <IconButton className={classes.iconButton} onClick={(e) => update({ deleted: true })}>
+        <Delete />
+      </IconButton>
     </div>
   );
   const ListItem = (

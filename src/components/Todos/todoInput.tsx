@@ -47,7 +47,6 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
     props.handleChange(e.target.value);
   };
   const pressEnter: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    e.preventDefault();
     if (e.keyCode === 13 && props.description !== "") {
       submitDescription();
     }
