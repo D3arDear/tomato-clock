@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const TodoItem = () => {
-  return <div className="todoItem">test</div>;
+interface Props {
+  description: string;
+}
+
+const TodoItem: React.FunctionComponent<Props> = (props) => {
+  useEffect(() => {
+    console.log(props);
+  }, [props]);
+  return <div className="todoItem">{props.description}</div>;
 };
 
 export default TodoItem;
