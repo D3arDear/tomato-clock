@@ -14,7 +14,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: "2px 4px",
+      padding: "6px 6px",
       display: "flex",
       alignItems: "center",
       // width: 400,

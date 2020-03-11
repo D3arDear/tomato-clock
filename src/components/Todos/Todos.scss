@@ -1,4 +1,8 @@
 .Todos {
   width: 50%;
   margin-left: 5px;
+  background: #f8f8f8;
+  &-list {
+    padding: 5px;
+  }
 }
