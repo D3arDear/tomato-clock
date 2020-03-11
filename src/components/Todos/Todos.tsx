@@ -6,9 +6,11 @@ import "./Todos.scss";
 
 interface Todos {
   description: string;
-  id: number;
   completed: boolean;
+  deleted: boolean;
+  id: number;
   update: (x: {}) => void;
+  editing?: boolean;
 }
 
 export default function Todos() {
@@ -19,12 +21,11 @@ export default function Todos() {
   };
   const addTodo = async () => {
     const response = await axios.post("todos", { description: description });
-    await setTodos([response.data.resource, ...todos]);
+    setTodos([response.data.resource, ...todos]);
   };
   const updateTodo = async (id: number, payload: any) => {
     const response = await axios.put(`todos/${id}`, payload);
-    await console.log(response);
-    const newTodos = await todos.map((item) => {
+    const newTodos = todos.map((item) => {
       if (id === item.id) {
         return response.data.resource;
       } else {
@@ -33,10 +34,21 @@ export default function Todos() {
     });
     await setTodos(newTodos);
   };
+  const toggleEditMode = (id: number) => {
+    const newTodos = todos.map((item) => {
+      if (id === item.id) {
+        return Object.assign({}, item, { editing: true });
+      } else {
+        return Object.assign({}, item, { editing: false });
+      }
+    });
+    setTodos(newTodos);
+  };
   useEffect(() => {
     const getTodo = async () => {
       const response = await axios.get("todos");
-      setTodos(response.data.resources);
+      const editingTodos = response.data.resources.map((item: Todos) => Object.assign({}, item, { editing: false }));
+      setTodos(editingTodos);
     };
     getTodo();
   }, []);
@@ -46,7 +58,7 @@ export default function Todos() {
       <TodoInput description={description} handleChange={descriptionChange} addTodo={addTodo} />
       <main className="Todos-list">
         {todos.map((item) => {
-          return <TodoItem key={item.id} {...item} update={updateTodo}></TodoItem>;
+          return <TodoItem key={item.id} {...item} toggleEditMode={toggleEditMode} update={updateTodo}></TodoItem>;
         })}
       </main>
     </div>

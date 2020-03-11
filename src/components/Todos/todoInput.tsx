@@ -23,10 +23,17 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(1),
       flex: 1,
     },
+    icon: {
+      margin: "0 5px",
+    },
     iconButton: {
       padding: 5,
     },
     divider: {
+      height: 28,
+      margin: "2px 4px",
+    },
+    dividerRight: {
       height: 28,
       margin: 2,
     },
@@ -59,7 +66,8 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
   };
   return (
     <Paper className={classes.root}>
-      <Edit />
+      <Edit color="primary" className={classes.icon} />
+      <Divider className={classes.divider} orientation="vertical" />
       <InputBase
         className={classes.input}
         placeholder="新增任务"
@@ -69,10 +77,10 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
         onKeyUp={pressEnter}
         onSubmit={dontReload}
       />
-      <IconButton color="primary" className={classes.iconButton} aria-label="clear" onClick={pressClear}>
+      <IconButton className={classes.iconButton} aria-label="clear" onClick={pressClear}>
         <Close />
       </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
+      <Divider className={classes.dividerRight} orientation="vertical" />
       <IconButton className={classes.iconButton} aria-label="enter" onClick={submitDescription}>
         <SubdirectoryArrowLeft />
       </IconButton>
