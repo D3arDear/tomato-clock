@@ -45,6 +45,10 @@ const useStyle = makeStyles((theme: Theme) =>
     iconButton: {
       padding: 10,
     },
+    textCompleted: {
+      textDecoration: "line-through",
+      color: "#a9a9a9",
+    },
   }),
 );
 
@@ -85,7 +89,7 @@ const TodoItem: React.FunctionComponent<Props> = (props) => {
       <Checkbox checked={props.completed} onChange={(e) => update({ completed: e.target.checked })} color="primary" />
       <div className={classes.details}>
         <CardContent className={classes.content} style={{ padding: "8px" }}>
-          <Typography variant="inherit" color="textPrimary">
+          <Typography className={props.completed ? classes.textCompleted : ""} variant="inherit" color="textPrimary">
             {props.description}
           </Typography>
         </CardContent>

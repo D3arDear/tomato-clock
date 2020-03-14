@@ -15,6 +15,13 @@ const useStyles = makeStyles({
   menuItem: {
     fontSize: "14px",
   },
+  appBar: {
+    width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    boxShadow: "0 4px 4px -4px rgba(0,0,0,0.2),0px 5px 5px -5px rgba(0,0,0,0.14), 0px 10px 10px -10px rgba(0,0,0,0.12)",
+  },
 });
 
 const Index: React.FunctionComponent<any> = (props) => {
@@ -37,7 +44,7 @@ const Index: React.FunctionComponent<any> = (props) => {
   }, []);
   return (
     <div className="index">
-      <AppBar color="default">
+      <AppBar className={classes.appBar} color="transparent" position="static">
         <Toolbar variant="dense" className="index-header">
           <Typography variant="h6">LOGO</Typography>
           <div className="index-header-userButton">

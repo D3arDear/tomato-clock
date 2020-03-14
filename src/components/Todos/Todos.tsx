@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import TodoInput from "./TodoInput";
 import axios from "src/config/axios";
 import TodoItem from "src/components/Todos/TodoItem";
@@ -16,6 +16,19 @@ interface Todos {
 export default function Todos() {
   const [description, setDescription] = useState<string>("");
   const [todos, setTodos] = useState<Todos[]>([]);
+
+  const unDeletedTodos: Todos[] = useMemo(() => {
+    return todos.filter((todo) => !todo.deleted);
+  }, [todos]);
+
+  const unCompletedTodos = useMemo(() => {
+    return unDeletedTodos.filter((todo) => !todo.completed);
+  }, [unDeletedTodos]);
+
+  const completedTodos = useMemo(() => {
+    return unDeletedTodos.filter((todo) => todo.completed);
+  }, [unDeletedTodos]);
+
   const descriptionChange = (value: string) => {
     setDescription(value);
   };
@@ -57,9 +70,16 @@ export default function Todos() {
     <div className="Todos" id="Todos">
       <TodoInput description={description} handleChange={descriptionChange} addTodo={addTodo} />
       <main className="Todos-list">
-        {todos.map((item) => {
-          return <TodoItem key={item.id} {...item} toggleEditMode={toggleEditMode} update={updateTodo}></TodoItem>;
-        })}
+        <div>
+          {unCompletedTodos.map((item) => {
+            return <TodoItem key={item.id} {...item} toggleEditMode={toggleEditMode} update={updateTodo}></TodoItem>;
+          })}
+        </div>
+        <div>
+          {completedTodos.map((item) => {
+            return <TodoItem key={item.id} {...item} toggleEditMode={toggleEditMode} update={updateTodo}></TodoItem>;
+          })}
+        </div>
       </main>
     </div>
   );
