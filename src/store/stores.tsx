@@ -1,6 +1,6 @@
 import React from "react";
-import { Store } from "src/store/store";
+import { State } from "src/store/state";
 
 export const storesContext = React.createContext({
-  store: new Store(),
+  store: new State(),
 });

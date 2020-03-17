@@ -1,25 +1,26 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import TodoInput from "./TodoInput";
 import axios from "src/config/axios";
 import TodoItem from "src/components/Todos/TodoItem";
 import "./Todos.scss";
+import { useStores } from "src/hooks/use-stores";
+import { observer } from "mobx-react";
 
 interface Todos {
   description: string;
   completed: boolean;
   deleted: boolean;
   id: number;
-  update: (x: {}) => void;
   editing?: boolean;
 }
 
-export default function Todos() {
-  const [description, setDescription] = useState<string>("");
-  const [todos, setTodos] = useState<Todos[]>([]);
+const Todos: React.FunctionComponent = observer(() => {
+  const { store } = useStores();
+  const { currentTodos } = store;
 
-  const unDeletedTodos: Todos[] = useMemo(() => {
-    return todos.filter((todo) => !todo.deleted);
-  }, [todos]);
+  const unDeletedTodos = useMemo(() => {
+    return currentTodos.filter((todo) => !todo.deleted);
+  }, [currentTodos]);
 
   const unCompletedTodos = useMemo(() => {
     return unDeletedTodos.filter((todo) => !todo.completed);
@@ -29,58 +30,32 @@ export default function Todos() {
     return unDeletedTodos.filter((todo) => todo.completed);
   }, [unDeletedTodos]);
 
-  const descriptionChange = (value: string) => {
-    setDescription(value);
-  };
-  const addTodo = async () => {
-    const response = await axios.post("todos", { description: description });
-    setTodos([response.data.resource, ...todos]);
-  };
-  const updateTodo = async (id: number, payload: any) => {
-    const response = await axios.put(`todos/${id}`, payload);
-    const newTodos = todos.map((item) => {
-      if (id === item.id) {
-        return response.data.resource;
-      } else {
-        return item;
-      }
-    });
-    await setTodos(newTodos);
-  };
-  const toggleEditMode = (id: number) => {
-    const newTodos = todos.map((item) => {
-      if (id === item.id) {
-        return Object.assign({}, item, { editing: true });
-      } else {
-        return Object.assign({}, item, { editing: false });
-      }
-    });
-    setTodos(newTodos);
-  };
   useEffect(() => {
     const getTodo = async () => {
       const response = await axios.get("todos");
       const editingTodos = response.data.resources.map((item: Todos) => Object.assign({}, item, { editing: false }));
-      setTodos(editingTodos);
+      store.initTodos(editingTodos);
     };
     getTodo();
-  }, []);
+  }, [store]);
 
   return (
     <div className="Todos" id="Todos">
-      <TodoInput description={description} handleChange={descriptionChange} addTodo={addTodo} />
+      <TodoInput />
       <main className="Todos-list">
         <div>
           {unCompletedTodos.map((item) => {
-            return <TodoItem key={item.id} {...item} toggleEditMode={toggleEditMode} update={updateTodo}></TodoItem>;
+            return <TodoItem key={item.id} {...item}></TodoItem>;
           })}
         </div>
         <div>
           {completedTodos.map((item) => {
-            return <TodoItem key={item.id} {...item} toggleEditMode={toggleEditMode} update={updateTodo}></TodoItem>;
+            return <TodoItem key={item.id} {...item}></TodoItem>;
           })}
         </div>
       </main>
     </div>
   );
-}
+});
+
+export default Todos;

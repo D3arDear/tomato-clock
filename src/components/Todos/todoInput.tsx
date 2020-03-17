@@ -1,16 +1,15 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, useState } from "react";
+import axios from "src/config/axios";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import { Edit, SubdirectoryArrowLeft, Close } from "@material-ui/icons";
+import { useStores } from "src/hooks/use-stores";
+import { observer } from "mobx-react";
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  description: string;
-  handleChange: (x: string) => void;
-  addTodo: () => void;
-}
+interface Props extends InputHTMLAttributes<HTMLInputElement> {}
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -40,25 +39,28 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TodoInput: React.FunctionComponent<Props> = (props) => {
+const TodoInput: React.FunctionComponent<Props> = observer((props) => {
+  const [description, setDescription] = useState<string>("");
+  const { store } = useStores();
   const classes = useStyles();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    props.handleChange(e.target.value);
-  };
   const pressEnter: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.keyCode === 13 && props.description !== "") {
+    if (e.keyCode === 13 && description !== "") {
       submitDescription();
     }
   };
+  const addTodo = async () => {
+    const response = await axios.post("todos", { description: description });
+    store.addTodo(response.data.resource);
+  };
   const submitDescription = () => {
-    if (props.description !== "") {
-      props.addTodo();
+    if (description !== "") {
+      addTodo();
       pressClear();
     }
   };
   const pressClear = () => {
-    props.handleChange("");
+    setDescription("");
   };
   const dontReload = (e: any) => {
     e.preventDefault();
@@ -71,8 +73,8 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
         className={classes.input}
         placeholder="新增任务"
         inputProps={{ "aria-label": "新增任务" }}
-        value={props.description}
-        onChange={handleChange}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
         onKeyUp={pressEnter}
         onSubmit={dontReload}
       />
@@ -85,6 +87,5 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
       </IconButton>
     </Paper>
   );
-};
-
+});
 export default TodoInput;
