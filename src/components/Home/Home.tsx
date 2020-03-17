@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 // import Button from "@material-ui/core/Button";
 import axios from "src/config/axios";
-import "./index.scss";
+import "./Home.scss";
 import UserMenu from "./userMenu";
 import Todos from "src/components/Todos/Todos";
 import { MenuItem, makeStyles, ListItemIcon, Toolbar, Typography, AppBar } from "@material-ui/core";
 import { ExitToApp, Settings } from "@material-ui/icons";
 
-interface IndexState {
+interface HomeState {
   account: string;
 }
 
@@ -24,9 +24,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Index: React.FunctionComponent<any> = (props) => {
+const Home: React.FunctionComponent<any> = (props) => {
   const classes = useStyles();
-  const [user, setUser] = useState<IndexState>({ account: "" });
+  const [user, setUser] = useState<HomeState>({ account: "" });
 
   const login = () => {
     props.history.push("/login");
@@ -43,11 +43,11 @@ const Index: React.FunctionComponent<any> = (props) => {
     getMe();
   }, []);
   return (
-    <div className="index">
+    <div className="home">
       <AppBar className={classes.appBar} color="transparent" position="static">
-        <Toolbar variant="dense" className="index-header">
+        <Toolbar variant="dense" className="home-header">
           <Typography variant="h6">LOGO</Typography>
-          <div className="index-header-userButton">
+          <div className="home-header-userButton">
             <UserMenu username={user.account}>
               <MenuItem className={classes.menuItem}>
                 <ListItemIcon>
@@ -65,12 +65,12 @@ const Index: React.FunctionComponent<any> = (props) => {
           </div>
         </Toolbar>
       </AppBar>
-      <main className="index-main">
-        <div className="index-main-clock">这里是闹钟</div>
+      <main className="home-main">
+        <div className="home-main-clock">这里是闹钟</div>
         <Todos></Todos>
       </main>
     </div>
   );
 };
 
-export default Index;
+export default Home;

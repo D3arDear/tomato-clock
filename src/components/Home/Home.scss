@@ -1,5 +1,5 @@
-.index {
-  .index-header {
+.home {
+  .home-header {
     width: 1414px;
     @media screen and(max-width:1654px) {
       width: 1198px;
@@ -9,6 +9,7 @@
     }
     @media screen and(max-width:999px) {
       width: 100%;
+      padding: 0 16px;
     }
     display: flex;
     justify-content: space-between;
@@ -16,7 +17,7 @@
     padding: 0;
   }
 
-  .index-main {
+  .home-main {
     width: 1414px;
     @media screen and(max-width:1654px) {
       width: 1198px;
@@ -26,6 +27,7 @@
     }
     @media screen and(max-width:999px) {
       width: 100%;
+      padding: 16px;
     }
     margin-top: 50px;
     display: flex;

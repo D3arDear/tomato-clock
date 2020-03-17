@@ -1,7 +1,7 @@
 import React from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import history from "./config/history";
-import Index from "./components/Index/index";
+import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/signUp";
 import { scopeClassMaker } from "./helper/classes";
@@ -21,7 +21,7 @@ export default function App() {
         <Router history={history}>
           <div className={sc("wrapper")}>
             <Switch>
-              <Route exact path="/" component={Index} />
+              <Route exact path="/" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/signUp" component={SignUp} />
             </Switch>
