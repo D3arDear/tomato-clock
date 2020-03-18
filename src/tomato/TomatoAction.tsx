@@ -1,14 +1,13 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-import axios from "src/config/axios";
 
-interface Props {}
+interface Props {
+  startTomato: () => void;
+  unfinishedTomato: any;
+}
 
-const TomatoAction: React.FunctionComponent<Props> = () => {
-  const startTomato = async () => {
-    const response = await axios.post("tomatoes", { duration: 25 * 60 * 1000 });
-    console.log(response.data);
-  };
+const TomatoAction: React.FunctionComponent<Props> = (props) => {
+  const { startTomato } = props;
   return (
     <div className="TomatoAction">
       <Button className="startTomatoButton" onClick={startTomato}>
