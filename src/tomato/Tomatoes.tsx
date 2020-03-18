@@ -20,18 +20,18 @@ interface Props {}
 
 const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   const { tomatoState } = useStores();
-  const unfinishedTomato = { tomatoState };
+  const { unfinishedTomato } = tomatoState;
   const startTomato = async () => {
     const response = await axios.post("tomatoes", { duration: 25 * 60 * 1000 });
     tomatoState.addTomato(response.data.resource);
   };
 
   useEffect(() => {
-    const getTodo = async () => {
+    const getTomato = async () => {
       const response = await axios.get("tomatoes");
-      tomatoState.initTomato(response.data.resource);
+      tomatoState.initTomato(response.data.resources);
     };
-    getTodo();
+    getTomato();
   }, [tomatoState]);
 
   return (
