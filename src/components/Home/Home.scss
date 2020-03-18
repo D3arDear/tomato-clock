@@ -36,7 +36,10 @@
     padding-top: 10px;
     flex: 1;
     &-clock {
-      margin-right: 5px;
+      width: calc(50% - 8px);
+    }
+    &-todo {
+      width: calc(50% - 8px);
     }
   }
 }

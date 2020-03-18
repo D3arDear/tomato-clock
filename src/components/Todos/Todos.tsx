@@ -15,8 +15,8 @@ interface Todos {
 }
 
 const Todos: React.FunctionComponent = observer(() => {
-  const { store } = useStores();
-  const { currentTodos } = store;
+  const { todoState } = useStores();
+  const { currentTodos } = todoState;
 
   const unDeletedTodos = useMemo(() => {
     return currentTodos.filter((todo) => !todo.deleted);
@@ -34,10 +34,10 @@ const Todos: React.FunctionComponent = observer(() => {
     const getTodo = async () => {
       const response = await axios.get("todos");
       const editingTodos = response.data.resources.map((item: Todos) => Object.assign({}, item, { editing: false }));
-      store.initTodos(editingTodos);
+      todoState.initTodos(editingTodos);
     };
     getTodo();
-  }, [store]);
+  }, [todoState]);
 
   return (
     <div className="Todos" id="Todos">

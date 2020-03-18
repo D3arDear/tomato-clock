@@ -6,6 +6,7 @@ import UserMenu from "./userMenu";
 import Todos from "src/components/Todos/Todos";
 import { MenuItem, makeStyles, ListItemIcon, Toolbar, Typography, AppBar } from "@material-ui/core";
 import { ExitToApp, Settings } from "@material-ui/icons";
+import Tomatoes from "src/tomato/Tomatoes";
 
 interface HomeState {
   account: string;
@@ -66,8 +67,12 @@ const Home: React.FunctionComponent<any> = (props) => {
         </Toolbar>
       </AppBar>
       <main className="home-main">
-        <div className="home-main-clock">这里是闹钟</div>
-        <Todos></Todos>
+        <div className="home-main-clock">
+          <Tomatoes></Tomatoes>
+        </div>
+        <div className="home-main-todo">
+          <Todos></Todos>
+        </div>
       </main>
     </div>
   );

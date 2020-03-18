@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const TodoInput: React.FunctionComponent<Props> = observer((props) => {
   const [description, setDescription] = useState<string>("");
-  const { store } = useStores();
+  const { todoState } = useStores();
   const classes = useStyles();
 
   const pressEnter: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -51,7 +51,7 @@ const TodoInput: React.FunctionComponent<Props> = observer((props) => {
   };
   const addTodo = async () => {
     const response = await axios.post("todos", { description: description });
-    store.addTodo(response.data.resource);
+    todoState.addTodo(response.data.resource);
   };
   const submitDescription = () => {
     if (description !== "") {

@@ -1,6 +1,8 @@
 import React from "react";
-import { State } from "src/store/state";
+import { todoState } from "src/store/todoState";
+import { tomatoState } from "src/store/tomatoState";
 
 export const storesContext = React.createContext({
-  store: new State(),
+  todoState: new todoState(),
+  tomatoState: new tomatoState(),
 });

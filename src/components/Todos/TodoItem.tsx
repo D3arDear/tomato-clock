@@ -55,16 +55,16 @@ const useStyle = makeStyles((theme: Theme) =>
 
 const TodoItem: React.FunctionComponent<Props> = observer((props) => {
   const [editText, setEditText] = useState(props.description);
-  const { store } = useStores();
+  const { todoState } = useStores();
 
   const update = async (payload: any) => {
     const response = await axios.put(`todos/${props.id}`, payload);
-    store.updateTodos(response.data.resource);
+    todoState.updateTodos(response.data.resource);
   };
 
   const classes = useStyle();
   const toggleEditMode: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    store.toggleEditing(props.id);
+    todoState.toggleEditing(props.id);
   };
   const keyUpHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.keyCode === 13 && props.description !== "") {

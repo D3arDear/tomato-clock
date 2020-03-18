@@ -8,7 +8,7 @@ interface Todo {
   editing: boolean;
 }
 
-export class State {
+export class todoState {
   @observable
   todos = [
     {
