@@ -39,6 +39,23 @@ export class tomatoState {
   @action
   initTomato(payload: Tomato[]) {
     this.tomatoes = payload;
+    console.log("initTomato", this.tomatoes);
+  }
+
+  @action
+  updateTomato(payload: Tomato) {
+    console.log("触发updateTomatoes");
+    console.log(payload);
+    console.log(this);
+    // 这里 this 为什么访问不到
+    this.tomatoes = this.tomatoes.map((item) => {
+      if (item.id === payload.id) {
+        return payload;
+      } else {
+        return item;
+      }
+    });
+    console.log("newTomatoes:", this.tomatoes);
   }
 
   @computed

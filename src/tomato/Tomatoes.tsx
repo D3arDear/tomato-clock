@@ -7,20 +7,24 @@ import axios from "src/config/axios";
 
 interface Props {}
 
-// interface Tomato extends Object {
-//   id: number;
-//   user_id: number;
-//   start_at: string;
-//   description: string | null;
-//   ended_at: string | null;
-//   duration: number;
-//   created_at: string;
-//   update_at: string;
-// }
+interface Tomato {
+  id: number;
+  user_id: number;
+  started_at: string;
+  ended_at: string;
+  description: string;
+  aborted: string;
+  manually_created: string;
+  duration: number;
+  extra: any;
+  created_at: string;
+  updated_at: string;
+}
 
 const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   const { tomatoState } = useStores();
   const { unfinishedTomato } = tomatoState;
+
   const startTomato = async () => {
     const response = await axios.post("tomatoes", { duration: 25 * 60 * 1000 });
     tomatoState.addTomato(response.data.resource);
@@ -34,9 +38,17 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
     getTomato();
   }, [tomatoState]);
 
+  const doUpdateTomato = (payload: Tomato) => {
+    tomatoState.updateTomato(payload);
+  };
+
   return (
     <div className="Tomatoes">
-      <TomatoAction startTomato={startTomato} unfinishedTomato={unfinishedTomato}></TomatoAction>
+      <TomatoAction
+        startTomato={startTomato}
+        unfinishedTomato={unfinishedTomato}
+        updateTomato={doUpdateTomato}
+      ></TomatoAction>
     </div>
   );
 });
