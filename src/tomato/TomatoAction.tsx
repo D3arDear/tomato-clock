@@ -5,6 +5,7 @@ import CountDown from "./countDown";
 import { Close } from "@material-ui/icons";
 import { observer } from "mobx-react";
 import { useForceUpdate } from "src/hooks/useForceUpdate";
+import "./tomatoAction.scss";
 
 interface Tomato {
   id: number;
@@ -26,21 +27,17 @@ interface Props {
 }
 
 const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
-  const { startTomato, unfinishedTomato, updateTomato } = props;
+  const { startTomato, unfinishedTomato } = props;
   const forceUpdate = useForceUpdate();
   const timeNow = new Date().getTime();
   const startedAt = Date.parse(unfinishedTomato && unfinishedTomato.started_at);
   const duration = unfinishedTomato ? unfinishedTomato.duration : 0;
   const [description, setDescription] = useState<string>("");
 
-  const addDescription = async () => {
-    const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, {
-      description: description,
-      ended_at: new Date(),
-    });
+  const updateTomato = async (params: any) => {
+    const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, params);
     console.log(response.data.resource);
-    await updateTomato(response.data.resource);
-    setDescription("");
+    await props.updateTomato(response.data.resource);
   };
 
   const currentTime = useMemo(() => {
@@ -49,7 +46,11 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
 
   const pressEnter: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     if (e.keyCode === 13 && description !== "") {
-      addDescription();
+      updateTomato({
+        description: description,
+        ended_at: new Date(),
+      });
+      setDescription("");
     }
   };
 
@@ -57,27 +58,42 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     forceUpdate();
   };
 
+  const abortTomato = () => {
+    updateTomato({ aborted: true });
+  };
+
   return unfinishedTomato === undefined ? (
     <div className="tomatoAction">
-      <Button className="startTomatoButton" onClick={startTomato}>
+      <Button className="startTomatoButton" onClick={startTomato} color="primary">
         开始番茄
       </Button>
     </div>
   ) : timeNow - startedAt > duration ? (
     <div className="tomatoAction">
-      <TextField
-        placeholder="请输入刚才完成的任务"
-        style={{ paddingLeft: 0, width: "100%" }}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        onKeyUp={(e) => pressEnter(e)}
-      />
-      <IconButton>
-        <Close />
-      </IconButton>
+      <div className="tomatoAction-input">
+        <TextField
+          placeholder="请输入刚才完成的任务"
+          style={{ paddingLeft: 0, width: "100%" }}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          onKeyUp={(e) => pressEnter(e)}
+        />
+      </div>
+      <div className="abort">
+        <IconButton size="small" color="primary" onClick={abortTomato}>
+          <Close />
+        </IconButton>
+      </div>
     </div>
   ) : (
-    <CountDown timer={currentTime} onFinished={onFinished}></CountDown>
+    <div className="tomatoAction">
+      <CountDown timer={currentTime} onFinished={onFinished} duration={duration}></CountDown>
+      <div className="abort">
+        <IconButton size="small" color="primary" onClick={abortTomato}>
+          <Close />
+        </IconButton>
+      </div>
+    </div>
   );
 });
 

@@ -1,0 +1,13 @@
+.tomatoAction {
+  position: relative;
+  padding: 10px;
+  text-align: center;
+  &-input {
+    padding: 5px;
+  }
+}
+.abort {
+  position: absolute;
+  right: 5px;
+  top: 12px;
+}

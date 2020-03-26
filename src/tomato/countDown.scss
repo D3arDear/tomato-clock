@@ -1,0 +1,25 @@
+.countDown {
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+  width: calc(100% - 30px);
+  overflow: hidden;
+  background: #e3e3e3;
+  > span {
+    font-size: 15px;
+    color: white;
+    user-select: none;
+    position: relative;
+    z-index: 1;
+  }
+  > .progress {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background: linear-gradient(45deg, #ff809b 30%, #ff9f6b 90%);
+  }
+}

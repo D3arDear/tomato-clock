@@ -60,6 +60,6 @@ export class tomatoState {
 
   @computed
   get unfinishedTomato() {
-    return this.tomatoes.filter((tomato) => !tomato.description && !tomato.ended_at)[0];
+    return this.tomatoes.filter((tomato) => !tomato.description && !tomato.ended_at && !tomato.aborted)[0];
   }
 }
