@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
-import { Button, TextField, IconButton } from "@material-ui/core";
+import { Button, TextField, IconButton, Dialog, DialogTitle, DialogActions } from "@material-ui/core";
 import axios from "src/config/axios";
 import CountDown from "./countDown";
-import { Close } from "@material-ui/icons";
+import { Close, Check } from "@material-ui/icons";
 import { observer } from "mobx-react";
 import { useForceUpdate } from "src/hooks/useForceUpdate";
 import "./tomatoAction.scss";
@@ -26,6 +26,12 @@ interface Props {
   updateTomato: (params: Tomato) => void;
 }
 
+interface ConfirmProps {
+  open: boolean;
+  toggleConfirm: (params: boolean) => void;
+  abortTomato: () => void;
+}
+
 const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const { startTomato, unfinishedTomato } = props;
   const forceUpdate = useForceUpdate();
@@ -33,6 +39,11 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const startedAt = Date.parse(unfinishedTomato && unfinishedTomato.started_at);
   const duration = unfinishedTomato ? unfinishedTomato.duration : 0;
   const [description, setDescription] = useState<string>("");
+
+  const [open, setOpen] = useState(false);
+  const toggleConfirm = (params: boolean) => {
+    setOpen(params);
+  };
 
   const updateTomato = async (params: any) => {
     const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, params);
@@ -59,7 +70,31 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   };
 
   const abortTomato = () => {
+    toggleConfirm(false);
     updateTomato({ aborted: true });
+    document.title = "番茄闹钟";
+  };
+
+  const AbortConfirm = (props: ConfirmProps) => {
+    const { open, toggleConfirm, abortTomato } = props;
+    return (
+      <div>
+        <Dialog open={open} onClose={() => toggleConfirm(false)}>
+          <DialogTitle id="alert-dialog-title">{"确认要放弃这个番茄时间吗？"}</DialogTitle>
+          {/* <DialogContent>
+            <DialogContentText id="alert-dialog-description">放弃番茄时间将不计入本次任务</DialogContentText>
+          </DialogContent> */}
+          <DialogActions>
+            <IconButton onClick={() => abortTomato()} color="primary">
+              <Check />
+            </IconButton>
+            <IconButton onClick={() => toggleConfirm(false)} color="secondary" autoFocus>
+              <Close />
+            </IconButton>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
   };
 
   return unfinishedTomato === undefined ? (
@@ -80,7 +115,8 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
         />
       </div>
       <div className="abort">
-        <IconButton size="small" color="primary" onClick={abortTomato}>
+        <AbortConfirm open={open} toggleConfirm={toggleConfirm} abortTomato={abortTomato}></AbortConfirm>
+        <IconButton size="small" color="primary" onClick={() => toggleConfirm(true)}>
           <Close />
         </IconButton>
       </div>
@@ -89,7 +125,8 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     <div className="tomatoAction">
       <CountDown timer={currentTime} onFinished={onFinished} duration={duration}></CountDown>
       <div className="abort">
-        <IconButton size="small" color="primary" onClick={abortTomato}>
+        <AbortConfirm open={open} toggleConfirm={toggleConfirm} abortTomato={abortTomato}></AbortConfirm>
+        <IconButton size="small" color="primary" onClick={() => toggleConfirm(true)}>
           <Close />
         </IconButton>
       </div>
