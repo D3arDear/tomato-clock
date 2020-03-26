@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { format } from "date-fns";
+import "./TomatoList.scss";
 
 interface Props {
   finishedTomato: any;
@@ -8,9 +9,10 @@ interface Props {
 const TomatoItem = (props: any) => {
   return (
     <div className="TomatoItem">
-      <span>
-        {format(props.start_at, "H:mm")}-{format(props.ended_at, "H:mm")}
+      <span className="timeRange">
+        {format(Date.parse(props.started_at), "H:mm")} - {format(Date.parse(props.ended_at), "H:mm")}
       </span>
+      <span className="description">{props.description}</span>
     </div>
   );
 };
@@ -22,20 +24,22 @@ const TomatoList: React.FunctionComponent<Props> = (props) => {
     console.log("finishedTomato", finishedTomato);
   }, [finishedTomato]);
 
-  const list = Object.keys(finishedTomato).map((date, index) => {
-    const tomatoes = finishedTomato[date];
-    return (
-      <div key={index}>
-        <div className="title">
-          <span>{date}</span>
-          <span>完成了{tomatoes.length}个番茄</span>
+  const list = Object.keys(finishedTomato)
+    .splice(0, 3)
+    .map((date, index) => {
+      const tomatoes = finishedTomato[date];
+      return (
+        <div key={index} className="dailyTomato">
+          <div className="title">
+            <span className="dateTime">{format(Date.parse(date), "M月dd日")}</span>
+            <span className="finishedCount">完成了{tomatoes.length}个番茄</span>
+          </div>
+          {tomatoes.map((tomato: any) => (
+            <TomatoItem key={tomato.id} {...tomato} />
+          ))}
         </div>
-        {tomatoes.map((tomato: any) => (
-          <TomatoItem key={tomato.id} {...tomato} />
-        ))}
-      </div>
-    );
-  });
+      );
+    });
 
   return <div className="TomatoList">{list}</div>;
 };

@@ -81,9 +81,6 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
       <div>
         <Dialog open={open} onClose={() => toggleConfirm(false)}>
           <DialogTitle id="alert-dialog-title">{"确认要放弃这个番茄时间吗？"}</DialogTitle>
-          {/* <DialogContent>
-            <DialogContentText id="alert-dialog-description">放弃番茄时间将不计入本次任务</DialogContentText>
-          </DialogContent> */}
           <DialogActions>
             <IconButton onClick={() => abortTomato()} color="primary">
               <Check />
@@ -99,7 +96,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
 
   return unfinishedTomato === undefined ? (
     <div className="tomatoAction">
-      <Button className="startTomatoButton" onClick={startTomato} color="primary">
+      <Button fullWidth variant="contained" className="startTomatoButton" onClick={startTomato} color="primary">
         开始番茄
       </Button>
     </div>
