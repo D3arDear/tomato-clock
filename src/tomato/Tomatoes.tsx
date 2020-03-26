@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import "./Tomatoes.scss";
 import TomatoAction from "./TomatoAction";
 import { useStores } from "src/hooks/use-stores";
 import { observer } from "mobx-react";
 import axios from "src/config/axios";
+import TomatoList from "src/tomato/TomatoList";
+import _ from "lodash";
+import { format } from "date-fns";
 
 interface Props {}
 
@@ -23,12 +26,19 @@ interface Tomato {
 
 const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   const { tomatoState } = useStores();
-  const { unfinishedTomato } = tomatoState;
+  const { unfinishedTomato, finishedTomato } = tomatoState;
 
   const startTomato = async () => {
     const response = await axios.post("tomatoes", { duration: 25 * 60 * 1000 });
     tomatoState.addTomato(response.data.resource);
   };
+
+  const sortedFinishedTomato = useMemo(() => {
+    const obj = _.groupBy(finishedTomato, (tomato: Tomato) => {
+      return format(Date.parse(tomato.started_at), "yyyy-MM-dd");
+    });
+    return obj;
+  }, [finishedTomato]);
 
   useEffect(() => {
     const getTomato = async () => {
@@ -44,11 +54,8 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
 
   return (
     <div className="Tomatoes">
-      <TomatoAction
-        startTomato={startTomato}
-        unfinishedTomato={unfinishedTomato}
-        updateTomato={doUpdateTomato}
-      ></TomatoAction>
+      <TomatoAction startTomato={startTomato} unfinishedTomato={unfinishedTomato} updateTomato={doUpdateTomato} />
+      <TomatoList finishedTomato={sortedFinishedTomato} />
     </div>
   );
 });

@@ -55,11 +55,15 @@ export class tomatoState {
         return item;
       }
     });
-    console.log("newTomatoes:", this.tomatoes);
   }
 
   @computed
   get unfinishedTomato() {
     return this.tomatoes.filter((tomato) => !tomato.description && !tomato.ended_at && !tomato.aborted)[0];
+  }
+
+  @computed
+  get finishedTomato() {
+    return this.tomatoes.filter((tomato) => tomato.description && tomato.ended_at && !tomato.aborted);
   }
 }
