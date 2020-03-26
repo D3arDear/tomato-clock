@@ -14,7 +14,7 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
   const timerIdRef = useRef(0);
 
   const widthPercentage = useMemo(() => {
-    return 1 - countDown / duration;
+    return (1 - countDown / duration) * 100;
   }, [countDown, duration]);
 
   const second = useMemo(() => {
@@ -29,7 +29,6 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     timerIdRef.current = window.setInterval(() => {
-      document.title = `${time} - 番茄闹钟`;
       setCountDown((c) => c - 1000);
     }, 1000);
     return () => {
@@ -42,13 +41,15 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
       onFinished();
       window.clearInterval(timerIdRef.current);
       document.title = "番茄闹钟";
+    } else {
+      document.title = `${time} - 番茄闹钟`;
     }
-  }, [countDown, onFinished]);
+  }, [countDown, onFinished, time]);
 
   return (
     <div className="countDown">
       <span>{time}</span>
-      <div className="progress" style={{ width: `${widthPercentage * 100}%` }} />
+      <div className="progress" style={{ width: `${widthPercentage}%` }} />
     </div>
   );
 };
