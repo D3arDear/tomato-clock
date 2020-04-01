@@ -34,10 +34,9 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   };
 
   const sortedFinishedTomato = useMemo(() => {
-    const obj = _.groupBy(finishedTomato, (tomato: Tomato) => {
+    return _.groupBy(finishedTomato, (tomato: Tomato) => {
       return format(Date.parse(tomato.started_at), "yyyy-MM-dd");
     });
-    return obj;
   }, [finishedTomato]);
 
   useEffect(() => {

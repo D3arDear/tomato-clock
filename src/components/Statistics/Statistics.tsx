@@ -7,6 +7,7 @@ import React, { useMemo } from "react";
 import { useStores } from "src/hooks/use-stores";
 
 import Polygon from "./Polygon";
+import TodoHistory from "./TodoHistory";
 
 const Statistics: React.FunctionComponent = () => {
   const { todoState } = useStores();
@@ -16,10 +17,9 @@ const Statistics: React.FunctionComponent = () => {
   }, [todos]);
 
   const dailyTodos = useMemo(() => {
-    const obj = _.groupBy(finishedTodos, (todo) => {
+    return _.groupBy(finishedTodos, (todo) => {
       return format(Date.parse(todo.updated_at!), "yyyy-MM-dd");
     });
-    return obj;
   }, [finishedTodos]);
 
   return (
@@ -33,6 +33,7 @@ const Statistics: React.FunctionComponent = () => {
           <Polygon data={dailyTodos} totalFinishedCount={finishedTodos.length} />
         </li>
       </ul>
+      <TodoHistory />
     </div>
   );
 };
