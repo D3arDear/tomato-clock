@@ -7,6 +7,7 @@ import Todos from "src/components/Todos/Todos";
 import { MenuItem, makeStyles, ListItemIcon, Toolbar, Typography, AppBar } from "@material-ui/core";
 import { ExitToApp, Settings } from "@material-ui/icons";
 import Tomatoes from "src/tomato/Tomatoes";
+import Statistics from "../Statistics/Statistics";
 
 interface HomeState {
   account: string;
@@ -73,6 +74,9 @@ const Home: React.FunctionComponent<any> = (props) => {
         <div className="home-main-todo">
           <Todos></Todos>
         </div>
+      </main>
+      <main className="home-main">
+        <Statistics />
       </main>
     </div>
   );
