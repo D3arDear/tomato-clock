@@ -1,7 +1,8 @@
-import { observable, action, computed } from "mobx";
+import { action, computed, observable } from 'mobx';
 
 interface Todo {
   description: string;
+  updated_at: string;
   completed: boolean;
   deleted: boolean;
   id: number;
@@ -13,6 +14,7 @@ export class todoState {
   todos = [
     {
       description: "",
+      updated_at: "",
       completed: false,
       deleted: false,
       id: 1,
