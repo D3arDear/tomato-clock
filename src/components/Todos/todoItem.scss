@@ -10,4 +10,12 @@
     justify-content: space-between;
     align-items: center;
   }
+  &-action-normal {
+    display: none;
+  }
+  :hover {
+    .todoItem-action-normal {
+      display: inline-flex;
+    }
+  }
 }

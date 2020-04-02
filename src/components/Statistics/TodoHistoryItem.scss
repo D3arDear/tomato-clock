@@ -1,0 +1,30 @@
+.TodoHistory {
+  &-todoItem {
+    padding: 3px;
+    font-size: 14px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    .action {
+      display: none;
+    }
+    &:hover {
+      background: #f8f8f8;
+      .action {
+        display: block;
+      }
+    }
+    .text {
+      padding: 6px;
+      .TodoHistory-todoItem-time {
+        color: #999;
+        margin-right: 8px;
+      }
+      &.TodoHistory-todoItem-description {
+        color: #222;
+      }
+    }
+  }
+}

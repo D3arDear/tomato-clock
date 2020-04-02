@@ -35,7 +35,8 @@ const useStyle = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      alignItems: "center",
+      alignItems: "flex-start",
+      width: "100%",
     },
     content: {
       display: "flex",
@@ -45,6 +46,9 @@ const useStyle = makeStyles((theme: Theme) =>
     },
     iconButton: {
       padding: 10,
+    },
+    iconButtonNormal: {
+      padding: 8,
     },
     textCompleted: {
       textDecoration: "line-through",
@@ -101,6 +105,11 @@ const TodoItem: React.FunctionComponent<Props> = observer((props) => {
             {props.description}
           </Typography>
         </CardContent>
+      </div>
+      <div className="todoItem-action-normal">
+        <IconButton className={classes.iconButtonNormal} onClick={(e) => update({ deleted: true })}>
+          <Delete />
+        </IconButton>
       </div>
     </Card>
   );

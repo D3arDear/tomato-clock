@@ -16,7 +16,7 @@
           color: #222;
         }
         span:last-child {
-          color: #888;
+          color: rgba(255, 179, 113, 1);
           font-size: 12px;
         }
       }
@@ -28,19 +28,5 @@
   }
   &-todoList {
     flex: 1;
-    &-todoItem {
-      padding: 10px;
-      font-size: 15px;
-      &:hover {
-        background: #f8f8f8;
-      }
-      &-time {
-        color: #999;
-        margin-right: 8px;
-      }
-      &-description {
-        color: #222;
-      }
-    }
   }
 }
