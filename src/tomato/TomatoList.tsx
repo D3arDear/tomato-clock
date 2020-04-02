@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { format } from "date-fns";
 import "./TomatoList.scss";
 
@@ -19,10 +19,6 @@ const TomatoItem = (props: any) => {
 
 const TomatoList: React.FunctionComponent<Props> = (props) => {
   const { finishedTomato } = props;
-
-  useEffect(() => {
-    console.log("finishedTomato", finishedTomato);
-  }, [finishedTomato]);
 
   const list = Object.keys(finishedTomato)
     .splice(0, 3)

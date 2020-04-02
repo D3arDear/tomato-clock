@@ -1,0 +1,46 @@
+.TodoHistory {
+  &-dailyTodos {
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: flex;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    &-summary {
+      width: 8em;
+      margin-right: 8px;
+      &-date {
+        span:first-child {
+          margin-right: 4px;
+          color: #222;
+        }
+        span:last-child {
+          color: #888;
+          font-size: 12px;
+        }
+      }
+      .finishedCount {
+        font-size: 14px;
+        color: #888;
+      }
+    }
+  }
+  &-todoList {
+    flex: 1;
+    &-todoItem {
+      padding: 10px;
+      font-size: 15px;
+      &:hover {
+        background: #f8f8f8;
+      }
+      &-time {
+        color: #999;
+        margin-right: 8px;
+      }
+      &-description {
+        color: #222;
+      }
+    }
+  }
+}
