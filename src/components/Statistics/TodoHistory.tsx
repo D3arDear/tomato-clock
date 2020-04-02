@@ -12,9 +12,9 @@ import { useStores } from "src/hooks/use-stores";
 //   id: number;
 //   editing: boolean;
 // }
-// interface TodoHistoryProps {
-//   todos: Todo[];
-// }
+interface TodoHistoryProps {
+  finished: boolean;
+}
 
 const TodoHistoryItem = (props: any) => {
   return (
@@ -25,7 +25,8 @@ const TodoHistoryItem = (props: any) => {
   );
 };
 
-const TodoHistory: React.FunctionComponent = () => {
+const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
+  const { finished } = props;
   const { todoState } = useStores();
   const { todos } = todoState;
 
@@ -37,21 +38,30 @@ const TodoHistory: React.FunctionComponent = () => {
     return todos.filter((todo) => todo.deleted);
   }, [todos]);
 
-  console.log(deletedTodos);
   const dailyFinishedTodos = useMemo(() => {
     return _.groupBy(finishedTodos, (todo) => {
       return format(Date.parse(todo.updated_at!), "yyyy-MM-dd");
     });
   }, [finishedTodos]);
 
-  const dates = useMemo(() => {
+  const dailyDeletedTodos = useMemo(() => {
+    return _.groupBy(deletedTodos, (todo) => {
+      return format(Date.parse(todo.updated_at!), "yyyy-MM-dd");
+    });
+  }, [deletedTodos]);
+
+  const finishedDates = useMemo(() => {
     return Object.keys(dailyFinishedTodos).sort((a, b) => Date.parse(b) - Date.parse(a));
   }, [dailyFinishedTodos]);
 
-  const TodoList = () => {
+  const deletedDates = useMemo(() => {
+    return Object.keys(dailyDeletedTodos).sort((a, b) => Date.parse(b) - Date.parse(a));
+  }, [dailyDeletedTodos]);
+
+  const FinishedTodoList = () => {
     return (
       <Fragment>
-        {dates.map((date) => {
+        {finishedDates.map((date) => {
           return (
             <div key={date}>
               <h3>
@@ -70,9 +80,31 @@ const TodoHistory: React.FunctionComponent = () => {
     );
   };
 
+  const DeletedTodoList = () => {
+    return (
+      <Fragment>
+        {deletedDates.map((date) => {
+          return (
+            <div key={date}>
+              <h3>
+                {date}
+                移除了{dailyDeletedTodos[date].length}个任务
+              </h3>
+              <div>
+                {dailyDeletedTodos[date].map((todo) => (
+                  <TodoHistoryItem key={todo.id} {...todo} />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </Fragment>
+    );
+  };
+
   return (
     <div className="TodoHistory" id="TodoHistory">
-      <TodoList />
+      {finished ? <FinishedTodoList /> : <DeletedTodoList />}
     </div>
   );
 };

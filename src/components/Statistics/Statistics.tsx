@@ -35,8 +35,8 @@ const Statistics: React.FunctionComponent = () => {
         </li>
       </ul>
       <StatisticsTabs>
-        <TodoHistory />
-        <div>这是第二个</div>
+        <TodoHistory finished />
+        <TodoHistory finished={false} />
       </StatisticsTabs>
     </div>
   );
