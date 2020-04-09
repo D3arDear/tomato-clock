@@ -7,6 +7,7 @@ interface Todo {
   deleted: boolean;
   id: number;
   editing: boolean;
+  completed_at: string;
 }
 
 export class todoState {
@@ -19,6 +20,7 @@ export class todoState {
       deleted: false,
       id: 1,
       editing: false,
+      completed_at: "",
     },
   ];
 
@@ -26,7 +28,6 @@ export class todoState {
   addTodo(payload: Todo) {
     this.todos = [payload, ...this.todos];
   }
-
 
   @action
   initTodos(payload: Todo[]) {

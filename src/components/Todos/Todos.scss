@@ -7,4 +7,13 @@
     padding: 5px;
     border-radius: 4px;
   }
+  .completedTodos {
+    transition: all 0.3s;
+    max-height: 300px;
+    opacity: 1;
+    &.invisible {
+      max-height: 0px;
+      opacity: 0;
+    }
+  }
 }
