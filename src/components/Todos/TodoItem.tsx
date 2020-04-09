@@ -60,6 +60,7 @@ const useStyle = makeStyles((theme: Theme) =>
 const TodoItem: React.FunctionComponent<Props> = observer((props) => {
   const [editText, setEditText] = useState(props.description);
   const { todoState } = useStores();
+  const { justCompletedTodo } = useStores();
 
   const update = async (payload: any) => {
     if (payload.completed) {
@@ -67,6 +68,7 @@ const TodoItem: React.FunctionComponent<Props> = observer((props) => {
     }
     const response = await axios.put(`todos/${props.id}`, payload);
     todoState.updateTodos(response.data.resource);
+    justCompletedTodo.addTodo(response.data.resource);
   };
 
   const classes = useStyle();

@@ -1,5 +1,4 @@
 .countDown {
-  padding: 6.5px;
   text-align: center;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -7,19 +6,26 @@
   width: calc(100% - 30px);
   overflow: hidden;
   background: #e3e3e3;
+  height: 46px;
+  display: flex;
   > span {
     font-size: 15px;
+    margin: auto;
     color: white;
     user-select: none;
     position: relative;
     z-index: 1;
   }
-  > .progress {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    background: linear-gradient(45deg, #ff809b 30%, #ff9f6b 90%);
+  .progress-wrapper {
+    position: relative;
+    flex: 1;
+    > .progress {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 0;
+      background: linear-gradient(45deg, #ff809b 30%, #ff9f6b 90%);
+    }
   }
 }

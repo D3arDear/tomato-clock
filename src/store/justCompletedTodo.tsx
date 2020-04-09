@@ -9,7 +9,7 @@ interface Todo {
   editing: boolean;
 }
 
-export class todoState {
+export class justCompletedTodoState {
   @observable
   todos = [
     {
@@ -24,40 +24,30 @@ export class todoState {
 
   @action
   addTodo(payload: Todo) {
-    this.todos = [payload, ...this.todos];
-  }
-
-
-  @action
-  initTodos(payload: Todo[]) {
-    this.todos = payload;
-  }
-
-  @action
-  updateTodos(payload: Todo) {
+    let update = false;
     const newTodos = this.todos.map((item) => {
       if (item.id === payload.id) {
+        update = true;
         return payload;
       } else {
         return item;
       }
     });
-    this.todos = newTodos;
+    update ? (this.todos = newTodos) : (this.todos = [...this.todos, payload]);
   }
 
   @action
-  toggleEditing(payload: number) {
-    this.todos = this.todos.map((item) => {
-      if (item.id === payload) {
-        return Object.assign({}, item, { editing: true });
-      } else {
-        return Object.assign({}, item, { editing: false });
-      }
-    });
+  removeTodo(payload: Todo) {
+    const newTodos = this.todos.filter((todo) => todo.completed);
+    this.todos = newTodos;
   }
 
   @computed
-  get currentTodos() {
-    return this.todos;
+  get justCompletedTodos() {
+    return this.todos
+      .filter((todo) => todo.completed)
+      .map((todo) => todo.description)
+      .filter((todo) => todo)
+      .join(" + ");
   }
 }

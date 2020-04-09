@@ -34,7 +34,7 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
     return () => {
       window.clearInterval(timerIdRef.current);
     };
-  }, [time]);
+  }, []);
 
   useEffect(() => {
     if (countDown < 1000) {
@@ -49,7 +49,9 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
   return (
     <div className="countDown">
       <span>{time}</span>
-      <div className="progress" style={{ width: `${widthPercentage}%` }} />
+      <div className="progress-wrapper">
+        <div className="progress" style={{ width: `${widthPercentage}%` }} />
+      </div>
     </div>
   );
 };
