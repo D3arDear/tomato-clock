@@ -8,8 +8,16 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: "10px 16px",
-      background: "linear-gradient(45deg, rgba(255, 90, 70, 1) 30%, rgba(255, 179, 113, 1) 90%)",
+      padding: "5px 10px",
+      background: "linear-gradient(45deg, rgba(255, 124, 54, 1) 30%, rgba(255, 179, 113, 1) 90%)",
+      boxShadow: "none",
+    },
+    wrapper: {
+      padding: "6px",
+      background: "white",
+      boxShadow:
+        " 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)",
+      borderRadius: "4px",
     },
   }),
 );
@@ -18,9 +26,11 @@ const TomatoActionButton: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { startTomato } = props;
   return (
-    <Button fullWidth variant="contained" className={classes.root} onClick={startTomato} color="primary">
-      开始番茄
-    </Button>
+    <div className={classes.wrapper}>
+      <Button fullWidth variant="contained" className={classes.root} onClick={startTomato} color="primary">
+        开始番茄
+      </Button>
+    </div>
   );
 };
 

@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from "react";
-import { IconButton } from "@material-ui/core";
 import axios from "src/config/axios";
 import CountDown from "./countDown";
-import { Close } from "@material-ui/icons";
 import { observer } from "mobx-react";
 import { useForceUpdate } from "src/hooks/useForceUpdate";
 import "./tomatoAction.scss";
@@ -80,12 +78,16 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     </div>
   ) : (
     <div className="tomatoAction">
-      <CountDown timer={currentTime} onFinished={onFinished} duration={duration}></CountDown>
+      <CountDown
+        timer={currentTime}
+        onFinished={onFinished}
+        duration={duration}
+        onPressClear={() => {
+          toggleConfirm(true);
+        }}
+      ></CountDown>
       <div className="abort">
         <AbortConfirm open={open} toggleConfirm={toggleConfirm} abortTomato={abortTomato}></AbortConfirm>
-        <IconButton size="small" color="primary" onClick={() => toggleConfirm(true)}>
-          <Close />
-        </IconButton>
       </div>
     </div>
   );

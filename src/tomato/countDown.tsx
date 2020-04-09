@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import "./countDown.scss";
+import { Close } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
 
 interface Props {
   timer: number;
   duration: number;
   onFinished: () => void;
+  onPressClear: () => void;
 }
 
 const CountDown: React.FunctionComponent<Props> = (props) => {
-  const { timer, onFinished, duration } = props;
+  const { timer, onFinished, duration, onPressClear } = props;
   const [countDown, setCountDown] = useState(timer);
 
   const timerIdRef = useRef(0);
@@ -48,10 +51,18 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
 
   return (
     <div className="countDown">
-      <span>{time}</span>
+      <div className="circle">
+        <div className="circle-cover" />
+      </div>
+      <hr className="MuiDivider-root makeStyles-divider-126 MuiDivider-vertical"></hr>
       <div className="progress-wrapper">
+        <span>{time}</span>
         <div className="progress" style={{ width: `${widthPercentage}%` }} />
       </div>
+      <hr className="MuiDivider-root makeStyles-divider-126 MuiDivider-vertical"></hr>
+      <IconButton size="small" color="primary" onClick={() => onPressClear()}>
+        <Close />
+      </IconButton>
     </div>
   );
 };
