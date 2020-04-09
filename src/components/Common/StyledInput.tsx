@@ -4,13 +4,14 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import { Edit, SubdirectoryArrowLeft, Close } from "@material-ui/icons";
+import { Edit, SubdirectoryArrowLeft, Close, Delete, Check } from "@material-ui/icons";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onSubmitValue: (value: string) => void;
   placeholder: string;
   onPressClear?: () => void;
   ref?: React.RefObject<any>;
+  tomato?: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const StyledInput: React.FunctionComponent<Props> = forwardRef((props, ref) => {
-  const { onSubmitValue, placeholder, onPressClear } = props;
+  const { onSubmitValue, placeholder, onPressClear, tomato } = props;
   const [value, setValue] = useState<string>("");
   const classes = useStyles();
 
@@ -63,15 +64,18 @@ const StyledInput: React.FunctionComponent<Props> = forwardRef((props, ref) => {
     },
   }));
 
-  const pressClear = () => {
-    onPressClear ? onPressClear() : setValue("");
-  };
   const dontReload = (e: any) => {
     e.preventDefault();
   };
   return (
     <Paper className={classes.root}>
-      <Edit color="primary" className={classes.icon} />
+      {tomato ? (
+        <IconButton className={classes.iconButton} aria-label="clear" onClick={onPressClear}>
+          <Delete color="primary" />
+        </IconButton>
+      ) : (
+        <Edit color="primary" className={classes.icon} />
+      )}
       <Divider className={classes.divider} orientation="vertical" />
       <InputBase
         className={classes.input}
@@ -82,12 +86,12 @@ const StyledInput: React.FunctionComponent<Props> = forwardRef((props, ref) => {
         onKeyUp={pressEnter}
         onSubmit={dontReload}
       />
-      <IconButton className={classes.iconButton} aria-label="clear" onClick={pressClear}>
+      <IconButton className={classes.iconButton} aria-label="clear" onClick={() => setValue("")}>
         <Close />
       </IconButton>
       <Divider className={classes.dividerRight} orientation="vertical" />
       <IconButton className={classes.iconButton} aria-label="enter" onClick={submitDescription}>
-        <SubdirectoryArrowLeft />
+        {tomato ? <Check color="primary" /> : <SubdirectoryArrowLeft />}
       </IconButton>
     </Paper>
   );

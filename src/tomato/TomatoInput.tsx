@@ -33,6 +33,7 @@ const TomatoInput: React.FunctionComponent<Props> = (props) => {
       onSubmitValue={addTomato}
       placeholder="请输入刚才完成的任务"
       onPressClear={onPressClear}
+      tomato={true}
     />
   );
 };
