@@ -6,11 +6,11 @@
   ul {
     display: flex;
     li {
+      margin: 0 5px;
+      border-radius: 4px;
       width: 25%;
       position: relative;
-      flex: 1;
       display: flex;
-      border: 1px solid #e4e4e4;
       cursor: pointer;
       min-height: 90px;
       background: #fff;
@@ -21,6 +21,7 @@
       box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
         0px 1px 3px 0px rgba(0, 0, 0, 0.12);
       .titles {
+        padding: 5px;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -40,14 +41,26 @@
         }
         .title-number {
           font-size: 30px;
-          color: #666;
+          color: rgba(255, 124, 54, 1);
         }
       }
+    }
+    li:first-child {
+      margin: 0;
+      margin-right: 5px;
+    }
+    li:last-child {
+      margin: 0;
+      margin-left: 5px;
     }
     .Polygon {
       position: absolute;
       bottom: 0;
       right: 0;
+      svg {
+        width: 100%;
+        margin-bottom: -3px;
+      }
     }
   }
 }
