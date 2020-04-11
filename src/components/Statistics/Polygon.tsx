@@ -2,46 +2,38 @@ import React, { useMemo } from "react";
 
 interface PolygonProps {
   data: any;
-  totalFinishedCount: any;
+  width: number;
 }
 
-// interface Todo {
-//   description: string;
-//   updated_at: string;
-//   completed: boolean;
-//   deleted: boolean;
-//   id: number;
-//   editing: boolean;
-// }
-
 const Polygon: React.FunctionComponent<PolygonProps> = (props) => {
-  const { data, totalFinishedCount } = props;
+  const { data, width } = props;
+  console.log("data:", data);
 
   const point = useMemo(() => {
     const dates = Object.keys(data).sort((a, b) => {
-      return Date.parse(a) - Date.parse(b);
+      return Date.parse(b) - Date.parse(a);
     });
-    const firstDay = dates[0];
-    if (firstDay) {
-      const range = new Date().getTime() - Date.parse(firstDay);
-      let finishedCount = 0;
-      let finishedY;
-      const pointArray = dates.map((date: string) => {
-        const x = ((Date.parse(date) - Date.parse(firstDay)) / range) * 240;
-        finishedCount += data[date].length;
-        const y = (1 - finishedCount / totalFinishedCount) * 60;
-        finishedY = y;
-        return `${x},${y}`;
-      });
-      return ["0,60", ...pointArray, `240,${finishedY}`, `240,60`].join(" ");
-    } else {
-      return "0,60 240,60";
-    }
-  }, [data, totalFinishedCount]);
+
+    console.log("dates:", dates);
+    const verticalRange = dates.reduce((a, b) => (data[b].length > a ? data[b].length : a), 0);
+    // 几个任务 个
+    const horizonRange = new Date().getTime() - Date.parse(dates[dates.length - 1]);
+    console.log("horizonRange:", horizonRange);
+    // 时间戳 从此刻倒推最后一项
+    let lastHorizonPoint = 0;
+    const points = dates.reduce((a, date) => {
+      const x = (new Date().getTime() - Date.parse(date)) / (horizonRange * width);
+      const y = (1 - data[date].length / verticalRange) * 60;
+      lastHorizonPoint = x;
+      console.log("x,y", `${x},${y}`);
+      return a.concat(` ${x},${y}`);
+    }, "0,60");
+    return points.concat(` ${lastHorizonPoint},60`);
+  }, [data, width]);
 
   return (
     <div className="Polygon" id="Polygon">
-      <svg>
+      <svg width="100%" height="60" preserveAspectRatio="none">
         <polygon fill="rgba(255, 179, 113, 0.1)" stroke="rgba(255, 179, 113, 0.5)" strokeWidth="1" points={point} />
       </svg>
     </div>
