@@ -27,8 +27,11 @@ const TomatoList: React.FunctionComponent<Props> = (props) => {
       return (
         <div key={index} className="dailyTomato">
           <div className="title">
-            <span className="dateTime">{format(Date.parse(date), "M月dd日")}</span>
-            <span className="finishedCount">完成了{tomatoes.length}个番茄</span>
+            <div className="title-date">
+              <span className="dateItem">{format(Date.parse(date), "M月dd日")}</span>
+              <span className="dateItem-daily">{format(Date.parse(date), "eee")}</span>
+            </div>
+            <span className="finishedCount">完成了 {tomatoes.length} 个番茄时间</span>
           </div>
           {tomatoes.map((tomato: any) => (
             <TomatoItem key={tomato.id} {...tomato} />

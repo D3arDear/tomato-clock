@@ -10,9 +10,7 @@ interface StyledTabProps {
 }
 
 const AntTabs = withStyles({
-  root: {
-    borderBottom: "1px solid #e8e8e8",
-  },
+  root: {},
   indicator: {
     backgroundColor: "rgba(255, 179, 113, 1)",
   },
@@ -56,6 +54,7 @@ const AntTab = withStyles((theme: Theme) =>
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    marginTop: 20,
     flexGrow: 1,
   },
   padding: {
@@ -63,6 +62,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   wrapper: {
     backgroundColor: theme.palette.background.paper,
+  },
+  action: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: "1px solid #e8e8e8",
   },
   pannel: {
     padding: 0,
@@ -112,10 +117,13 @@ const StatisticsTabs: React.FunctionComponent<any> = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.wrapper}>
-        <AntTabs value={value} onChange={handleChange} textColor="secondary" aria-label="ant example">
-          <AntTab label="已完成任务" />
-          <AntTab label="已删除任务" />
-        </AntTabs>
+        <div className={classes.action}>
+          <AntTabs value={value} onChange={handleChange} textColor="secondary" aria-label="tabs">
+            <AntTab label="已完成任务" />
+            <AntTab label="已删除任务" />
+          </AntTabs>
+          <input />
+        </div>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={value}

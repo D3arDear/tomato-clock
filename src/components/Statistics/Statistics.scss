@@ -1,11 +1,24 @@
 .Statistics {
+  @media screen and(max-width:720px) {
+    margin-top: 0;
+  }
   width: 100%;
   margin-top: 22px;
   min-height: 150px;
   flex-direction: column;
   ul {
     display: flex;
+
+    @media screen and(max-width:720px) {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
     li {
+      @media screen and(max-width:720px) {
+        width: 100%;
+        margin: 5px 0;
+      }
       margin: 0 5px;
       border-radius: 4px;
       width: 25%;
@@ -48,15 +61,24 @@
     li:first-child {
       margin: 0;
       margin-right: 5px;
+      @media screen and(max-width:720px) {
+        margin: 0;
+        margin-bottom: 5px;
+      }
     }
     li:last-child {
       margin: 0;
       margin-left: 5px;
+      @media screen and(max-width:720px) {
+        margin: 0;
+        margin-top: 5px;
+      }
     }
     .Polygon {
       position: absolute;
       bottom: 0;
       right: 0;
+      left: 0;
       svg {
         width: 100%;
         margin-bottom: -3px;

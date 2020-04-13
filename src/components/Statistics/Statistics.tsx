@@ -16,7 +16,7 @@ const Statistics: React.FunctionComponent = () => {
   const [liWidth, setLiWidth] = useState(0);
   const liRef = useRef<HTMLLIElement>(null);
   useEffect(() => {
-    setLiWidth(liRef.current!.getBoundingClientRect().width - 2);
+    setLiWidth(liRef.current!.getBoundingClientRect().width);
   }, [setLiWidth]);
 
   const finishedTodos = useMemo(() => {

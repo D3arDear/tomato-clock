@@ -54,18 +54,23 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
   const FinishedTodoList = () => {
     return (
       <Fragment>
-        {finishedDates.map((date) => {
+        {(finished ? finishedDates : deletedDates).map((date) => {
           return (
             <div key={date} className="TodoHistory-dailyTodos">
               <div className="TodoHistory-dailyTodos-summary">
                 <p className="TodoHistory-dailyTodos-summary-date">
                   <span>{date}</span>
-                  <span>{format(new Date(dailyFinishedTodos[date][0].updated_at), "eee")}</span>
+                  <span>
+                    {format(new Date((finished ? dailyFinishedTodos : dailyDeletedTodos)[date][0].updated_at), "eee")}
+                  </span>
                 </p>
-                <p className="finishedCount">完成了 {dailyFinishedTodos[date].length} 个任务</p>
+                <p className="finishedCount">
+                  {finished ? "完成了" : "移除了"} {(finished ? dailyFinishedTodos : dailyDeletedTodos)[date].length}{" "}
+                  个任务
+                </p>
               </div>
               <div className="TodoHistory-todoList">
-                {dailyFinishedTodos[date]
+                {(finished ? dailyFinishedTodos : dailyDeletedTodos)[date]
                   .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
                   .map((todo) => (
                     <TodoHistoryItem key={todo.id} {...todo} itemType="finished" />
@@ -78,36 +83,9 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
     );
   };
 
-  const DeletedTodoList = () => {
-    return (
-      <Fragment>
-        {deletedDates.map((date) => {
-          return (
-            <div key={date} className="TodoHistory-dailyTodos">
-              <div className="TodoHistory-dailyTodos-summary">
-                <p className="TodoHistory-dailyTodos-summary-date">
-                  <span>{date}</span>
-                  <span>{format(new Date(dailyDeletedTodos[date][0].updated_at), "eee")}</span>
-                </p>
-                <p className="finishedCount">移除了 {dailyDeletedTodos[date].length} 个任务</p>
-              </div>
-              <div className="TodoHistory-todoList">
-                {dailyDeletedTodos[date]
-                  .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
-                  .map((todo) => (
-                    <TodoHistoryItem key={todo.id} {...todo} itemType="deleted" />
-                  ))}
-              </div>
-            </div>
-          );
-        })}
-      </Fragment>
-    );
-  };
-
   return (
     <div className="TodoHistory" id="TodoHistory">
-      {finished ? <FinishedTodoList /> : <DeletedTodoList />}
+      <FinishedTodoList />
     </div>
   );
 };

@@ -10,14 +10,13 @@ const Polygon: React.FunctionComponent<PolygonProps> = (props) => {
 
   const point = useMemo(() => {
     const dates = Object.keys(data).sort((a, b) => {
-      return Date.parse(b) - Date.parse(a);
+      return Date.parse(a) - Date.parse(b);
     });
-
     const verticalRange = dates.reduce((a, b) => (data[b].length > a ? data[b].length : a), 0);
-    const horizonRange = new Date().getTime() - Date.parse(dates[dates.length - 1]);
+    const horizonRange = new Date().getTime() - Date.parse(dates[0]);
     let lastHorizonPoint = 0;
     const points = dates.reduce((a, date) => {
-      const x = ((new Date().getTime() - Date.parse(date)) / horizonRange) * width;
+      const x = (1 - (new Date().getTime() - Date.parse(date)) / horizonRange) * width;
       const y = (1 - data[date].length / verticalRange) * 60;
       lastHorizonPoint = x;
       return a.concat(` ${x},${y}`);

@@ -48,7 +48,7 @@ const Home: React.FunctionComponent<any> = (props) => {
     <div className="home">
       <AppBar className={classes.appBar} color="transparent" position="static">
         <Toolbar variant="dense" className="home-header">
-          <Typography variant="h6">LOGO</Typography>
+          <Typography variant="h6">番茄闹钟</Typography>
           <div className="home-header-userButton">
             <UserMenu username={user.account}>
               <MenuItem className={classes.menuItem}>
