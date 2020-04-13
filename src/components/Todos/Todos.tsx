@@ -38,12 +38,10 @@ const Todos: React.FunctionComponent = observer(() => {
 
   const toggleCompletedTodos = () => {
     setCompletedVisible(!completedVisible);
-    console.log(completedVisible);
   };
   useEffect(() => {
     const getTodo = async () => {
       const response = await axios.get("todos");
-      console.log(response.data.resources);
       const editingTodos = response.data.resources.map((item: Todos) => Object.assign({}, item, { editing: false }));
       todoState.initTodos(editingTodos);
     };
