@@ -25,7 +25,7 @@ const Polygon: React.FunctionComponent<PolygonProps> = (props) => {
       lastHorizonPoint = x;
       return a.concat(` ${x},${y}`);
     }, "0,60");
-    return points.concat(` ${lastHorizonPoint},60`);
+    return lastHorizonPoint === width ? points.concat(` ${lastHorizonPoint},60`) : points.concat(` ${width},60`);
   }, [data, width]);
 
   return (

@@ -8,7 +8,7 @@ import { useStores } from "src/hooks/use-stores";
 
 import Polygon from "./Polygon";
 import TodoHistory from "./TodoHistory";
-import TodoHistoryTabs from "./StatisticsTabs";
+import TodoHistoryTabs from "./TodoStatisticsTabs";
 
 const Statistics: React.FunctionComponent = () => {
   const { todoState, tomatoState } = useStores();

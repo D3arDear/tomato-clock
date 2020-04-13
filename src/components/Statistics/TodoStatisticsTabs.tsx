@@ -4,6 +4,7 @@ import SwipeableViews from "react-swipeable-views";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Typography, Box, useTheme } from "@material-ui/core";
+import MaterialUIPickers from "../Common/DatePicker";
 
 interface StyledTabProps {
   label: string;
@@ -116,13 +117,13 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
   };
   return (
     <div className={classes.root}>
+      <MaterialUIPickers />
       <div className={classes.wrapper}>
         <div className={classes.action}>
           <AntTabs value={value} onChange={handleChange} textColor="secondary" aria-label="tabs">
             <AntTab label="已完成任务" />
             <AntTab label="已删除任务" />
           </AntTabs>
-          <input />
         </div>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
