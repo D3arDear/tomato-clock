@@ -14,7 +14,12 @@
       width: 8em;
       margin-right: 8px;
       @media screen and(max-width:720px) {
+        display: flex;
+        justify-content: space-between;
         width: 100%;
+        margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
       }
       &-date {
         span:first-child {

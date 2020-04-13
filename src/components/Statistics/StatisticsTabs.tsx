@@ -102,7 +102,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const StatisticsTabs: React.FunctionComponent<any> = (props) => {
+const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -141,4 +141,4 @@ const StatisticsTabs: React.FunctionComponent<any> = (props) => {
   );
 };
 
-export default StatisticsTabs;
+export default TodoHistoryTabs;

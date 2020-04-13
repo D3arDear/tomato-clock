@@ -8,7 +8,7 @@ import { useStores } from "src/hooks/use-stores";
 
 import Polygon from "./Polygon";
 import TodoHistory from "./TodoHistory";
-import StatisticsTabs from "./StatisticsTabs";
+import TodoHistoryTabs from "./StatisticsTabs";
 
 const Statistics: React.FunctionComponent = () => {
   const { todoState } = useStores();
@@ -44,10 +44,10 @@ const Statistics: React.FunctionComponent = () => {
           <Polygon data={dailyTodos} width={liWidth} />
         </li>
       </ul>
-      <StatisticsTabs>
+      <TodoHistoryTabs>
         <TodoHistory finished />
         <TodoHistory finished={false} />
-      </StatisticsTabs>
+      </TodoHistoryTabs>
     </div>
   );
 };
