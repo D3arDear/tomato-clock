@@ -1,7 +1,7 @@
 import "date-fns";
 import * as React from "react";
 import DateFnsAdapter from "@material-ui/pickers/adapter/date-fns";
-import { LocalizationProvider, DateRange, StaticDateRangePicker } from "@material-ui/pickers";
+import { LocalizationProvider, DateRange, DateRangePicker } from "@material-ui/pickers";
 import cnLocale from "date-fns/locale/zh-CN";
 
 export default function MaterialUIPickers() {
@@ -9,10 +9,13 @@ export default function MaterialUIPickers() {
 
   return (
     <LocalizationProvider dateAdapter={DateFnsAdapter} locale={cnLocale}>
-      <StaticDateRangePicker
-        displayStaticWrapperAs="mobile"
+      <DateRangePicker
         value={selectedDate}
+        clearable={true}
         onChange={(date) => handleDateChange(date)}
+        showTodayButton={true}
+        calendars={1}
+        toolbarTitle="选择日期范围"
       />
     </LocalizationProvider>
   );
