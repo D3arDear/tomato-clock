@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import TodoInput from "./TodoInput";
+import TodoInput from "./todoInput";
 import axios from "src/config/axios";
 import TodoItem from "src/components/Todos/TodoItem";
 import "./Todos.scss";

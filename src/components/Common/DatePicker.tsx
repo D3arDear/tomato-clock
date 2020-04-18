@@ -11,11 +11,10 @@ export default function MaterialUIPickers() {
     <LocalizationProvider dateAdapter={DateFnsAdapter} locale={cnLocale}>
       <DateRangePicker
         value={selectedDate}
-        clearable={true}
+        startText={`${selectedDate[0]}`}
+        endText={`${selectedDate[1]}`}
         onChange={(date) => handleDateChange(date)}
-        showTodayButton={true}
         calendars={1}
-        toolbarTitle="选择日期范围"
       />
     </LocalizationProvider>
   );
