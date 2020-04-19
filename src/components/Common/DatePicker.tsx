@@ -4,7 +4,7 @@ import DateFnsAdapter from "@material-ui/pickers/adapter/date-fns";
 import { LocalizationProvider, DateRange, DateRangePicker } from "@material-ui/pickers";
 import cnLocale from "date-fns/locale/zh-CN";
 
-export default function MaterialUIPickers() {
+export default function DatePicker() {
   const [selectedDate, handleDateChange] = React.useState<DateRange>([null, null]);
 
   return (
