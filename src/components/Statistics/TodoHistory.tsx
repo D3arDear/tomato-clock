@@ -5,6 +5,7 @@ import _ from "lodash";
 import { useStores } from "src/hooks/use-stores";
 import "./TodoHistory.scss";
 import TodoHistoryItem from "./TodoHistoryItem";
+import { DateRange as DateRangeType } from "@material-ui/pickers";
 
 // interface Todo {
 //   description: string;
@@ -16,16 +17,23 @@ import TodoHistoryItem from "./TodoHistoryItem";
 // }
 interface TodoHistoryProps {
   finished: boolean;
+  selectedDate: DateRangeType
 }
 
 const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
-  const { finished } = props;
+  const { finished, selectedDate } = props;
   const { todoState } = useStores();
   const { todos } = todoState;
 
   const finishedTodos = useMemo(() => {
-    return todos.filter((todo) => todo.completed && !todo.deleted);
-  }, [todos]);
+    const afterFilterTodos = todos.filter((todo) => todo.completed && !todo.deleted);
+    const filterTodosWithRange = (todos: any) => {
+      return (selectedDate[0] !== null && selectedDate[1] !== null) ?
+        todos.filter((todo: any) => new Date(todo.updated_at) > selectedDate[0]! && +new Date(todo.updated_at) < +(selectedDate[1]!?.setHours(24))) :
+        todos
+    }
+    return filterTodosWithRange(afterFilterTodos)
+  }, [todos, selectedDate]);
 
   const deletedTodos = useMemo(() => {
     return todos.filter((todo) => todo.deleted);

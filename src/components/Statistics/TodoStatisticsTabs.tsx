@@ -5,6 +5,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Typography, Box, useTheme } from "@material-ui/core";
 import DatePickerDialog from '../Common/DatePickerDialog';
+import { DateRange as DateRangeType } from "@material-ui/pickers";
+import TodoHistory from './TodoHistory';
 
 interface StyledTabProps {
   label: string;
@@ -108,6 +110,10 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
   const theme = useTheme();
 
   const [value, setValue] = React.useState(0);
+  const [selectedDate, setSelectedDate] = React.useState<DateRangeType>([null, null]);
+  const handleDateChange = (date: DateRangeType) => {
+    setSelectedDate(date)
+  }
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -123,7 +129,7 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
             <AntTab label="已完成任务" />
             <AntTab label="已删除任务" />
           </AntTabs>
-          <DatePickerDialog />
+          <DatePickerDialog selectedDate={selectedDate} handleDateChange={handleDateChange} />
         </div>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -131,10 +137,10 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            {props.children && props.children[0]}
+            <TodoHistory finished selectedDate={selectedDate} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            {props.children && props.children[1]}
+            <TodoHistory finished={false} selectedDate={selectedDate} />
           </TabPanel>
         </SwipeableViews>
       </div>

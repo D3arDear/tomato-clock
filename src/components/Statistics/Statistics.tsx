@@ -7,7 +7,6 @@ import React, { useMemo, useRef, useState, useEffect } from "react";
 import { useStores } from "src/hooks/use-stores";
 
 import Polygon from "./Polygon";
-import TodoHistory from "./TodoHistory";
 import TodoHistoryTabs from "./TodoStatisticsTabs";
 
 const Statistics: React.FunctionComponent = () => {
@@ -30,7 +29,6 @@ const Statistics: React.FunctionComponent = () => {
     [finishedTodos],
   );
 
-  console.log("tomatoes", tomatoes);
 
   const finishedTomatoes = useMemo(
     () => tomatoes.filter((tomato) => !tomato.aborted).filter((tomato) => tomato.description && tomato.ended_at),
@@ -67,10 +65,7 @@ const Statistics: React.FunctionComponent = () => {
           <Polygon data={dailyTodos} width={liWidth} />
         </li>
       </ul>
-      <TodoHistoryTabs>
-        <TodoHistory finished />
-        <TodoHistory finished={false} />
-      </TodoHistoryTabs>
+      <TodoHistoryTabs />
     </div>
   );
 };

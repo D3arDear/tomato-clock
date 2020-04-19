@@ -6,14 +6,20 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 // import { useTheme } from '@material-ui/core/styles';
 import DatePicker from './DatePicker';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Button } from '@material-ui/core';
 import { DateRange, Clear, Check } from '@material-ui/icons';
+import { DateRange as DateRangeType } from "@material-ui/pickers";
 import './DatePickerDialog.scss'
 
-export default function DatePickerDialog() {
+interface iDatePickerDialogProps {
+  handleDateChange: (date: DateRangeType) => void
+  selectedDate: DateRangeType
+}
+
+export default function DatePickerDialog(props: iDatePickerDialogProps) {
   const [open, setOpen] = React.useState(false);
-  // const theme = useTheme();
-  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const { selectedDate, handleDateChange } = props
+  const [selectedDateInside, setSelectedDateInside] = React.useState<DateRangeType>(selectedDate);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,6 +28,18 @@ export default function DatePickerDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleConfirm = () => {
+    handleDateChange(selectedDateInside)
+    setOpen(false)
+  }
+
+  const handleInsideChange = (date: DateRangeType) => {
+    setSelectedDateInside(date)
+  }
+  const clearDate = () => {
+    handleDateChange([null, null])
+  }
 
   return (
     <div>
@@ -34,16 +52,17 @@ export default function DatePickerDialog() {
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">{"请选择日期范围"}</DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ overflow: 'hidden' }}>
           <div className="datePicker-dialog-content">
-            <DatePicker />
+            <DatePicker selectedDate={selectedDateInside} handleDateChange={handleInsideChange} />
           </div>
+          <Button color='primary' onClick={clearDate}>清除</Button>
         </DialogContent>
         <DialogActions>
           <IconButton aria-label="clear" onClick={handleClose}>
             <Clear color="secondary" />
           </IconButton>
-          <IconButton onClick={handleClose} autoFocus aria-label="confirm">
+          <IconButton onClick={handleConfirm} autoFocus aria-label="confirm">
             <Check color="primary" />
           </IconButton>
         </DialogActions>
