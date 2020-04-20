@@ -2,11 +2,13 @@ import React from "react";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core/styles";
 import SwipeableViews from "react-swipeable-views";
 import Tabs from "@material-ui/core/Tabs";
+import { format } from "date-fns";
 import Tab from "@material-ui/core/Tab";
 import { Typography, Box, useTheme } from "@material-ui/core";
-import DatePickerDialog from '../Common/DatePickerDialog';
-import { DateRange as DateRangeType } from "@material-ui/pickers";
-import TodoHistory from './TodoHistory';
+import DatePickerDialog from "../Common/DatePickerDialog";
+import TodoHistory from "./TodoHistory";
+import { observer } from "mobx-react";
+import { useStores } from "src/hooks/use-stores";
 
 interface StyledTabProps {
   label: string;
@@ -72,6 +74,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     borderBottom: "1px solid #e8e8e8",
   },
+  ifSort: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#666",
+    fontSize: "12px",
+    padding: "10px",
+    paddingBottom: "0px",
+  },
   pannel: {
     padding: 0,
   },
@@ -108,12 +119,10 @@ function TabPanel(props: TabPanelProps) {
 const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const { dateFilterState } = useStores();
+  const selectedDate = dateFilterState.dateRange;
 
   const [value, setValue] = React.useState(0);
-  const [selectedDate, setSelectedDate] = React.useState<DateRangeType>([null, null]);
-  const handleDateChange = (date: DateRangeType) => {
-    setSelectedDate(date)
-  }
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -129,8 +138,17 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
             <AntTab label="已完成任务" />
             <AntTab label="已删除任务" />
           </AntTabs>
-          <DatePickerDialog selectedDate={selectedDate} handleDateChange={handleDateChange} />
+          <DatePickerDialog />
         </div>
+        {selectedDate[0] !== null && selectedDate[1] !== null && (
+          <div className={classes.ifSort}>
+            仅显示{" "}
+            {`${format(new Date(selectedDate[0]), "yyyy-MM-dd")} ~ ${format(
+              new Date(selectedDate[1]),
+              "yyyy-MM-dd",
+            )} 的信息`}
+          </div>
+        )}
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={value}
@@ -148,4 +166,4 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
   );
 };
 
-export default TodoHistoryTabs;
+export default observer(TodoHistoryTabs);
