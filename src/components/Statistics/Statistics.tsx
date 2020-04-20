@@ -7,7 +7,8 @@ import React, { useMemo, useRef, useState, useEffect } from "react";
 import { useStores } from "src/hooks/use-stores";
 
 import Polygon from "./Polygon";
-import TodoHistoryTabs from "./TodoStatisticsTabs";
+import TodoHistoryTabs from "./TodoHistory/TodoStatisticsTabs";
+import TomatoHistoryTabs from "./TomatoHistory/TomatoHistoryTabs";
 
 const Statistics: React.FunctionComponent = () => {
   const { todoState, tomatoState } = useStores();
@@ -19,6 +20,8 @@ const Statistics: React.FunctionComponent = () => {
     setLiWidth(liRef.current!.getBoundingClientRect().width);
   }, [setLiWidth]);
 
+  const [currentDisplay, handleDisplayChange] = useState(0);
+
   const finishedTodos = useMemo(() => todos.filter((todo) => todo.completed && !todo.deleted), [todos]);
 
   const dailyTodos = useMemo(
@@ -28,7 +31,6 @@ const Statistics: React.FunctionComponent = () => {
       }),
     [finishedTodos],
   );
-
 
   const finishedTomatoes = useMemo(
     () => tomatoes.filter((tomato) => !tomato.aborted).filter((tomato) => tomato.description && tomato.ended_at),
@@ -48,7 +50,11 @@ const Statistics: React.FunctionComponent = () => {
       <ul className="Statistics-detail">
         <li>统计</li>
         <li>目标</li>
-        <li>
+        <li
+          onClick={() => {
+            handleDisplayChange(3);
+          }}
+        >
           <div className="titles">
             <span className="title">番茄历史</span>
             <span className="subTitle">累计完成番茄</span>
@@ -56,7 +62,12 @@ const Statistics: React.FunctionComponent = () => {
           </div>
           <Polygon data={dailyTomatoes} width={liWidth} />
         </li>
-        <li ref={liRef}>
+        <li
+          ref={liRef}
+          onClick={() => {
+            handleDisplayChange(4);
+          }}
+        >
           <div className="titles">
             <span className="title">任务历史</span>
             <span className="subTitle">累计完成任务</span>
@@ -65,7 +76,10 @@ const Statistics: React.FunctionComponent = () => {
           <Polygon data={dailyTodos} width={liWidth} />
         </li>
       </ul>
-      <TodoHistoryTabs />
+      <div>
+        {currentDisplay === 4 && <TodoHistoryTabs />}
+        {currentDisplay === 3 && <TomatoHistoryTabs />}
+      </div>
     </div>
   );
 };

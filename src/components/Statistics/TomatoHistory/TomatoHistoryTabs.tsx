@@ -5,8 +5,8 @@ import Tabs from "@material-ui/core/Tabs";
 import { format } from "date-fns";
 import Tab from "@material-ui/core/Tab";
 import { Typography, Box, useTheme } from "@material-ui/core";
-import DatePickerDialog from "../Common/DatePickerDialog";
-import TodoHistory from "./TodoHistory";
+import DatePickerDialog from "../../Common/DatePickerDialog";
+import TomatoHistory from "./TomatoHistory";
 import { observer } from "mobx-react";
 import { useStores } from "src/hooks/use-stores";
 
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "10px",
     paddingBottom: "0px",
   },
-  pannel: {
+  panel: {
     padding: 0,
   },
 }));
@@ -116,7 +116,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
+const TomatoHistoryTabs: React.FunctionComponent<any> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { dateFilterState } = useStores();
@@ -155,10 +155,10 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <TodoHistory finished selectedDate={selectedDate} />
+            <TomatoHistory selectedDate={selectedDate} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TodoHistory finished={false} selectedDate={selectedDate} />
+            <TomatoHistory aborted={false} selectedDate={selectedDate} />
           </TabPanel>
         </SwipeableViews>
       </div>
@@ -166,4 +166,4 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
   );
 };
 
-export default observer(TodoHistoryTabs);
+export default observer(TomatoHistoryTabs);
