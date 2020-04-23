@@ -127,11 +127,13 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
                 </div>
               </div>
               <div className=" TomatoHistory-tomatoList">
-                {(!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date]
-                  .sort((a, b) => Date.parse(b.ended_at) - Date.parse(a.ended_at))
-                  .map((tomato) => (
-                    <TomatoHistoryItem key={tomato.id} {...tomato} itemType="finished" />
-                  ))}
+                {!aborted
+                  ? dailyFinishedTomatoes[date]
+                      .sort((a, b) => Date.parse(b.ended_at) - Date.parse(a.ended_at))
+                      .map((tomato) => <TomatoHistoryItem key={tomato.id} {...tomato} itemType="finished" />)
+                  : dailyAbortedTomatoes[date]
+                      .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+                      .map((tomato) => <TomatoHistoryItem key={tomato.id} {...tomato} itemType="deleted" />)}
               </div>
             </div>
           );

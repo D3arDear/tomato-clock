@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles, Theme, IconButton, createStyles } from "@material-ui/core";
-import { Delete, Edit } from "@material-ui/icons";
+import { Delete, Edit, SettingsBackupRestore } from "@material-ui/icons";
 import { format } from "date-fns";
 import "./TomatoHistoryItem.scss";
 
@@ -86,6 +86,15 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
             }}
           >
             <Edit />
+          </IconButton>
+          <IconButton
+            className={classes.iconButton}
+            size="small"
+            onClick={(e) => {
+              handleUpdateTomato({ deleted: false });
+            }}
+          >
+            <SettingsBackupRestore />
           </IconButton>
         </div>
       )}
