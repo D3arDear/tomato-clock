@@ -158,7 +158,7 @@ const TomatoHistoryTabs: React.FunctionComponent<any> = (props) => {
             <TomatoHistory selectedDate={selectedDate} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TomatoHistory aborted={false} selectedDate={selectedDate} />
+            <TomatoHistory aborted={true} selectedDate={selectedDate} />
           </TabPanel>
         </SwipeableViews>
       </div>

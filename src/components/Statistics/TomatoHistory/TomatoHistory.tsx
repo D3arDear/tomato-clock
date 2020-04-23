@@ -5,6 +5,8 @@ import { observer } from "mobx-react";
 import { format } from "date-fns";
 import _ from "lodash";
 import TomatoHistoryItem from "./TomatoHistoryItem";
+import { Tomato } from "src/store/tomatoState";
+import "./TomatoHistory.scss";
 
 interface TomatoHistoryProps {
   aborted?: boolean;
@@ -17,7 +19,6 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
   const { tomatoes } = tomatoState;
 
   const finishedTomatoes = useMemo(() => {
-    console.log("selectedDate:", selectedDate);
     const afterFilterTomatoes = tomatoes.filter((tomato) => tomato.ended_at && !tomato.aborted);
     const filterTomatoesWithRange = (tomatoes: any) => {
       return selectedDate[0] !== null && selectedDate[1] !== null
@@ -31,29 +32,29 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
     return filterTomatoesWithRange(afterFilterTomatoes);
   }, [selectedDate, tomatoes]);
 
-  const deletedTomatoes = useMemo(() => {
+  const abortedTomatoes = useMemo(() => {
     return selectedDate[0] !== null && selectedDate[1] !== null
       ? tomatoes
           .filter((tomato) => tomato.aborted)
           .filter(
             (tomato) =>
-              +new Date(tomato.ended_at) > +new Date(selectedDate[0]!) &&
-              +new Date(tomato.ended_at) < +new Date(selectedDate[1]!)?.setHours(24),
+              +new Date(tomato.updated_at) > +new Date(selectedDate[0]!) &&
+              +new Date(tomato.updated_at) < +new Date(selectedDate[1]!)?.setHours(24),
           )
       : tomatoes.filter((tomato) => tomato.aborted);
   }, [selectedDate, tomatoes]);
 
   const dailyFinishedTomatoes = useMemo(() => {
     return _.groupBy(finishedTomatoes, (tomato) => {
-      return format(new Date(tomato.updated_at!), "yyyy-MM-dd");
+      return format(new Date(tomato.ended_at!), "yyyy-MM-dd");
     });
   }, [finishedTomatoes]);
 
   const dailyAbortedTomatoes = useMemo(() => {
-    return _.groupBy(deletedTomatoes, (tomato) => {
-      return format(new Date(tomato.ended_at!), "yyyy-MM-dd");
+    return _.groupBy(abortedTomatoes, (tomato) => {
+      return format(new Date(tomato.updated_at!), "yyyy-MM-dd");
     });
-  }, [deletedTomatoes]);
+  }, [abortedTomatoes]);
 
   const finishedDates = useMemo(() => {
     return Object.keys(dailyFinishedTomatoes).sort((a, b) => Date.parse(b) - Date.parse(a));
@@ -63,35 +64,71 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
     return Object.keys(dailyAbortedTomatoes).sort((a, b) => Date.parse(b) - Date.parse(a));
   }, [dailyAbortedTomatoes]);
 
-  console.log(aborted, selectedDate, deletedTomatoes);
-  console.log("finishedDates:", finishedDates);
-  console.log("deletedDates:", abortedDates);
-  console.log(finishedTomatoes);
+  const totalTomatoTime = (tomatoArray: Tomato[]) => {
+    let time = 0;
+    tomatoArray.forEach((tomato: Tomato) => {
+      time += duration(tomato.started_at, tomato.ended_at) / 60 / 60;
+    });
+    return time;
+  };
 
+  const duration = (start: string, end: string) => {
+    return (new Date(end).valueOf() - new Date(start).valueOf()) / 1000;
+  };
+
+  console.log("abortedDates:", dailyAbortedTomatoes);
   const FinishedTomatoList = () => {
     return (
       <Fragment>
         {(!aborted ? finishedDates : abortedDates).map((date) => {
           return (
             <div key={date} className="TomatoHistory-dailyTomatoes">
+              {!aborted && (
+                <div className="finishedCount-polygon">
+                  {dailyFinishedTomatoes[date].map((eachDate, index) => {
+                    return (
+                      <div
+                        key={eachDate.id}
+                        className="finishedCount-line"
+                        style={{
+                          width: `${
+                            (duration(eachDate.started_at, eachDate.ended_at) /
+                              3600 /
+                              totalTomatoTime(dailyFinishedTomatoes[date])) *
+                            100
+                          }%`,
+                          background: `${index % 2 === 0 ? "#ff7c36" : "#F2C086"}`,
+                        }}
+                      ></div>
+                    );
+                  })}
+                </div>
+              )}
               <div className="TomatoHistory-dailyTomatoes-summary">
                 <p className="TomatoHistory-dailyTomatoes-summary-date">
                   <span>{date}</span>
                   <span>
                     {format(
-                      new Date((!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date][0].updated_at),
+                      new Date((!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date][0].ended_at),
                       "eee",
                     )}
                   </span>
                 </p>
-                <p className="finishedCount">
-                  {!aborted ? "完成了" : "打断了"}{" "}
-                  {(!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date].length} 个番茄
-                </p>
+                <div>
+                  <p className="finishedCount">
+                    {!aborted ? "完成了" : "打断了"}{" "}
+                    {(!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date].length} 个番茄
+                  </p>
+                  {!aborted && (
+                    <p className="finishedCount">{`总计 ${totalTomatoTime(dailyFinishedTomatoes[date]).toFixed(
+                      2,
+                    )} 小时`}</p>
+                  )}
+                </div>
               </div>
-              <div className="TomatoHistory-tomatoList">
+              <div className=" TomatoHistory-tomatoList">
                 {(!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date]
-                  .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+                  .sort((a, b) => Date.parse(b.ended_at) - Date.parse(a.ended_at))
                   .map((tomato) => (
                     <TomatoHistoryItem key={tomato.id} {...tomato} itemType="finished" />
                   ))}
@@ -102,9 +139,12 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
       </Fragment>
     );
   };
-  console.log(FinishedTomatoList);
 
-  return <div></div>;
+  return (
+    <div className="TomatoHistory" id="TomatoHistory">
+      <FinishedTomatoList />
+    </div>
+  );
 };
 
 export default observer(TomatoHistory);

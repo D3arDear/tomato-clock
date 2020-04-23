@@ -1,6 +1,6 @@
 import { observable, action, computed } from "mobx";
 
-interface Tomato {
+export interface Tomato {
   id: number;
   user_id: number;
   started_at: string;

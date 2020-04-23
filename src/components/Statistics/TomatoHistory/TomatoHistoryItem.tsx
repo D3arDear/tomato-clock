@@ -2,6 +2,7 @@ import React from "react";
 
 interface TomatoHistoryItemInterface {
   tomato: Tomato;
+  itemType: "finished" | "aborted";
 }
 
 interface Tomato {
