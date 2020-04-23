@@ -11,7 +11,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import "./todoItem.scss";
-import { Check, Delete } from "@material-ui/icons";
+import { Check, Delete, Edit } from "@material-ui/icons";
 import axios from "src/config/axios";
 import { useStores } from "src/hooks/use-stores";
 import { observer } from "mobx-react";
@@ -48,6 +48,13 @@ const useStyle = makeStyles((theme: Theme) =>
       padding: 10,
     },
     iconButtonNormal: {
+      padding: 8,
+    },
+    iconButtonNormalMobile: {
+      "@media (max-width:800px)": {
+        display: "inline-flex",
+      },
+      display: "none",
       padding: 8,
     },
     textCompleted: {
@@ -111,6 +118,9 @@ const TodoItem: React.FunctionComponent<Props> = observer((props) => {
       <div className="todoItem-action-normal">
         <IconButton className={classes.iconButtonNormal} onClick={(e) => update({ deleted: true })}>
           <Delete />
+        </IconButton>
+        <IconButton color="primary" className={classes.iconButtonNormalMobile} onClick={(e) => toggleEditMode}>
+          <Edit />
         </IconButton>
       </div>
     </Card>
