@@ -16,7 +16,7 @@ interface Tomato {
   started_at: string;
   ended_at: string;
   description: string;
-  aborted: string;
+  aborted: boolean;
   manually_created: string;
   duration: number;
   extra: any;

@@ -6,7 +6,7 @@ interface Tomato {
   started_at: string;
   ended_at: string;
   description: string;
-  aborted: string;
+  aborted: boolean;
   manually_created: string;
   duration: number;
   extra: any;
@@ -15,19 +15,19 @@ interface Tomato {
 }
 export class tomatoState {
   @observable
-  tomatoes = [
+  tomatoes: Tomato[] = [
     {
       id: 18310,
       user_id: 9938,
       started_at: "2020-03-18T17:40:49.555Z",
-      ended_at: "",
       description: "",
-      aborted: "",
+      aborted: true,
       manually_created: "",
       duration: 1500000,
       extra: {},
       created_at: "2020-03-18T17:40:49.556Z",
-      updated_at: "2020-03-18T17:40:49.556Z",
+      ended_at: "2020-03-18T17:40:49.556Z",
+      updated_at: "",
     },
   ];
 

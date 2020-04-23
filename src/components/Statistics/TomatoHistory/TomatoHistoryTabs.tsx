@@ -135,8 +135,8 @@ const TomatoHistoryTabs: React.FunctionComponent<any> = (props) => {
       <div className={classes.wrapper}>
         <div className={classes.action}>
           <AntTabs value={value} onChange={handleChange} textColor="secondary" aria-label="tabs">
-            <AntTab label="已完成任务" />
-            <AntTab label="已删除任务" />
+            <AntTab label="已完成番茄" />
+            <AntTab label="打断记录" />
           </AntTabs>
           <DatePickerDialog />
         </div>
