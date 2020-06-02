@@ -46,6 +46,7 @@ const DatePicker: React.FC<DatePickerProps> = forwardRef((props, ref) => {
       <StaticDateRangePicker
         displayStaticWrapperAs="mobile"
         value={dateRange}
+        disableFuture={true}
         startText={"开始时间"}
         endText={"结束时间"}
         onChange={(date) => changeHandler(date)}
