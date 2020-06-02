@@ -10,7 +10,6 @@ export class dateFilterState {
 
   @action
   updatedDate(dateRange: DateRangeType) {
-    console.log("dateRange:", dateRange);
     this.dateRange = dateRange;
   }
 
