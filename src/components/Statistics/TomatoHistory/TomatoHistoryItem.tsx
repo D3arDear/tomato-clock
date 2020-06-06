@@ -107,7 +107,7 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
     </div>
   );
   const EditingItem = (
-    <div className="todoItem-editing">
+    <div className="tomatoItem-editing">
       <IconButton
         color="primary"
         className={classes.iconButton}
@@ -116,7 +116,7 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
         <Check />
       </IconButton>
       <TextField
-        className="todoItem-editing-input"
+        className="tomatoItem-editing-input"
         style={{ paddingLeft: 8, width: "100%" }}
         placeholder={props.description}
         value={editText}

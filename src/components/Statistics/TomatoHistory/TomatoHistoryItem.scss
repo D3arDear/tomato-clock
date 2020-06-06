@@ -1,7 +1,7 @@
 .TomatoHistory {
   &-tomatoItem {
     padding: 3px;
-    font-size: 14px;
+    font-size: 15px;
     border-radius: 2px;
     display: flex;
     justify-content: space-between;
@@ -27,5 +27,15 @@
         color: #222;
       }
     }
+  }
+}
+.tomatoItem {
+  transition: background-color 0.3s;
+  background-color: white;
+  &-editing {
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }

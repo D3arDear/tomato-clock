@@ -26,7 +26,6 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
   const { todos } = todoState;
 
   const finishedTodos = useMemo(() => {
-    console.log("selectedDate:", selectedDate);
     const afterFilterTodos = todos.filter((todo) => todo.completed && !todo.deleted);
     const filterTodosWithRange = (todos: any) => {
       return selectedDate[0] !== null && selectedDate[1] !== null
