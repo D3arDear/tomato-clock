@@ -9,6 +9,7 @@ import DatePickerDialog from "../../Common/DatePickerDialog";
 import TomatoHistory from "./TomatoHistory";
 import { observer } from "mobx-react";
 import { useStores } from "src/hooks/use-stores";
+import AddTomatoDialog from "./AddTomatoDialog";
 
 interface StyledTabProps {
   label: string;
@@ -138,7 +139,10 @@ const TomatoHistoryTabs: React.FunctionComponent<any> = (props) => {
             <AntTab label="已完成番茄" />
             <AntTab label="打断记录" />
           </AntTabs>
-          <DatePickerDialog />
+          <div style={{ display: "inline-flex" }}>
+            <AddTomatoDialog />
+            <DatePickerDialog />
+          </div>
         </div>
         {selectedDate[0] !== null && selectedDate[1] !== null && (
           <div className={classes.ifSort}>
