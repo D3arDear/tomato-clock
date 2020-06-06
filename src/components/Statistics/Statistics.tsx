@@ -51,6 +51,7 @@ const Statistics: React.FunctionComponent = () => {
         <li>统计</li>
         <li>目标</li>
         <li
+          className={currentDisplay === 3 ? "active" : ""}
           onClick={() => {
             handleDisplayChange(3);
           }}
@@ -63,6 +64,7 @@ const Statistics: React.FunctionComponent = () => {
           <Polygon data={dailyTomatoes} width={liWidth} />
         </li>
         <li
+          className={currentDisplay === 4 ? "active" : ""}
           ref={liRef}
           onClick={() => {
             handleDisplayChange(4);
