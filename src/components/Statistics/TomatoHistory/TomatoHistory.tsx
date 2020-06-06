@@ -2,6 +2,7 @@ import React, { useMemo, Fragment } from "react";
 import { DateRange } from "@material-ui/pickers/src/DateRangePicker/RangeTypes";
 import { useStores } from "src/hooks/use-stores";
 import { observer } from "mobx-react";
+import "mobx-react-lite/batchingForReactDom";
 import { format } from "date-fns";
 import _ from "lodash";
 import TomatoHistoryItem from "./TomatoHistoryItem";
@@ -142,7 +143,14 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
                       ))
                   : dailyAbortedTomatoes[date]
                       .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
-                      .map((tomato) => <TomatoHistoryItem key={tomato.id} {...tomato} itemType="deleted" />)}
+                      .map((tomato) => (
+                        <TomatoHistoryItem
+                          key={tomato.id}
+                          {...tomato}
+                          updateTomato={doUpdateTomato}
+                          itemType="aborted"
+                        />
+                      ))}
               </div>
             </div>
           );

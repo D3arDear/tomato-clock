@@ -3,6 +3,7 @@ import axios from "src/config/axios";
 import { makeStyles, Theme, IconButton, createStyles, TextField } from "@material-ui/core";
 import { Delete, Edit, SettingsBackupRestore, Check } from "@material-ui/icons";
 import { format } from "date-fns";
+import { Tomato } from "src/store/tomatoState";
 import "./TomatoHistoryItem.scss";
 
 // interface TomatoHistoryItemInterface {
@@ -23,6 +24,11 @@ import "./TomatoHistoryItem.scss";
 //   updated_at: string;
 // }
 
+interface IProps extends Tomato {
+  itemType: "finished" | "aborted";
+  updateTomato: (payload: Tomato) => void;
+}
+
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -36,13 +42,13 @@ const useStyle = makeStyles((theme: Theme) =>
   }),
 );
 
-const TomatoHistoryItem: React.FC<any> = (props) => {
-  const { started_at, ended_at, description, id, itemType, updateTomato } = props;
+const TomatoHistoryItem: React.FC<IProps> = (props) => {
+  const { started_at, ended_at, description, id, itemType } = props;
   const [editText, setEditText] = useState(props.description);
   const classes = useStyle();
   const handleUpdateTomato = async (payload: any) => {
     const response = await axios.put(`tomatoes/${id}`, payload);
-    updateTomato(response.data.resource);
+    props.updateTomato(response.data.resource);
   };
   const [editMode, toggleEditMode] = useState(false);
   const keyUpHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -88,7 +94,7 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
             color="primary"
             size="small"
             onClick={(e) => {
-              handleUpdateTomato({ aborted: false });
+              toggleEditMode(true);
             }}
           >
             <Edit />
@@ -97,7 +103,7 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
             className={classes.iconButton}
             size="small"
             onClick={(e) => {
-              handleUpdateTomato({ deleted: false });
+              handleUpdateTomato({ aborted: false });
             }}
           >
             <SettingsBackupRestore />
@@ -111,7 +117,9 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
       <IconButton
         color="primary"
         className={classes.iconButton}
-        onClick={(e) => handleUpdateTomato({ description: editText })}
+        onClick={(e) => {
+          handleUpdateTomato({ description: editText });
+        }}
       >
         <Check />
       </IconButton>
@@ -123,7 +131,12 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
         onChange={(e) => setEditText(e.target.value)}
         onKeyUp={keyUpHandler}
       />
-      <IconButton className={classes.iconButton} onClick={(e) => handleUpdateTomato({ deleted: true })}>
+      <IconButton
+        className={classes.iconButton}
+        onClick={(e) => {
+          handleUpdateTomato({ aborted: true });
+        }}
+      >
         <Delete />
       </IconButton>
     </div>
