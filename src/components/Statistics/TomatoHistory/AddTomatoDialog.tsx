@@ -6,7 +6,7 @@ import DateTimePicker from "src/components/Common/DateTimePicker";
 import { TextField } from "@material-ui/core";
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 // import { useTheme } from '@material-ui/core/styles';
-import { IconButton, Button } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { Clear, Check, Add } from "@material-ui/icons";
 import "./AddTomatoDialog.scss";
 
@@ -25,10 +25,8 @@ const AddTomatoDialog = () => {
     setOpen(false);
   };
 
-  const clearDate = () => {};
-
   return (
-    <div>
+    <div className="AddTomatoDialog">
       <IconButton aria-label="add-tomato" onClick={handleClickOpen}>
         <Add color="primary" />
       </IconButton>
@@ -46,10 +44,7 @@ const AddTomatoDialog = () => {
             </div>
           </div>
         </DialogContent>
-        <DialogActions style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Button color="primary" onClick={clearDate}>
-            清除
-          </Button>
+        <DialogActions style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
           <div>
             <IconButton aria-label="clear" onClick={handleClose}>
               <Clear color="secondary" />

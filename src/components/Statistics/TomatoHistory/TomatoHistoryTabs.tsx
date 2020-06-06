@@ -28,7 +28,7 @@ const AntTab = withStyles((theme: Theme) =>
       textTransform: "none",
       minWidth: 72,
       fontWeight: theme.typography.fontWeightRegular,
-      marginRight: theme.spacing(4),
+      marginRight: theme.spacing(3),
       transition: "color 0.2s",
       fontFamily: [
         "-apple-system",
