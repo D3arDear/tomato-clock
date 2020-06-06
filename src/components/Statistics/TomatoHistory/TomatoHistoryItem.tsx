@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { makeStyles, Theme, IconButton, createStyles } from "@material-ui/core";
-import { Delete, Edit, SettingsBackupRestore } from "@material-ui/icons";
+import axios from "src/config/axios";
+import { makeStyles, Theme, IconButton, createStyles, TextField } from "@material-ui/core";
+import { Delete, Edit, SettingsBackupRestore, Check } from "@material-ui/icons";
 import { format } from "date-fns";
 import "./TomatoHistoryItem.scss";
 
@@ -36,14 +37,19 @@ const useStyle = makeStyles((theme: Theme) =>
 );
 
 const TomatoHistoryItem: React.FC<any> = (props) => {
-  const { updated_at, started_at, ended_at, description, itemType } = props;
-  console.log("updated_at,:", updated_at);
+  const { started_at, ended_at, description, id, itemType, updateTomato } = props;
+  const [editText, setEditText] = useState(props.description);
   const classes = useStyle();
-  const handleUpdateTomato = (payload: any) => {
-    console.log(payload);
-    console.log(started_at, ended_at);
+  const handleUpdateTomato = async (payload: any) => {
+    const response = await axios.put(`tomatoes/${id}`, payload);
+    updateTomato(response.data.resource);
   };
   const [editMode, toggleEditMode] = useState(false);
+  const keyUpHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.keyCode === 13 && props.description !== "") {
+      handleUpdateTomato({ description: editText });
+    }
+  };
   const ListItem = (
     <div className="TomatoHistory-tomatoItem">
       <div className="text">
@@ -69,7 +75,7 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
             className={classes.iconButton}
             size="small"
             onClick={(e) => {
-              handleUpdateTomato({ deleted: true });
+              handleUpdateTomato({ aborted: true });
             }}
           >
             <Delete />
@@ -82,7 +88,7 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
             color="primary"
             size="small"
             onClick={(e) => {
-              handleUpdateTomato({ deleted: false });
+              handleUpdateTomato({ aborted: false });
             }}
           >
             <Edit />
@@ -101,8 +107,25 @@ const TomatoHistoryItem: React.FC<any> = (props) => {
     </div>
   );
   const EditingItem = (
-    <div>
-      <input type="text" />
+    <div className="todoItem-editing">
+      <IconButton
+        color="primary"
+        className={classes.iconButton}
+        onClick={(e) => handleUpdateTomato({ description: editText })}
+      >
+        <Check />
+      </IconButton>
+      <TextField
+        className="todoItem-editing-input"
+        style={{ paddingLeft: 8, width: "100%" }}
+        placeholder={props.description}
+        value={editText}
+        onChange={(e) => setEditText(e.target.value)}
+        onKeyUp={keyUpHandler}
+      />
+      <IconButton className={classes.iconButton} onClick={(e) => handleUpdateTomato({ deleted: true })}>
+        <Delete />
+      </IconButton>
     </div>
   );
 

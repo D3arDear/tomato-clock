@@ -43,13 +43,16 @@ export class tomatoState {
 
   @action
   updateTomato(payload: Tomato) {
-    this.tomatoes = this.tomatoes.map((item) => {
+    console.log("进来了");
+    const newTomatoes = this.tomatoes.map((item) => {
       if (item.id === payload.id) {
         return payload;
       } else {
         return item;
       }
     });
+    console.log(newTomatoes);
+    this.tomatoes = newTomatoes;
   }
 
   @computed

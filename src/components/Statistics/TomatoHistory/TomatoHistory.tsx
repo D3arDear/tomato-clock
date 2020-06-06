@@ -76,7 +76,9 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
     return (new Date(end).valueOf() - new Date(start).valueOf()) / 1000;
   };
 
-  console.log("abortedDates:", dailyAbortedTomatoes);
+  const doUpdateTomato = (payload: Tomato) => {
+    tomatoState.updateTomato(payload);
+  };
   const FinishedTomatoList = () => {
     return (
       <Fragment>
@@ -130,7 +132,14 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
                 {!aborted
                   ? dailyFinishedTomatoes[date]
                       .sort((a, b) => Date.parse(b.ended_at) - Date.parse(a.ended_at))
-                      .map((tomato) => <TomatoHistoryItem key={tomato.id} {...tomato} itemType="finished" />)
+                      .map((tomato) => (
+                        <TomatoHistoryItem
+                          key={tomato.id}
+                          {...tomato}
+                          updateTomato={doUpdateTomato}
+                          itemType="finished"
+                        />
+                      ))
                   : dailyAbortedTomatoes[date]
                       .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
                       .map((tomato) => <TomatoHistoryItem key={tomato.id} {...tomato} itemType="deleted" />)}
