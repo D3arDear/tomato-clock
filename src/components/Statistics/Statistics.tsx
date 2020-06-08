@@ -16,9 +16,20 @@ const Statistics: React.FunctionComponent = () => {
   const { tomatoes } = tomatoState;
   const [liWidth, setLiWidth] = useState(0);
   const liRef = useRef<HTMLLIElement>(null);
-  useEffect(() => {
+  const updateWidth = () => {
     setLiWidth(liRef.current!.getBoundingClientRect().width);
+  };
+  useEffect(() => {
+    updateWidth();
   }, [setLiWidth]);
+
+  useEffect(() => {
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   const [currentDisplay, handleDisplayChange] = useState(0);
 
