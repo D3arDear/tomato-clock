@@ -43,7 +43,6 @@ export class tomatoState {
 
   @action
   updateTomato(payload: Tomato) {
-    console.log("进来了");
     const newTomatoes = this.tomatoes.map((item) => {
       if (item.id === payload.id) {
         return payload;
@@ -51,7 +50,6 @@ export class tomatoState {
         return item;
       }
     });
-    console.log(newTomatoes);
     this.tomatoes = newTomatoes;
   }
 
