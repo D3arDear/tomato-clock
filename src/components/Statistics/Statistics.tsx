@@ -6,6 +6,9 @@ import { observer } from "mobx-react";
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import { useStores } from "src/hooks/use-stores";
 
+import { motion } from "framer-motion";
+import { scaleAndFade } from "src/config/animation";
+
 import Polygon from "./Polygon";
 import TodoHistoryTabs from "./TodoHistory/TodoStatisticsTabs";
 import TomatoHistoryTabs from "./TomatoHistory/TomatoHistoryTabs";
@@ -60,7 +63,6 @@ const Statistics: React.FunctionComponent = () => {
     <div className="Statistics" id="Statistics">
       <ul className="Statistics-detail">
         <li>统计</li>
-        <li>目标</li>
         <li
           className={currentDisplay === 3 ? "active" : ""}
           onClick={() => {
@@ -90,8 +92,16 @@ const Statistics: React.FunctionComponent = () => {
         </li>
       </ul>
       <div>
-        {currentDisplay === 4 && <TodoHistoryTabs />}
-        {currentDisplay === 3 && <TomatoHistoryTabs />}
+        {currentDisplay === 3 && (
+          <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
+            <TomatoHistoryTabs />
+          </motion.div>
+        )}
+        {currentDisplay === 4 && (
+          <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
+            <TodoHistoryTabs />
+          </motion.div>
+        )}
       </div>
     </div>
   );
