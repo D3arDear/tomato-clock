@@ -62,11 +62,20 @@ const Statistics: React.FunctionComponent = () => {
   return (
     <div className="Statistics" id="Statistics">
       <ul className="Statistics-detail">
-        <li>统计</li>
-        <li
-          className={currentDisplay === 3 ? "active" : ""}
+        <li className={currentDisplay === 1 ? 'active' : ''}
           onClick={() => {
-            handleDisplayChange(3);
+            handleDisplayChange(1)
+          }}>
+          <div className="titles">
+            <span className="title">统计</span>
+            <span className="subTitle">{new Date().getMonth() + 1}月累计</span>
+            <span className="title-number">{finishedTomatoes.length}</span>
+          </div>
+        </li>
+        <li
+          className={currentDisplay === 2 ? "active" : ""}
+          onClick={() => {
+            handleDisplayChange(2);
           }}
         >
           <div className="titles">
@@ -77,10 +86,10 @@ const Statistics: React.FunctionComponent = () => {
           <Polygon data={dailyTomatoes} width={liWidth} />
         </li>
         <li
-          className={currentDisplay === 4 ? "active" : ""}
+          className={currentDisplay === 3 ? "active" : ""}
           ref={liRef}
           onClick={() => {
-            handleDisplayChange(4);
+            handleDisplayChange(3);
           }}
         >
           <div className="titles">
@@ -92,12 +101,12 @@ const Statistics: React.FunctionComponent = () => {
         </li>
       </ul>
       <div>
-        {currentDisplay === 3 && (
+        {currentDisplay === 2 && (
           <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
             <TomatoHistoryTabs />
           </motion.div>
         )}
-        {currentDisplay === 4 && (
+        {currentDisplay === 3 && (
           <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
             <TodoHistoryTabs />
           </motion.div>
