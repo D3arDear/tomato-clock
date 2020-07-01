@@ -73,6 +73,11 @@ const LinePath: React.FC<LinePathProps> = (props) => {
             "M"
           )}
         />
+        {points.map((point, index) => (
+          <text key={index} x={point[0] - 5} y="200">
+            {(index + 1) % 2 === 0 ? "" : index + 1}
+          </text>
+        ))}
       </svg>
     </div>
   );
