@@ -26,8 +26,22 @@ const LinePath: React.FC<LinePathProps> = (props) => {
           }),
     [data, isTomato]
   );
-  console.log("groupedData ", groupedData);
-  console.log(chartWidth, data, selectedDate);
+  const count =
+    (selectedDate[1].getTime() - selectedDate[0].getTime()) /
+      (3600 * 1000 * 24) +
+    1;
+  const days = useMemo(() => {
+    const dateArr = [];
+    for (let i = 0; i < count; i++) {
+      dateArr.push(
+        format(
+          new Date(selectedDate[0].getTime() + 3600 * 1000 * 24 * i),
+          "yyyy-MM-dd"
+        )
+      );
+    }
+    return dateArr;
+  }, [count, selectedDate]);
   const points = useMemo(() => {
     const dates = Object.keys(groupedData).sort((a, b) => {
       return Date.parse(a) - Date.parse(b);
@@ -36,22 +50,31 @@ const LinePath: React.FC<LinePathProps> = (props) => {
       (a, b) => (groupedData[b].length > a ? groupedData[b].length : a),
       0
     );
-    console.log(verticalRange);
-    let point: any[] = [];
-    const days =
-      (selectedDate[1].getTime() - selectedDate[0].getTime()) /
-      (3600 * 1000 * 24) + 1;
-    for (let i = 1; i <= days; i++) {
-      point.push({
-        x: (i / days) * chartWidth,
-        y: groupedData,
-      });
-    }
-    return point;
-  }, [chartWidth, groupedData, selectedDate]);
+    return days.map((day, index) => {
+      const x = (index / count) * (chartWidth - 20);
+      const y =
+        (1 - (groupedData[day] ? groupedData[day].length / verticalRange : 0)) *
+        180;
+      return [x, y, groupedData[day] ? groupedData[day].length : 0];
+    });
+  }, [chartWidth, count, days, groupedData]);
   console.log(points);
 
-  return <div></div>;
+  return (
+    <div className="LinePath">
+      <svg width="100%" height="200">
+        <rect x={10} y={-10} width={chartWidth - 20} height={180} />
+        <path
+          stroke="rgba(255, 179, 113, 1)"
+          strokeWidth="2.5"
+          d={points.reduce(
+            (a, b) => a.concat(`${b.slice(0, 2).join(",")},`),
+            "M"
+          )}
+        />
+      </svg>
+    </div>
+  );
 };
 
 export default LinePath;
