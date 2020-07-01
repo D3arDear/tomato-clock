@@ -6,7 +6,7 @@ const theme = createMuiTheme({
     background: { paper: "#fff", default: "#fafafa" },
     primary: {
       light: "rgba(255, 225, 143, 1)",
-      main: "rgba(255, 179, 113, 1)",
+      main: "rgb(255, 124, 54)",
       dark: "rgba(255, 138, 73, 1)",
       contrastText: "rgba(255, 255, 255, 1)",
     },
@@ -16,7 +16,12 @@ const theme = createMuiTheme({
       dark: "rgba(28, 126, 118, 1)",
       contrastText: "#fff",
     },
-    error: { light: "#e57373", main: "#f44336", dark: "#d32f2f", contrastText: "#fff" },
+    error: {
+      light: "#e57373",
+      main: "#f44336",
+      dark: "#d32f2f",
+      contrastText: "#fff",
+    },
     text: {
       primary: "rgba(0, 0, 0, 0.87)",
       secondary: "rgba(0, 0, 0, 0.54)",

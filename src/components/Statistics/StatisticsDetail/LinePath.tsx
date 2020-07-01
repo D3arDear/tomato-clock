@@ -4,6 +4,7 @@ import { Todo } from "src/store/todoState";
 
 import { format } from "date-fns";
 import _ from "lodash";
+import { Tooltip, makeStyles } from "@material-ui/core";
 
 interface LinePathProps {
   width: number;
@@ -12,7 +13,17 @@ interface LinePathProps {
   isTomato: boolean;
 }
 
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: "rgb(255, 124, 54)",
+  },
+  arrow: {
+    color: "rgb(255, 124, 54)",
+  },
+});
+
 const LinePath: React.FC<LinePathProps> = (props) => {
+  const classes = useStyles();
   const { width, data, selectedDate, isTomato } = props;
   const chartWidth = useMemo(() => width - 20, [width]);
   const groupedData = useMemo(
@@ -54,19 +65,19 @@ const LinePath: React.FC<LinePathProps> = (props) => {
       const x = (index / (count - 1)) * chartWidth + 10;
       const y =
         (1 - (groupedData[day] ? groupedData[day].length / verticalRange : 0)) *
-        180;
-      console.log(index);
+          180 +
+        10;
       return [x, y, groupedData[day] ? groupedData[day].length : 0];
     });
   }, [chartWidth, count, days, groupedData]);
-  console.log(points);
+  console.log(classes);
 
   return (
     <div className="LinePath">
-      <svg width={chartWidth} height="200">
-        <rect x={10} y={0} width={chartWidth} height={180} />
+      <svg width={chartWidth} height="210">
+        <rect x={10} y={10} width={chartWidth} height={180} />
         <path
-          stroke="rgba(255, 179, 113, 1)"
+          stroke="rgb(255, 124, 54)"
           strokeWidth="2.5"
           d={points.reduce(
             (a, b) => a.concat(`${b.slice(0, 2).join(",")},`),
@@ -74,9 +85,23 @@ const LinePath: React.FC<LinePathProps> = (props) => {
           )}
         />
         {points.map((point, index) => (
-          <text key={index} x={point[0] - 5} y="200">
+          <text key={index} x={point[0] - 5} y="210">
             {(index + 1) % 2 === 0 ? "" : index + 1}
           </text>
+        ))}
+        {points.map((point, index) => (
+          <Tooltip
+            key={index}
+            classes={{
+              tooltip: classes.root,
+              arrow: classes.arrow,
+            }}
+            placement="top"
+            title={`${point[2]}`}
+            arrow
+          >
+            <circle r="5" cx={point[0]} cy={point[1]} />
+          </Tooltip>
         ))}
       </svg>
     </div>
