@@ -8,7 +8,6 @@ interface HistogramProps {
 
 const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
   const { data, width } = props;
-  console.log("data", data);
   const spacePercentage = 0.3;
   const histogramWidth = useMemo(() => width * (1 - spacePercentage), [width]);
   const rectWidth = useMemo(() => (histogramWidth / 7) * 0.6, [histogramWidth]);
@@ -24,7 +23,6 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
           new Date(new Date(date).toLocaleDateString()).getTime() >
           today - 1000 * 60 * 60 * 24 * 7
       );
-    console.log("rectPoints -> dates", dates);
     const verticalRange = dates.reduce(
       (a, b) => (data[b].length > a ? data[b].length : a),
       0
@@ -59,7 +57,6 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
           };
     });
   }, [data, histogramWidth, rectWidth, width]);
-  console.log("rectPoints", rectPoints);
 
   return (
     <div className="Histogram">

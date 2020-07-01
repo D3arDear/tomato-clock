@@ -1,5 +1,10 @@
 import React from "react";
-import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  withStyles,
+  Theme,
+  createStyles,
+} from "@material-ui/core/styles";
 import SwipeableViews from "react-swipeable-views";
 import Tabs from "@material-ui/core/Tabs";
 import { format } from "date-fns";
@@ -55,7 +60,7 @@ const AntTab = withStyles((theme: Theme) =>
       },
     },
     selected: {},
-  }),
+  })
 )((props: StyledTabProps) => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -135,13 +140,18 @@ const TomatoHistoryTabs: React.FunctionComponent<any> = (props) => {
     <div className={classes.root}>
       <div className={classes.wrapper}>
         <div className={classes.action}>
-          <AntTabs value={value} onChange={handleChange} textColor="secondary" aria-label="tabs">
+          <AntTabs
+            value={value}
+            onChange={handleChange}
+            textColor="secondary"
+            aria-label="tabs"
+          >
             <AntTab label="已完成番茄" />
             <AntTab label="打断记录" />
           </AntTabs>
           <div style={{ display: "inline-flex" }}>
             <AddTomatoDialog />
-            <DatePickerDialog />
+            <DatePickerDialog disableFuture />
           </div>
         </div>
         {selectedDate[0] !== null && selectedDate[1] !== null && (
@@ -149,7 +159,7 @@ const TomatoHistoryTabs: React.FunctionComponent<any> = (props) => {
             仅显示{" "}
             {`${format(new Date(selectedDate[0]), "yyyy-MM-dd")} ~ ${format(
               new Date(selectedDate[1]),
-              "yyyy-MM-dd",
+              "yyyy-MM-dd"
             )} 的信息`}
           </div>
         )}

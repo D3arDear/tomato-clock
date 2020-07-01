@@ -1,9 +1,16 @@
 import { action, computed, observable } from "mobx";
 import { DateRange as DateRangeType } from "@material-ui/pickers";
 
+const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
+const lastDay = new Date(
+  new Date().getFullYear(),
+  new Date().getMonth() + 1,
+  0
+);
 export class dateFilterState {
   @observable
-  dateRange: DateRangeType = [null, null];
+  dateRange: DateRangeType = [firstDay, lastDay];
 
   @observable
   pickersDateRange: DateRangeType = [null, null];

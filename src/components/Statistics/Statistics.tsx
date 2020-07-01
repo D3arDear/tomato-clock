@@ -13,6 +13,7 @@ import Polygon from "./Polygon";
 import TodoHistoryTabs from "./TodoHistory/TodoStatisticsTabs";
 import TomatoHistoryTabs from "./TomatoHistory/TomatoHistoryTabs";
 import Histogram from "./Histogram";
+import StatisticsDetailTabs from "./StatisticsDetail/StatisticsDetail-tabs";
 
 const Statistics: React.FunctionComponent = () => {
   const { todoState, tomatoState } = useStores();
@@ -129,6 +130,16 @@ const Statistics: React.FunctionComponent = () => {
         </li>
       </ul>
       <div>
+        {currentDisplay === 1 && (
+          <motion.div
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            variants={scaleAndFade}
+          >
+            <StatisticsDetailTabs />
+          </motion.div>
+        )}
         {currentDisplay === 2 && (
           <motion.div
             initial="initial"

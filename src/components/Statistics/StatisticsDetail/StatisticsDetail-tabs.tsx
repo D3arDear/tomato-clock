@@ -11,9 +11,10 @@ import { format } from "date-fns";
 import Tab from "@material-ui/core/Tab";
 import { Typography, Box, useTheme } from "@material-ui/core";
 import DatePickerDialog from "../../Common/DatePickerDialog";
-import TodoHistory from "./TodoHistory";
 import { observer } from "mobx-react";
 import { useStores } from "src/hooks/use-stores";
+import TomatoStatisticsDetail from "./StatisticsDetail-tomato";
+import TodoStatisticsDetail from "./StatisticsDetail-todo";
 
 interface StyledTabProps {
   label: string;
@@ -121,7 +122,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
+const StatisticsDetailTabs: React.FunctionComponent<any> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { dateFilterState } = useStores();
@@ -145,10 +146,10 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
             textColor="secondary"
             aria-label="tabs"
           >
-            <AntTab label="已完成任务" />
-            <AntTab label="已删除任务" />
+            <AntTab label="番茄统计" />
+            <AntTab label="任务统计" />
           </AntTabs>
-          <DatePickerDialog disableFuture />
+          <DatePickerDialog />
         </div>
         {selectedDate[0] !== null && selectedDate[1] !== null && (
           <div className={classes.ifSort}>
@@ -165,10 +166,10 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <TodoHistory finished selectedDate={selectedDate} />
+            <TomatoStatisticsDetail />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TodoHistory finished={false} selectedDate={selectedDate} />
+            <TodoStatisticsDetail />
           </TabPanel>
         </SwipeableViews>
       </div>
@@ -176,4 +177,4 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
   );
 };
 
-export default observer(TodoHistoryTabs);
+export default observer(StatisticsDetailTabs);

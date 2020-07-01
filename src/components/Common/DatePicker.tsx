@@ -17,19 +17,17 @@ import { TextField } from "@material-ui/core";
 
 interface DatePickerProps {
   ref?: React.RefObject<any>;
+  disableFuture?: boolean;
 }
 
-const DatePicker: React.FC<DatePickerProps> = forwardRef((props, ref) => {
+const DatePicker = forwardRef((props: DatePickerProps, ref) => {
+  const { disableFuture } = props;
   const { dateFilterState } = useStores();
   const currentDate = dateFilterState.pickersDateRange;
   const [dateRange, setDateRange] = useState<DateRangeType>([null, null]);
   React.useEffect(() => {
     setDateRange(() => dateFilterState.dateRange);
   }, [dateFilterState.dateRange]);
-
-  React.useEffect(() => {
-    console.log(dateRange[0]);
-  }, [dateRange]);
 
   useImperativeHandle(ref, () => ({
     currentDate: currentDate,
@@ -46,7 +44,7 @@ const DatePicker: React.FC<DatePickerProps> = forwardRef((props, ref) => {
       <StaticDateRangePicker
         displayStaticWrapperAs="mobile"
         value={dateRange}
-        disableFuture={true}
+        disableFuture={disableFuture}
         startText={"开始时间"}
         endText={"结束时间"}
         onChange={(date) => changeHandler(date)}
