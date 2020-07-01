@@ -12,6 +12,7 @@ import { scaleAndFade } from "src/config/animation";
 import Polygon from "./Polygon";
 import TodoHistoryTabs from "./TodoHistory/TodoStatisticsTabs";
 import TomatoHistoryTabs from "./TomatoHistory/TomatoHistoryTabs";
+import Histogram from "./Histogram";
 
 const Statistics: React.FunctionComponent = () => {
   const { todoState, tomatoState } = useStores();
@@ -36,19 +37,43 @@ const Statistics: React.FunctionComponent = () => {
 
   const [currentDisplay, handleDisplayChange] = useState(0);
 
-  const finishedTodos = useMemo(() => todos.filter((todo) => todo.completed && !todo.deleted), [todos]);
+  const finishedTodos = useMemo(
+    () => todos.filter((todo) => todo.completed && !todo.deleted),
+    [todos]
+  );
 
   const dailyTodos = useMemo(
     () =>
       _.groupBy(finishedTodos, (todo) => {
         return format(Date.parse(todo.updated_at!), "yyyy-MM-dd");
       }),
-    [finishedTodos],
+    [finishedTodos]
   );
 
   const finishedTomatoes = useMemo(
-    () => tomatoes.filter((tomato) => !tomato.aborted).filter((tomato) => tomato.description && tomato.ended_at),
-    [tomatoes],
+    () =>
+      tomatoes
+        .filter((tomato) => !tomato.aborted)
+        .filter((tomato) => tomato.ended_at),
+    [tomatoes]
+  );
+
+  const currentMonthTomatoes = useMemo(
+    () =>
+      finishedTomatoes.filter(
+        (tomato) =>
+          new Date(tomato.ended_at) >
+          new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+      ),
+    [finishedTomatoes]
+  );
+
+  const GroupedCurrentMonthTomatoes = useMemo(
+    () =>
+      _.groupBy(currentMonthTomatoes, (tomato) => {
+        return format(Date.parse(tomato.started_at!), "yyyy-MM-dd");
+      }),
+    [currentMonthTomatoes]
   );
 
   const dailyTomatoes = useMemo(
@@ -56,21 +81,24 @@ const Statistics: React.FunctionComponent = () => {
       _.groupBy(finishedTomatoes, (tomato) => {
         return format(Date.parse(tomato.started_at!), "yyyy-MM-dd");
       }),
-    [finishedTomatoes],
+    [finishedTomatoes]
   );
 
   return (
     <div className="Statistics" id="Statistics">
       <ul className="Statistics-detail">
-        <li className={currentDisplay === 1 ? 'active' : ''}
+        <li
+          className={currentDisplay === 1 ? "active" : ""}
           onClick={() => {
-            handleDisplayChange(1)
-          }}>
+            handleDisplayChange(1);
+          }}
+        >
           <div className="titles">
             <span className="title">统计</span>
-            <span className="subTitle">{new Date().getMonth() + 1}月累计</span>
-            <span className="title-number">{finishedTomatoes.length}</span>
+            <span className="subTitle">近30天累计</span>
+            <span className="title-number">{currentMonthTomatoes.length}</span>
           </div>
+          <Histogram data={GroupedCurrentMonthTomatoes} width={liWidth} />
         </li>
         <li
           className={currentDisplay === 2 ? "active" : ""}
@@ -102,12 +130,22 @@ const Statistics: React.FunctionComponent = () => {
       </ul>
       <div>
         {currentDisplay === 2 && (
-          <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
+          <motion.div
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            variants={scaleAndFade}
+          >
             <TomatoHistoryTabs />
           </motion.div>
         )}
         {currentDisplay === 3 && (
-          <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
+          <motion.div
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            variants={scaleAndFade}
+          >
             <TodoHistoryTabs />
           </motion.div>
         )}
