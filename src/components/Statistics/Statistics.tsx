@@ -20,9 +20,12 @@ const Statistics: React.FunctionComponent = () => {
   const { todos } = todoState;
   const { tomatoes } = tomatoState;
   const [liWidth, setLiWidth] = useState(0);
+  const [ulWidth, setUlWidth] = useState(0);
   const liRef = useRef<HTMLLIElement>(null);
+  const ulRef = useRef<HTMLUListElement>(null);
   const updateWidth = () => {
     setLiWidth(liRef.current!.getBoundingClientRect().width);
+    setUlWidth(ulRef.current!.getBoundingClientRect().width);
   };
   useEffect(() => {
     updateWidth();
@@ -87,7 +90,7 @@ const Statistics: React.FunctionComponent = () => {
 
   return (
     <div className="Statistics" id="Statistics">
-      <ul className="Statistics-detail">
+      <ul className="Statistics-detail" ref={ulRef}>
         <li
           className={currentDisplay === 1 ? "active" : ""}
           onClick={() => {
@@ -140,6 +143,7 @@ const Statistics: React.FunctionComponent = () => {
             <StatisticsDetailTabs
               finishedTodos={finishedTodos}
               finishedTomatoes={finishedTomatoes}
+              width={ulWidth}
             />
           </motion.div>
         )}

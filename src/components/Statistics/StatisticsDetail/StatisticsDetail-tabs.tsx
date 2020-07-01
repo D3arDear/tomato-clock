@@ -167,6 +167,7 @@ const StatisticsDetailTabs: React.FunctionComponent<any> = (props) => {
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
             <TomatoStatisticsDetail
+              width={props.width}
               finishedTomatoes={props.finishedTomatoes}
               selectedDate={selectedDate}
             />

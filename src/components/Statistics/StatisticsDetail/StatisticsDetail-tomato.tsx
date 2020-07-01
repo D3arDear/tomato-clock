@@ -2,14 +2,16 @@ import React, { useMemo } from "react";
 import "./StatisticsDetail.scss";
 import { Tomato } from "src/store/tomatoState";
 import { DateRange } from "@material-ui/pickers";
+import LinePath from "./LinePath";
 
 interface TomatoStatisticsDetailProps {
   finishedTomatoes: Tomato[];
   selectedDate: DateRange;
+  width: number;
 }
 
 const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
-  const { finishedTomatoes, selectedDate } = props;
+  const { finishedTomatoes, selectedDate, width } = props;
   const currentSelectedDates = useMemo(
     () =>
       selectedDate[0] && selectedDate[1]
@@ -93,7 +95,14 @@ const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
           <span>月增长数</span>
         </div>
       </header>
-      <main className="TomatoStatisticsDetail-main">这里是中间图表</main>
+      <main className="TomatoStatisticsDetail-main">
+        <LinePath
+          data={currentMonthTomatoes}
+          width={width}
+          selectedDate={currentSelectedDates}
+          isTomato
+        />
+      </main>
       <footer>这里是最佳工作日</footer>
     </div>
   );

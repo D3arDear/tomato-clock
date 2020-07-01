@@ -1,6 +1,6 @@
 import { action, computed, observable } from "mobx";
 
-interface Todo {
+export interface Todo {
   description: string;
   updated_at: string;
   completed: boolean;
