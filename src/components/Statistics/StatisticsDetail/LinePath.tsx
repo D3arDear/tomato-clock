@@ -14,7 +14,7 @@ interface LinePathProps {
 
 const LinePath: React.FC<LinePathProps> = (props) => {
   const { width, data, selectedDate, isTomato } = props;
-  const chartWidth = useMemo(() => width - 10, [width]);
+  const chartWidth = useMemo(() => width - 20, [width]);
   const groupedData = useMemo(
     () =>
       isTomato
@@ -51,10 +51,11 @@ const LinePath: React.FC<LinePathProps> = (props) => {
       0
     );
     return days.map((day, index) => {
-      const x = (index / count) * (chartWidth - 20);
+      const x = (index / (count - 1)) * chartWidth + 10;
       const y =
         (1 - (groupedData[day] ? groupedData[day].length / verticalRange : 0)) *
         180;
+      console.log(index);
       return [x, y, groupedData[day] ? groupedData[day].length : 0];
     });
   }, [chartWidth, count, days, groupedData]);
@@ -62,8 +63,8 @@ const LinePath: React.FC<LinePathProps> = (props) => {
 
   return (
     <div className="LinePath">
-      <svg width="100%" height="200">
-        <rect x={10} y={-10} width={chartWidth - 20} height={180} />
+      <svg width={chartWidth} height="200">
+        <rect x={10} y={0} width={chartWidth} height={180} />
         <path
           stroke="rgba(255, 179, 113, 1)"
           strokeWidth="2.5"
