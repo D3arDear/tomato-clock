@@ -1,0 +1,33 @@
+.TomatoStatisticsDetail {
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2),
+      0px 4px 4px -4px rgba(0, 0, 0, 0.14), 0px 6px 6px -6px rgba(0, 0, 0, 0.12);
+    div {
+      flex: 1;
+      display: inline-flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 5px;
+      span {
+        font-size: 14px;
+        color: #222;
+      }
+      p {
+        font-size: 20px;
+        color: rgba(255, 179, 113, 1);
+        line-height: 1.2;
+        margin-right: 0.25em;
+      }
+    }
+  }
+  &-main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    min-height: 30vh;
+  }
+}

@@ -166,10 +166,16 @@ const StatisticsDetailTabs: React.FunctionComponent<any> = (props) => {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <TomatoStatisticsDetail />
+            <TomatoStatisticsDetail
+              finishedTomatoes={props.finishedTomatoes}
+              selectedDate={selectedDate}
+            />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TodoStatisticsDetail />
+            <TodoStatisticsDetail
+              finishedTodos={props.finishedTodos}
+              selectedDate={selectedDate}
+            />
           </TabPanel>
         </SwipeableViews>
       </div>

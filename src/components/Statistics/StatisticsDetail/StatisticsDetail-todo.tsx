@@ -1,6 +1,6 @@
 import React from "react";
 
-const TodoStatisticsDetail = () => {
+const TodoStatisticsDetail = (props: any) => {
   return (
     <div className="TodoStatisticsDetail">
       <div className="TodoStatisticsDetail-header">

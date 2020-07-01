@@ -137,7 +137,10 @@ const Statistics: React.FunctionComponent = () => {
             exit="exit"
             variants={scaleAndFade}
           >
-            <StatisticsDetailTabs />
+            <StatisticsDetailTabs
+              finishedTodos={finishedTodos}
+              finishedTomatoes={finishedTomatoes}
+            />
           </motion.div>
         )}
         {currentDisplay === 2 && (
