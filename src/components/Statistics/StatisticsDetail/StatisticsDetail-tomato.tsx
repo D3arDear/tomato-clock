@@ -64,10 +64,17 @@ const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
       ),
     [finishedTomatoes, lastMonthDates]
   );
-  const balanceAmongMonth = useMemo(
-    () => currentMonthTomatoes.length - lastMonthTomatoes.length,
-    [currentMonthTomatoes.length, lastMonthTomatoes.length]
-  );
+  const balanceAmongMonth = useMemo(() => {
+    let rate =
+      (currentMonthTomatoes.length - lastMonthTomatoes.length) /
+      currentMonthTomatoes.length;
+    if (Math.abs(rate) === Infinity) {
+      rate = 1;
+    } else if (!rate) {
+      rate = 0;
+    }
+    return rate;
+  }, [currentMonthTomatoes.length, lastMonthTomatoes.length]);
 
   return (
     <div className="TomatoStatisticsDetail">
@@ -90,7 +97,7 @@ const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
               }`,
             }}
           >
-            {balanceAmongMonth}
+            {balanceAmongMonth > 0 ? +balanceAmongMonth : balanceAmongMonth}
           </p>
           <span>月增长数</span>
         </div>
