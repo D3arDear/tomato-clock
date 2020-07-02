@@ -1,17 +1,19 @@
 import React, { useMemo } from "react";
 import "./StatisticsDetail.scss";
+import { Todo } from "src/store/todoState";
 import { Tomato } from "src/store/tomatoState";
 import { DateRange } from "@material-ui/pickers";
 import LinePath from "./LinePath";
 
-interface TomatoStatisticsDetailProps {
-  finishedTomatoes: Tomato[];
+interface StatisticsDetailItemProps {
+  data: Todo[] | Tomato[];
   selectedDate: DateRange;
   width: number;
+  isTomato?: boolean;
 }
 
-const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
-  const { finishedTomatoes, selectedDate, width } = props;
+const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
+  const { data, selectedDate, width, isTomato } = props;
   const currentSelectedDates = useMemo(
     () =>
       selectedDate[0] && selectedDate[1]
@@ -46,45 +48,53 @@ const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
     [currentSelectedDates]
   );
 
-  const currentMonthTomatoes = useMemo(
+  const dataFilter: <T>(
+    data: T[],
+    time: "updated_at" | "ended_at",
+    dateRange: Date[]
+  ) => T[] = (data, time, dateRange) => {
+    return data.filter(
+      (item: any) =>
+        new Date(item[time as "updated_at" | "ended_at"]) > dateRange[0] &&
+        new Date(item[time as "updated_at" | "ended_at"]) < dateRange[1]
+    );
+  };
+
+  const currentMonthEvents = useMemo(
     () =>
-      finishedTomatoes.filter(
-        (tomato: Tomato) =>
-          new Date(tomato.ended_at) > currentSelectedDates[0] &&
-          new Date(tomato.ended_at) < currentSelectedDates[1]
-      ),
-    [currentSelectedDates, finishedTomatoes]
+      isTomato
+        ? dataFilter(data as Tomato[], "ended_at", currentSelectedDates)
+        : dataFilter(data as Todo[], "updated_at", currentSelectedDates),
+    [currentSelectedDates, data, isTomato]
   );
-  const lastMonthTomatoes = useMemo(
+  const lastMonthEvents = useMemo(
     () =>
-      finishedTomatoes.filter(
-        (tomato: Tomato) =>
-          new Date(tomato.ended_at) > lastMonthDates[0] &&
-          new Date(tomato.ended_at) < lastMonthDates[1]
-      ),
-    [finishedTomatoes, lastMonthDates]
+      isTomato
+        ? dataFilter(data as Tomato[], "ended_at", lastMonthDates)
+        : dataFilter(data as Todo[], "updated_at", lastMonthDates),
+    [data, isTomato, lastMonthDates]
   );
   const increaseRate = useMemo(() => {
     let rate =
-      (currentMonthTomatoes.length - lastMonthTomatoes.length) /
-      currentMonthTomatoes.length;
+      (currentMonthEvents.length - lastMonthEvents.length) /
+      currentMonthEvents.length;
     if (Math.abs(rate) === Infinity) {
       rate = 1;
     } else if (!rate) {
       rate = 0;
     }
-    return rate;
-  }, [currentMonthTomatoes.length, lastMonthTomatoes.length]);
+    return parseFloat(rate.toFixed(2));
+  }, [currentMonthEvents.length, lastMonthEvents.length]);
 
   return (
-    <div className="TomatoStatisticsDetail">
-      <header className="TomatoStatisticsDetail-header">
+    <div className="TodoStatisticsDetail">
+      <header className="TodoStatisticsDetail-header">
         <div>
-          <p>{currentMonthTomatoes.length}</p>
+          <p>{currentMonthEvents.length}</p>
           <span>总数</span>
         </div>
         <div>
-          <p>{(currentMonthTomatoes.length / howManyDays).toFixed(2)}</p>
+          <p>{(currentMonthEvents.length / howManyDays).toFixed(2)}</p>
           <span>日平均数</span>
         </div>
         <div>
@@ -102,12 +112,11 @@ const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
           <span>月增长数</span>
         </div>
       </header>
-      <main className="TomatoStatisticsDetail-main">
+      <main className="TodoStatisticsDetail-main">
         <LinePath
-          data={currentMonthTomatoes}
+          data={currentMonthEvents}
           width={width}
           selectedDate={currentSelectedDates}
-          isTomato
         />
       </main>
       <footer>这里是最佳工作日</footer>
@@ -115,4 +124,4 @@ const TomatoStatisticsDetail = (props: TomatoStatisticsDetailProps) => {
   );
 };
 
-export default TomatoStatisticsDetail;
+export default StatisticsDetailItem;

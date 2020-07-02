@@ -13,8 +13,7 @@ import { Typography, Box, useTheme } from "@material-ui/core";
 import DatePickerDialog from "../../Common/DatePickerDialog";
 import { observer } from "mobx-react";
 import { useStores } from "src/hooks/use-stores";
-import TomatoStatisticsDetail from "./StatisticsDetail-tomato";
-import TodoStatisticsDetail from "./StatisticsDetail-todo";
+import StatisticsDetailItem from "./StatisticsDetail-tabs-item";
 
 interface StyledTabProps {
   label: string;
@@ -166,15 +165,17 @@ const StatisticsDetailTabs: React.FunctionComponent<any> = (props) => {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <TomatoStatisticsDetail
+            <StatisticsDetailItem
               width={props.width}
-              finishedTomatoes={props.finishedTomatoes}
+              data={props.finishedTomatoes}
               selectedDate={selectedDate}
+              isTomato
             />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TodoStatisticsDetail
-              finishedTodos={props.finishedTodos}
+            <StatisticsDetailItem
+              width={props.width}
+              data={props.finishedTodos}
               selectedDate={selectedDate}
             />
           </TabPanel>
