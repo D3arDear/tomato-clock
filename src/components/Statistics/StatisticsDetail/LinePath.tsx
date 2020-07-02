@@ -70,7 +70,6 @@ const LinePath: React.FC<LinePathProps> = (props) => {
       return [x, y, groupedData[day] ? groupedData[day].length : 0];
     });
   }, [chartWidth, count, days, groupedData]);
-  console.log(classes);
 
   return (
     <div className="LinePath">
