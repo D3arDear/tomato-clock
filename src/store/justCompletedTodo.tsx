@@ -3,6 +3,7 @@ import { action, computed, observable } from "mobx";
 interface Todo {
   description: string;
   updated_at: string;
+  completed_at: string;
   completed: boolean;
   deleted: boolean;
   id: number;
@@ -15,6 +16,7 @@ export class justCompletedTodoState {
     {
       description: "",
       updated_at: "",
+      completed_at: "",
       completed: false,
       deleted: false,
       id: 1,

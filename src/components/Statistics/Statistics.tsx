@@ -49,7 +49,7 @@ const Statistics: React.FunctionComponent = () => {
   const dailyTodos = useMemo(
     () =>
       _.groupBy(finishedTodos, (todo) => {
-        return format(Date.parse(todo.updated_at!), "yyyy-MM-dd");
+        return format(Date.parse(todo.completed_at!), "yyyy-MM-dd");
       }),
     [finishedTodos]
   );

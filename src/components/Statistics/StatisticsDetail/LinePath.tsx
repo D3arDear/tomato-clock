@@ -10,7 +10,7 @@ interface LinePathProps {
   width: number;
   data: Tomato[] | Todo[];
   selectedDate: Date[];
-  isTomato?: boolean;
+  isTomato: boolean;
 }
 
 const useStyles = makeStyles({
@@ -33,7 +33,7 @@ const LinePath: React.FC<LinePathProps> = (props) => {
             return format(Date.parse(tomato.ended_at!), "yyyy-MM-dd");
           })
         : _.groupBy(data as Todo[], (todo) => {
-            return format(Date.parse(todo.updated_at!), "yyyy-MM-dd");
+            return format(Date.parse(todo.completed_at!), "yyyy-MM-dd");
           }),
     [data, isTomato]
   );

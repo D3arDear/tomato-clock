@@ -4,12 +4,13 @@ import { Todo } from "src/store/todoState";
 import { Tomato } from "src/store/tomatoState";
 import { DateRange } from "@material-ui/pickers";
 import LinePath from "./LinePath";
+import BestMoment from "./StatisticsDetail-BestDay";
 
 interface StatisticsDetailItemProps {
   data: Todo[] | Tomato[];
   selectedDate: DateRange;
   width: number;
-  isTomato?: boolean;
+  isTomato: boolean;
 }
 
 const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
@@ -50,13 +51,13 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
 
   const dataFilter: <T>(
     data: T[],
-    time: "updated_at" | "ended_at",
+    time: "completed_at" | "ended_at",
     dateRange: Date[]
   ) => T[] = (data, time, dateRange) => {
     return data.filter(
       (item: any) =>
-        new Date(item[time as "updated_at" | "ended_at"]) > dateRange[0] &&
-        new Date(item[time as "updated_at" | "ended_at"]) < dateRange[1]
+        new Date(item[time as "completed_at" | "ended_at"]) > dateRange[0] &&
+        new Date(item[time as "completed_at" | "ended_at"]) < dateRange[1]
     );
   };
 
@@ -64,14 +65,14 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
     () =>
       isTomato
         ? dataFilter(data as Tomato[], "ended_at", currentSelectedDates)
-        : dataFilter(data as Todo[], "updated_at", currentSelectedDates),
+        : dataFilter(data as Todo[], "completed_at", currentSelectedDates),
     [currentSelectedDates, data, isTomato]
   );
   const lastMonthEvents = useMemo(
     () =>
       isTomato
         ? dataFilter(data as Tomato[], "ended_at", lastMonthDates)
-        : dataFilter(data as Todo[], "updated_at", lastMonthDates),
+        : dataFilter(data as Todo[], "completed_at", lastMonthDates),
     [data, isTomato, lastMonthDates]
   );
   const increaseRate = useMemo(() => {
@@ -114,12 +115,15 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
       </header>
       <main className="TodoStatisticsDetail-main">
         <LinePath
+          isTomato={isTomato}
           data={currentMonthEvents}
           width={width}
           selectedDate={currentSelectedDates}
         />
       </main>
-      <footer>这里是最佳工作日</footer>
+      <footer>
+        <BestMoment data={currentMonthEvents} />
+      </footer>
     </div>
   );
 };

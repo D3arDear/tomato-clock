@@ -9,7 +9,7 @@ import { useStores } from "src/hooks/use-stores";
 
 interface TodoHistoryItemProps {
   itemType: "finished" | "deleted";
-  updated_at: string;
+  completed_at: string;
   description: string;
   id: number;
 }
@@ -24,11 +24,13 @@ const useStyle = makeStyles((theme: Theme) =>
     iconButton: {
       padding: 0,
     },
-  }),
+  })
 );
 
-const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (props) => {
-  const { updated_at, description, id, itemType } = props;
+const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (
+  props
+) => {
+  const { completed_at, description, id, itemType } = props;
   const { todoState } = useStores();
 
   const handleUpdateTodo = async (params: any) => {
@@ -40,7 +42,9 @@ const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (props) =
   return (
     <div className="TodoHistory-todoItem">
       <div className="text">
-        <span className="TodoHistory-todoItem-time">{format(new Date(updated_at), "HH:mm")}</span>
+        <span className="TodoHistory-todoItem-time">
+          {format(new Date(completed_at), "HH:mm")}
+        </span>
         <span className="TodoHistory-todoItem-description">{description}</span>
       </div>
       {itemType === "finished" ? (

@@ -169,7 +169,7 @@ const StatisticsDetailTabs: React.FunctionComponent<any> = (props) => {
               width={props.width}
               data={props.finishedTomatoes}
               selectedDate={selectedDate}
-              isTomato
+              isTomato={true}
             />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
@@ -177,6 +177,7 @@ const StatisticsDetailTabs: React.FunctionComponent<any> = (props) => {
               width={props.width}
               data={props.finishedTodos}
               selectedDate={selectedDate}
+              isTomato={false}
             />
           </TabPanel>
         </SwipeableViews>
