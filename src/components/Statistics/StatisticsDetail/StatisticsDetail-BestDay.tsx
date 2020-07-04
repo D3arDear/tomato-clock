@@ -56,8 +56,8 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
       ).toFixed(2)}%`,
     };
   };
-  console.log(findMax(timeData()), "time");
-  console.log(findMax(weekData()), "week");
+  console.log(timeData(), "time");
+  console.log(weekData(), "week");
   return (
     <div className="BestMoment">
       <div className="BestMoment-bestDay">
