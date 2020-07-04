@@ -22,9 +22,17 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
         });
   };
   const weekData = () => {
-    return ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((item) =>
-      dataGrouper("eeeeee")[item]?.length
-        ? { time: item, count: dataGrouper("eeeeee")[item].length }
+    return [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ].map((item) =>
+      dataGrouper("cccc")[item]?.length
+        ? { time: item, count: dataGrouper("cccc")[item].length }
         : { time: item, count: 0 }
     );
   };
@@ -52,8 +60,20 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
   console.log(findMax(weekData()), "week");
   return (
     <div className="BestMoment">
-      <div className="BestMoment-bestDay">最佳工作日</div>
-      <div className="BestMoment-bestTime">最佳工作时间</div>
+      <div className="BestMoment-bestDay">
+        <div className="BestMoment-bestDay-detail">
+          <span>最佳工作日</span>
+          <span>{`${findMax(weekData()).time}`}</span>
+          <span>{`比平均值高出${findMax(weekData()).rate}`}</span>
+        </div>
+      </div>
+      <div className="BestMoment-bestTime">
+        <div className="BestMoment-bestTime-detail">
+          <span>最佳工作时间</span>
+          <span>{`${findMax(timeData()).time}`}</span>
+          <span>{`比平均值高出${findMax(timeData()).rate}`}</span>
+        </div>
+      </div>
     </div>
   );
 };

@@ -63,6 +63,15 @@
         flex-direction: column;
         justify-content: flex-start;
       }
+      &-bestDay,
+      &-bestTime {
+        &-detail {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+        }
+      }
     }
   }
 }
