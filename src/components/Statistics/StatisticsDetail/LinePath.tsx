@@ -73,18 +73,38 @@ const LinePath: React.FC<LinePathProps> = (props) => {
 
   return (
     <div className="LinePath">
-      <svg width={chartWidth} height="210">
-        <rect x={10} y={10} width={chartWidth} height={180} />
+      <svg width={chartWidth} height="220">
+        {points.map((point, index) => (
+          <Tooltip
+            key={index}
+            classes={{
+              tooltip: classes.root,
+              arrow: classes.arrow,
+            }}
+            placement="top"
+            title={`${point[2]}`}
+            arrow
+          >
+            <rect
+              x={point[0] - chartWidth / points.length / 2}
+              y="0"
+              fill="#f9f9f9"
+              width={chartWidth / points.length}
+              height="200"
+            />
+          </Tooltip>
+        ))}
         <path
-          stroke="rgb(255, 124, 54)"
+          stroke="rgba(255, 124, 54,0.5)"
           strokeWidth="2.5"
+          fill="none"
           d={points.reduce(
             (a, b) => a.concat(`${b.slice(0, 2).join(",")},`),
             "M"
           )}
         />
         {points.map((point, index) => (
-          <text key={index} x={point[0] - 5} y="210">
+          <text key={index} x={point[0] - 5} y="220">
             {(index + 1) % 2 === 0 ? "" : index + 1}
           </text>
         ))}
@@ -99,7 +119,7 @@ const LinePath: React.FC<LinePathProps> = (props) => {
             title={`${point[2]}`}
             arrow
           >
-            <circle r="5" cx={point[0]} cy={point[1]} />
+            <circle r="2" cx={point[0]} cy={point[1]} />
           </Tooltip>
         ))}
       </svg>

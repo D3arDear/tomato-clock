@@ -92,7 +92,7 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
       <header className="TodoStatisticsDetail-header">
         <div>
           <p>{currentMonthEvents.length}</p>
-          <span>总数</span>
+          <span>总计</span>
         </div>
         <div>
           <p>{(currentMonthEvents.length / howManyDays).toFixed(2)}</p>

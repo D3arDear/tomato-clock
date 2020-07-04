@@ -8,9 +8,12 @@ interface HistogramProps {
 
 const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
   const { data, width } = props;
-  const spacePercentage = 0.3;
+  const spacePercentage = 0.35;
+  const rectWidthPercentage = 0.2;
   const histogramWidth = useMemo(() => width * (1 - spacePercentage), [width]);
-  const rectWidth = useMemo(() => (histogramWidth / 7) * 0.6, [histogramWidth]);
+  const rectWidth = useMemo(() => (histogramWidth / 7) * rectWidthPercentage, [
+    histogramWidth,
+  ]);
 
   const rectPoints = useMemo(() => {
     const today = new Date(new Date().toLocaleDateString()).getTime();
@@ -44,16 +47,22 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
         );
       return dates.indexOf(formatDate(index)) !== -1
         ? {
-            x: width - histogramWidth + (index * rectWidth) / 0.6,
+            x:
+              width -
+              histogramWidth +
+              (index * rectWidth) / rectWidthPercentage,
             y: (1 - data[formatDate(index)].length / verticalRange) * 60,
             width: rectWidth,
             height: (data[formatDate(index)].length / verticalRange) * 60,
           }
         : {
-            x: width - histogramWidth + (index * rectWidth) / 0.6,
-            y: 57,
+            x:
+              width -
+              histogramWidth +
+              (index * rectWidth) / rectWidthPercentage,
+            y: 56,
             width: rectWidth,
-            height: 3,
+            height: 4,
           };
     });
   }, [data, histogramWidth, rectWidth, width]);
@@ -61,11 +70,15 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
   return (
     <div className="Histogram">
       <svg width="100%" height="60">
+        <linearGradient id="histogramFill" gradientTransform="rotate(90)">
+          <stop offset="30%" stopColor="rgba(255, 124, 54, 0.8)" />
+          <stop offset="90%" stopColor="rgba(255, 179, 113, 0.8)" />
+        </linearGradient>
         {rectPoints.map((point: any, index) => (
           <rect
-            fill="rgba(255, 179, 113, 0.1)"
-            stroke="rgba(255, 179, 113, 0.5)"
-            strokeWidth="1"
+            fill="url('#histogramFill')"
+            stroke="rgba(255, 124, 54, 1)"
+            strokeWidth="0"
             key={index}
             x={point.x}
             y={point.y}

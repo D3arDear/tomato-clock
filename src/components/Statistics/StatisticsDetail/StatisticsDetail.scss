@@ -11,16 +11,23 @@
       display: inline-flex;
       justify-content: center;
       align-items: flex-end;
-      padding: 5px;
+      text-align: center;
+      padding: 0 0 5px 0;
       span {
         font-size: 14px;
         color: #222;
+        @media screen and(max-width:720px) {
+          font-size: 12px;
+        }
       }
       p {
         font-size: 20px;
         color: rgba(255, 179, 113, 1);
         line-height: 1.2;
         margin-right: 0.25em;
+        @media screen and(max-width:720px) {
+          font-size: 15px;
+        }
       }
     }
   }
@@ -47,8 +54,8 @@
         }
         circle {
           stroke-width: 2.5px;
+          fill: rgb(255, 124, 54);
           stroke: rgb(255, 124, 54);
-          fill: white;
           z-index: 2;
         }
       }

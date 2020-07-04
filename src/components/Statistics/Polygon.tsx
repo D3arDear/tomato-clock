@@ -42,9 +42,15 @@ const Polygon: React.FunctionComponent<PolygonProps> = (props) => {
   return (
     <div className="Polygon" id="Polygon">
       <svg width={width} height="60" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="polygonFill" gradientTransform="rotate(90)">
+            <stop offset="30%" stopColor="rgba(255, 124, 54, 0.5)" />
+            <stop offset="90%" stopColor="rgba(255, 179, 113, 0.5)" />
+          </linearGradient>
+        </defs>
         <polygon
-          fill="rgba(255, 179, 113, 0.1)"
-          stroke="rgba(255, 179, 113, 0.5)"
+          stroke="rgba(255, 124, 54, 1)"
+          fill="url('#polygonFill')"
           strokeWidth="1"
           points={point}
         />
