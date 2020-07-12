@@ -68,7 +68,7 @@
     .BestMoment {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       @media screen and(max-width:720px) {
         flex-direction: column;
         align-items: flex-start;
@@ -83,8 +83,16 @@
           flex-direction: column;
           justify-content: flex-start;
           align-items: flex-start;
+          p {
+            color: rgb(255, 124, 54);
+          }
           .BestDayHistogram {
+            margin-top: 20px;
             width: 100%;
+            text {
+              fill: rgb(255, 124, 54);
+              font-size: 12px;
+            }
           }
         }
       }

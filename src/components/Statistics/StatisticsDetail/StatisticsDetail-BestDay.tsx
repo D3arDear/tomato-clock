@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { Todo } from "src/store/todoState";
 import { Tomato } from "src/store/tomatoState";
 
@@ -14,16 +14,19 @@ interface BestMomentProps {
 
 const BestMoment: React.FC<BestMomentProps> = (props) => {
   const { data, isTomato } = props;
-  const dataGrouper = (formatType: string) => {
-    return isTomato
-      ? _.groupBy(data as Tomato[], (tomato) => {
-          return format(Date.parse(tomato.ended_at!), formatType);
-        })
-      : _.groupBy(data as Todo[], (todo) => {
-          return format(Date.parse(todo.completed_at!), formatType);
-        });
-  };
-  const weekData = () => {
+  const dataGrouper = useCallback(
+    (formatType: string) => {
+      return isTomato
+        ? _.groupBy(data as Tomato[], (tomato) => {
+            return format(Date.parse(tomato.ended_at!), formatType);
+          })
+        : _.groupBy(data as Todo[], (todo) => {
+            return format(Date.parse(todo.completed_at!), formatType);
+          });
+    },
+    [data, isTomato]
+  );
+  const weekData = useMemo(() => {
     return [
       "Monday",
       "Tuesday",
@@ -37,15 +40,14 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
         ? { time: item, count: dataGrouper("cccc")[item].length }
         : { time: item, count: 0 }
     );
-  };
-  const timeData = () => {
+  }, [dataGrouper]);
+  const timeData = useMemo(() => {
     return Object.keys(Array.from({ length: 24 })).map((item) =>
       dataGrouper("H")[item]?.length
         ? { time: item, count: dataGrouper("H")[item].length }
         : { time: item, count: 0 }
     );
-  };
-
+  }, [dataGrouper]);
   const findMax = (data: any[]) => {
     const max = data.reduce((a, b) => (b.count > a.count ? b : a));
     const sumCount = data.reduce((a, b) => a + b.count, 0);
@@ -62,21 +64,25 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
     <div className="BestMoment">
       <div className="BestMoment-bestDay">
         <div className="BestMoment-bestDay-detail">
-          <span>最佳工作日</span>
-          <span>{`${findMax(weekData()).time}`}</span>
-          <span>{`比平均值高出${findMax(weekData()).rate}`}</span>
+          <h4>最佳工作日</h4>
+          <p>{`${findMax(weekData).time}`}</p>
+          <span>{`比平均值高出${findMax(weekData).rate}`}</span>
           <BestDayHistogram
-            bestDay={`${findMax(weekData()).time}`}
+            bestDay={`${findMax(weekData).time}`}
             width={props.width}
-            data={weekData()}
+            data={weekData}
           />
         </div>
       </div>
       <div className="BestMoment-bestTime">
         <div className="BestMoment-bestTime-detail">
-          <span>最佳工作时间</span>
-          <span>{`${findMax(timeData()).time}`}</span>
-          <span>{`比平均值高出${findMax(timeData()).rate}`}</span>
+          <h4>最佳工作时间</h4>
+          <p>{`${findMax(timeData).time}:00~${
+            parseInt(findMax(timeData).time) + 1 > 24
+              ? 0
+              : parseInt(findMax(timeData).time) + 1
+          }:00`}</p>
+          <span>{`比平均值高出${findMax(timeData).rate}`}</span>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ interface BestDayHistogramProps {
 
 const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
   const { data, bestDay, width } = props;
+  const week = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
   const svgWidth = useMemo(() => (width > 720 ? width / 2 - 10 : width - 10), [
     width,
   ]);
@@ -21,9 +22,9 @@ const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
     return data.map((day, index) => {
       return {
         x: (svgWidth / 7) * index + 10,
-        y: (1 - day.count / verticalRange) * 77,
+        y: (1 - day.count / verticalRange) * 97,
         width: rectWidth,
-        height: day.count === 0 ? 3 : (day.count / verticalRange) * 77,
+        height: day.count === 0 ? 3 : (day.count / verticalRange) * 97,
       };
     });
   }, [bestDay, data, rectWidth, svgWidth]);
@@ -31,7 +32,7 @@ const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
 
   return (
     <div className="BestDayHistogram">
-      <svg width={svgWidth} height="80">
+      <svg width={svgWidth} height="130">
         <linearGradient id="histogramFill" gradientTransform="rotate(90)">
           <stop offset="30%" stopColor="rgba(255, 124, 54, 0.8)" />
           <stop offset="90%" stopColor="rgba(255, 179, 113, 0.8)" />
@@ -47,6 +48,11 @@ const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
             height={point.height}
             width={point.width}
           ></rect>
+        ))}
+        {rectPoints.map((point: any, index) => (
+          <text key={index} x={point.x} y="120">
+            {week[index]}
+          </text>
         ))}
       </svg>
     </div>
