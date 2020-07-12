@@ -122,7 +122,11 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
         />
       </main>
       <footer>
-        <BestMoment isTomato={isTomato} data={currentMonthEvents} />
+        <BestMoment
+          isTomato={isTomato}
+          width={width}
+          data={currentMonthEvents}
+        />
       </footer>
     </div>
   );

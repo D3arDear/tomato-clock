@@ -4,10 +4,12 @@ import { Tomato } from "src/store/tomatoState";
 
 import { format } from "date-fns";
 import _ from "lodash";
+import BestDayHistogram from "./charts/BestDayHistogram";
 
 interface BestMomentProps {
   data: Todo[] | Tomato[];
   isTomato: boolean;
+  width: number;
 }
 
 const BestMoment: React.FC<BestMomentProps> = (props) => {
@@ -56,8 +58,6 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
       ).toFixed(2)}%`,
     };
   };
-  console.log(timeData(), "time");
-  console.log(weekData(), "week");
   return (
     <div className="BestMoment">
       <div className="BestMoment-bestDay">
@@ -65,6 +65,11 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
           <span>最佳工作日</span>
           <span>{`${findMax(weekData()).time}`}</span>
           <span>{`比平均值高出${findMax(weekData()).rate}`}</span>
+          <BestDayHistogram
+            bestDay={`${findMax(weekData()).time}`}
+            width={props.width}
+            data={weekData()}
+          />
         </div>
       </div>
       <div className="BestMoment-bestTime">

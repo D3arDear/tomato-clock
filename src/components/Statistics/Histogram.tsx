@@ -30,7 +30,7 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
       (a, b) => (data[b].length > a ? data[b].length : a),
       0
     );
-    const points = [];
+    let points = [];
     for (let i = 0; i < 7; i++) {
       points.push({
         x: 0,
