@@ -88,7 +88,7 @@ const LinePath: React.FC<LinePathProps> = (props) => {
             <rect
               x={point[0] - chartWidth / points.length / 2}
               y="0"
-              fill="#f9f9f9"
+              fill="rgba(248,248,248,0.5)"
               width={chartWidth / points.length}
               height="200"
             />
