@@ -5,6 +5,7 @@ import { Tomato } from "src/store/tomatoState";
 import { format } from "date-fns";
 import _ from "lodash";
 import BestDayHistogram from "./charts/BestDayHistogram";
+import ClockCharts from "./charts/ClockCharts";
 
 interface BestMomentProps {
   data: Todo[] | Tomato[];
@@ -83,6 +84,7 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
               : parseInt(findMax(timeData).time) + 1
           }:00`}</p>
           <span>{`比平均值高出${findMax(timeData).rate}`}</span>
+          <ClockCharts width={props.width} />
         </div>
       </div>
     </div>
