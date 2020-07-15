@@ -11,11 +11,18 @@ const CircleTrick = (circleR: number) => {
   ));
 };
 
-const CircleNumber = (circleR: number) =>
+const ifActive = (bestMoment: string, item: string) =>
+  parseInt(bestMoment) === parseInt(item) ||
+  parseInt(bestMoment) + 1 === parseInt(item) ||
+  (parseInt(bestMoment) === 11 && parseInt(item) === 0);
+
+const CircleNumber = (circleR: number, bestMoment: string) =>
   Object.keys(Array.from({ length: 12 })).map((item: string) =>
     parseInt(item) > 9 || parseInt(item) === 0 ? (
       <text
-        className="circleNumber"
+        className={
+          ifActive(bestMoment, item) ? "circleNumber-best" : "circleNumber"
+        }
         key={item}
         x={
           circleR -
@@ -34,7 +41,9 @@ const CircleNumber = (circleR: number) =>
       </text>
     ) : (
       <text
-        className="circleNumber"
+        className={
+          ifActive(bestMoment, item) ? "circleNumber-best" : "circleNumber"
+        }
         key={item}
         x={
           circleR -
