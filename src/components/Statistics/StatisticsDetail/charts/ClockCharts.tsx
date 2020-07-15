@@ -14,6 +14,7 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
     width,
   ]);
   const circleR = useMemo(() => svgWidth / 5, [svgWidth]);
+  const pieStroke = 5;
   const pieData = useMemo(() => {
     const bestCount = timeData[bestMoment].count;
     const startAng = (time: number) => (time > 11 ? time - 12 : time);
@@ -24,27 +25,27 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
         endAng: endAng(parseInt(time.time)),
         x0:
           circleR +
-          circleR *
+          (circleR - pieStroke) *
             Math.cos(
               -Math.PI / 2 +
                 startAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
             ),
         y0:
           circleR +
-          circleR *
+          (circleR - pieStroke) *
             Math.sin(
               -Math.PI / 2 +
                 startAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
             ),
         x1:
           circleR +
-          circleR *
+          (circleR - pieStroke) *
             Math.cos(
               -Math.PI / 2 + endAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
             ),
         y1:
           circleR +
-          circleR *
+          (circleR - pieStroke) *
             Math.sin(
               -Math.PI / 2 + endAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
             ),
@@ -52,10 +53,17 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
       };
     });
   }, [bestMoment, circleR, timeData]);
-  console.log(pieData);
   return (
     <div className="ClockCharts">
       <svg height={circleR * 2 + 10} width={circleR * 2 + 10}>
+        <circle
+          cx={circleR}
+          cy={circleR}
+          r={circleR}
+          fill="rgb(253,253,253)"
+          stroke="#ddd"
+          strokeWidth="2"
+        />
         <symbol id="tick">
           <line
             x1={circleR}
@@ -69,8 +77,8 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
         {pieData.map((time: any, index: number) => (
           <path
             id={`${index}`}
-            stroke="#fff"
-            strokeWidth="5"
+            stroke="rgb(253,253,253)"
+            strokeWidth={pieStroke}
             key={index}
             d={`M ${circleR} ${circleR},L ${time.x0} ${time.y0},A ${circleR},${circleR} 0 0,1 ${time.x1} ${time.y1},Z`}
             fill={`${time.color}`}
@@ -81,10 +89,8 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
         <circle
           cx={circleR}
           cy={circleR}
-          r={circleR}
-          fill="rgba(248,248,248,0.1)"
-          stroke="#ddd"
-          strokeWidth="2"
+          r={circleR * 0.3}
+          fill="rgb(253,253,253)"
         />
       </svg>
     </div>
