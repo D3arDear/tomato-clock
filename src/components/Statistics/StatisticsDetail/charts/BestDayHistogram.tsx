@@ -38,7 +38,6 @@ const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
       };
     });
   }, [bestDay, data, rectWidth, svgWidth]);
-  console.log(rectPoints);
 
   return (
     <div className="BestDayHistogram">

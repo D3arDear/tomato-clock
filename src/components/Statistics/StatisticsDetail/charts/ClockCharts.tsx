@@ -3,10 +3,13 @@ import { CircleTrick, CircleNumber } from "./ClockCommon";
 
 interface ClockChartsProps {
   width: number;
+  bestMoment: number;
+  timeData: any;
 }
 
 const ClockCharts: React.FC<ClockChartsProps> = (props) => {
-  const { width } = props;
+  const { width, bestMoment, timeData } = props;
+  console.log(bestMoment, timeData);
   const svgWidth = useMemo(() => (width > 720 ? width / 2 - 10 : width - 10), [
     width,
   ]);

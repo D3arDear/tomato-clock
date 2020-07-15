@@ -84,7 +84,11 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
               : parseInt(findMax(timeData).time) + 1
           }:00`}</p>
           <span>{`比平均值高出${findMax(timeData).rate}`}</span>
-          <ClockCharts width={props.width} />
+          <ClockCharts
+            width={props.width}
+            bestMoment={findMax(timeData).time}
+            timeData={timeData}
+          />
         </div>
       </div>
     </div>
