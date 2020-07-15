@@ -28,13 +28,13 @@ const CircleNumber = (circleR: number, bestMoment: string) =>
           circleR -
           10 +
           (circleR - 15) *
-            Math.cos(-(Math.PI * 2) / 4 + parseInt(item) * ((Math.PI * 2) / 12))
+            Math.cos(-Math.PI / 2 + parseInt(item) * ((Math.PI * 2) / 12))
         }
         y={
           circleR +
           5 +
           (circleR - 15) *
-            Math.sin(-(Math.PI * 2) / 4 + parseInt(item) * ((Math.PI * 2) / 12))
+            Math.sin(-Math.PI / 2 + parseInt(item) * ((Math.PI * 2) / 12))
         }
       >
         {parseInt(item) === 0 ? 12 : parseInt(item)}
@@ -49,13 +49,13 @@ const CircleNumber = (circleR: number, bestMoment: string) =>
           circleR -
           5 +
           (circleR - 15) *
-            Math.cos(-(Math.PI * 2) / 4 + parseInt(item) * ((Math.PI * 2) / 12))
+            Math.cos(-Math.PI / 2 + parseInt(item) * ((Math.PI * 2) / 12))
         }
         y={
           circleR +
           5 +
           (circleR - 15) *
-            Math.sin(-(Math.PI * 2) / 4 + parseInt(item) * ((Math.PI * 2) / 12))
+            Math.sin(-Math.PI / 2 + parseInt(item) * ((Math.PI * 2) / 12))
         }
       >
         {parseInt(item) === 0 ? 12 : parseInt(item)}
