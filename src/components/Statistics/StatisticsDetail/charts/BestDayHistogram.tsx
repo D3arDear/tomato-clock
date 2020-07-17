@@ -58,7 +58,7 @@ const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
             arrow
           >
             <rect
-              x={point.x - 30}
+              x={point.x - svgWidth / 14 + rectWidth / 2}
               y="0"
               fill="rgba(248,248,248,0.5)"
               width={svgWidth / 7}
@@ -70,7 +70,7 @@ const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
           <rect
             fill="url('#histogramFill')"
             stroke="rgba(255, 124, 54, 1)"
-            strokeWidth="0"
+            strokeWidth="1"
             key={index}
             x={point.x}
             y={point.y}

@@ -40,7 +40,10 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   };
 
   const updateTomato = async (params: any) => {
-    const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, params);
+    const response = await axios.put(
+      `tomatoes/${props.unfinishedTomato.id}`,
+      params
+    );
     await props.updateTomato(response.data.resource);
   };
 
@@ -73,7 +76,11 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
         />
       </div>
       <div className="abort">
-        <AbortConfirm open={open} toggleConfirm={toggleConfirm} abortTomato={abortTomato}></AbortConfirm>
+        <AbortConfirm
+          open={open}
+          toggleConfirm={toggleConfirm}
+          abortTomato={abortTomato}
+        ></AbortConfirm>
       </div>
     </div>
   ) : (
@@ -87,7 +94,11 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
         }}
       ></CountDown>
       <div className="abort">
-        <AbortConfirm open={open} toggleConfirm={toggleConfirm} abortTomato={abortTomato}></AbortConfirm>
+        <AbortConfirm
+          open={open}
+          toggleConfirm={toggleConfirm}
+          abortTomato={abortTomato}
+        ></AbortConfirm>
       </div>
     </div>
   );
