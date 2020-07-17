@@ -13,7 +13,9 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
   const svgWidth = useMemo(() => (width > 720 ? width / 2 - 10 : width - 10), [
     width,
   ]);
-  const circleR = useMemo(() => svgWidth / 5, [svgWidth]);
+  const circleR = useMemo(() => (svgWidth / 5 > 110 ? 110 : svgWidth / 5), [
+    svgWidth,
+  ]);
   const pieStroke = 5;
   const pieData = useMemo(() => {
     const bestCount = timeData[bestMoment].count;

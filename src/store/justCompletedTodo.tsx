@@ -24,6 +24,19 @@ export class justCompletedTodoState {
     },
   ];
 
+  @observable
+  onCountDown = false;
+
+  @action
+  CountDownStart() {
+    this.onCountDown = true;
+  }
+
+  @action
+  CountDownEnd() {
+    this.onCountDown = false;
+  }
+
   @action
   addTodo(payload: Todo) {
     let update = false;
