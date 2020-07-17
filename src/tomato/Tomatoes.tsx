@@ -26,7 +26,13 @@ interface Tomato {
 
 const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   const { tomatoState, justCompletedTodo } = useStores();
-  const { unfinishedTomato, finishedTomato } = tomatoState;
+  const { finishedTomato } = tomatoState;
+
+  const unfinishedTomato = useMemo(() => {
+    return tomatoState.tomatoes.filter(
+      (tomato) => !tomato.description && !tomato.ended_at && !tomato.aborted
+    )[0];
+  }, [tomatoState.tomatoes]);
 
   const startTomato = async () => {
     const response = await axios.post("tomatoes", { duration: 25 * 60 * 1000 });

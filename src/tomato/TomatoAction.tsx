@@ -7,6 +7,7 @@ import "./tomatoAction.scss";
 import TomatoActionButton from "./TomatoActionButton";
 import AbortConfirm from "./AbortConfirm";
 import TomatoInput from "./TomatoInput";
+import { useForceUpdate } from "src/hooks/useForceUpdate";
 
 interface Tomato {
   id: number;
@@ -30,7 +31,7 @@ interface Props {
 
 const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const { startTomato, unfinishedTomato, lastFinishedTomatoTime } = props;
-  // const forceUpdate = useForceUpdate();
+  const forceUpdate = useForceUpdate();
   const timeNow = new Date().getTime();
   const startedAt = Date.parse(unfinishedTomato && unfinishedTomato.started_at);
   const duration = unfinishedTomato ? unfinishedTomato.duration : 0;
@@ -52,7 +53,9 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     return duration - timeNow + startedAt;
   }, [duration, startedAt, timeNow]);
 
-  const onFinished = () => {};
+  const onFinished = () => {
+    forceUpdate();
+  };
 
   const abortTomato = () => {
     toggleConfirm(false);
@@ -67,6 +70,12 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const breakTime = useMemo(() => {
     return 1000 * 5 * 60 - timeNow + lastFinishedTomatoTime.getTime();
   }, [lastFinishedTomatoTime, timeNow]);
+
+  const isOnCountDown = useMemo(() => timeNow - startedAt > duration, [
+    duration,
+    startedAt,
+    timeNow,
+  ]);
 
   return unfinishedTomato === undefined ? (
     ifBreak ? (
@@ -84,7 +93,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
         <TomatoActionButton startTomato={startTomato} />
       </div>
     )
-  ) : timeNow - startedAt > duration ? (
+  ) : isOnCountDown ? (
     <div className="tomatoAction">
       <div className="tomatoAction-input">
         <TomatoInput
