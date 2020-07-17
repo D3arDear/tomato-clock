@@ -33,12 +33,20 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
     justCompletedTodo.CountDownStart();
     tomatoState.addTomato(response.data.resource);
   };
+  useEffect(() => {
+    unfinishedTomato && justCompletedTodo.CountDownStart();
+  }, [justCompletedTodo, unfinishedTomato]);
 
   const sortedFinishedTomato = useMemo(() => {
     return _.groupBy(finishedTomato, (tomato: Tomato) => {
       return format(Date.parse(tomato.started_at), "yyyy-MM-dd");
     });
   }, [finishedTomato]);
+
+  const lastFinishedTomatoTime = useMemo(
+    () => new Date(finishedTomato[0]?.ended_at),
+    [finishedTomato]
+  );
 
   useEffect(() => {
     const getTomato = async () => {
@@ -57,6 +65,7 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
       <TomatoAction
         startTomato={startTomato}
         unfinishedTomato={unfinishedTomato}
+        lastFinishedTomatoTime={lastFinishedTomatoTime}
         updateTomato={doUpdateTomato}
       />
       <TomatoList finishedTomato={sortedFinishedTomato} />

@@ -13,11 +13,11 @@ const TomatoInput: React.FunctionComponent<Props> = (props) => {
   const { justCompletedTodo } = useStores();
 
   const addTomato = (value: string) => {
-    justCompletedTodo.CountDownEnd();
     updateTomato({
       description: value,
       ended_at: new Date(),
     });
+    justCompletedTodo.CountDownEnd();
   };
   const inputRef = useRef<any>();
   useEffect(() => {

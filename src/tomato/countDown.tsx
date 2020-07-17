@@ -8,6 +8,7 @@ interface Props {
   duration: number;
   onFinished: () => void;
   onPressClear: () => void;
+  isBreakTime?: boolean;
 }
 
 const CountDown: React.FunctionComponent<Props> = (props) => {
@@ -62,9 +63,11 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
         <div className="progress" style={{ width: `${widthPercentage}%` }} />
       </div>
       <hr className="MuiDivider-root makeStyles-divider-126 MuiDivider-vertical"></hr>
-      <IconButton size="small" color="primary" onClick={() => onPressClear()}>
-        <Close />
-      </IconButton>
+      {!props.isBreakTime && (
+        <IconButton size="small" color="primary" onClick={() => onPressClear()}>
+          <Close />
+        </IconButton>
+      )}
     </div>
   );
 };

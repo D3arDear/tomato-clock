@@ -30,11 +30,13 @@ export class justCompletedTodoState {
   @action
   CountDownStart() {
     this.onCounting = true;
+    console.log(this.onCounting);
   }
 
   @action
   CountDownEnd() {
     this.onCounting = false;
+    console.log(this.onCounting);
   }
 
   @action

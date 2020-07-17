@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import axios from "src/config/axios";
 import CountDown from "./countDown";
 import { observer } from "mobx-react";
-import { useForceUpdate } from "src/hooks/useForceUpdate";
+// import { useForceUpdate } from "src/hooks/useForceUpdate";
 import "./tomatoAction.scss";
 import TomatoActionButton from "./TomatoActionButton";
 import AbortConfirm from "./AbortConfirm";
@@ -25,11 +25,12 @@ interface Props {
   startTomato: () => void;
   unfinishedTomato: Tomato;
   updateTomato: (params: Tomato) => void;
+  lastFinishedTomatoTime: Date;
 }
 
 const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
-  const { startTomato, unfinishedTomato } = props;
-  const forceUpdate = useForceUpdate();
+  const { startTomato, unfinishedTomato, lastFinishedTomatoTime } = props;
+  // const forceUpdate = useForceUpdate();
   const timeNow = new Date().getTime();
   const startedAt = Date.parse(unfinishedTomato && unfinishedTomato.started_at);
   const duration = unfinishedTomato ? unfinishedTomato.duration : 0;
@@ -51,9 +52,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     return duration - timeNow + startedAt;
   }, [duration, startedAt, timeNow]);
 
-  const onFinished = () => {
-    forceUpdate();
-  };
+  const onFinished = () => {};
 
   const abortTomato = () => {
     toggleConfirm(false);
@@ -61,10 +60,30 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     document.title = "番茄闹钟";
   };
 
+  const ifBreak = useMemo(() => {
+    return timeNow - lastFinishedTomatoTime.getTime() < 1000 * 5 * 60;
+  }, [lastFinishedTomatoTime, timeNow]);
+
+  const breakTime = useMemo(() => {
+    return 1000 * 5 * 60 - timeNow + lastFinishedTomatoTime.getTime();
+  }, [lastFinishedTomatoTime, timeNow]);
+
   return unfinishedTomato === undefined ? (
-    <div className="tomatoAction">
-      <TomatoActionButton startTomato={startTomato} />
-    </div>
+    ifBreak ? (
+      <div className="tomatoAction">
+        <CountDown
+          timer={breakTime}
+          onFinished={onFinished}
+          duration={1000 * 5 * 60}
+          onPressClear={() => {}}
+          isBreakTime
+        ></CountDown>
+      </div>
+    ) : (
+      <div className="tomatoAction">
+        <TomatoActionButton startTomato={startTomato} />
+      </div>
+    )
   ) : timeNow - startedAt > duration ? (
     <div className="tomatoAction">
       <div className="tomatoAction-input">
