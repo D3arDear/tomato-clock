@@ -25,11 +25,12 @@ interface Tomato {
 }
 
 const Tomatoes: React.FunctionComponent<Props> = observer(() => {
-  const { tomatoState } = useStores();
+  const { tomatoState, justCompletedTodo } = useStores();
   const { unfinishedTomato, finishedTomato } = tomatoState;
 
   const startTomato = async () => {
     const response = await axios.post("tomatoes", { duration: 25 * 60 * 1000 });
+    justCompletedTodo.CountDownStart();
     tomatoState.addTomato(response.data.resource);
   };
 
@@ -53,7 +54,11 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
 
   return (
     <div className="Tomatoes">
-      <TomatoAction startTomato={startTomato} unfinishedTomato={unfinishedTomato} updateTomato={doUpdateTomato} />
+      <TomatoAction
+        startTomato={startTomato}
+        unfinishedTomato={unfinishedTomato}
+        updateTomato={doUpdateTomato}
+      />
       <TomatoList finishedTomato={sortedFinishedTomato} />
     </div>
   );

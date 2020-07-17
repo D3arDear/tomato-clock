@@ -12,6 +12,9 @@ interface Todo {
 
 export class justCompletedTodoState {
   @observable
+  onCounting = false;
+
+  @observable
   todos = [
     {
       description: "",
@@ -24,37 +27,41 @@ export class justCompletedTodoState {
     },
   ];
 
-  @observable
-  onCountDown = false;
-
   @action
   CountDownStart() {
-    this.onCountDown = true;
+    this.onCounting = true;
   }
 
   @action
   CountDownEnd() {
-    this.onCountDown = false;
+    this.onCounting = false;
   }
 
   @action
   addTodo(payload: Todo) {
-    let update = false;
-    const newTodos = this.todos.map((item) => {
-      if (item.id === payload.id) {
-        update = true;
-        return payload;
-      } else {
-        return item;
-      }
-    });
-    update ? (this.todos = newTodos) : (this.todos = [...this.todos, payload]);
+    console.log(this);
+    if (this.onCounting) {
+      let update = false;
+      const newTodos = this.todos.map((item) => {
+        if (item.id === payload.id) {
+          update = true;
+          return payload;
+        } else {
+          return item;
+        }
+      });
+      update
+        ? (this.todos = newTodos)
+        : (this.todos = [...this.todos, payload]);
+    }
   }
 
   @action
-  removeTodo(payload: Todo) {
-    const newTodos = this.todos.filter((todo) => todo.completed);
-    this.todos = newTodos;
+  removeTodo() {
+    if (this.onCounting) {
+      const newTodos = this.todos.filter((todo) => todo.completed);
+      this.todos = newTodos;
+    }
   }
 
   @computed
