@@ -1,13 +1,12 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import axios from "src/config/axios";
 import CountDown from "./countDown";
 import { observer } from "mobx-react";
-// import { useForceUpdate } from "src/hooks/useForceUpdate";
 import "./tomatoAction.scss";
 import TomatoActionButton from "./TomatoActionButton";
 import AbortConfirm from "./AbortConfirm";
 import TomatoInput from "./TomatoInput";
-import { useForceUpdate } from "src/hooks/useForceUpdate";
+import { useStores } from "src/hooks/use-stores";
 
 interface Tomato {
   id: number;
@@ -31,12 +30,20 @@ interface Props {
 
 const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const { startTomato, unfinishedTomato, lastFinishedTomatoTime } = props;
-  const forceUpdate = useForceUpdate();
+
+  const { justCompletedTodo } = useStores();
+
   const timeNow = new Date().getTime();
-  const startedAt = Date.parse(unfinishedTomato && unfinishedTomato.started_at);
+  const startedAt = useMemo(
+    () => Date.parse(unfinishedTomato && unfinishedTomato.started_at),
+    [unfinishedTomato]
+  );
   const duration = unfinishedTomato ? unfinishedTomato.duration : 0;
 
   const [open, setOpen] = useState(false);
+  const [finishedCount, setFinishedCount] = useState(false);
+  const [finishedBreak, setFinishedBreak] = useState(false);
+
   const toggleConfirm = (params: boolean) => {
     setOpen(params);
   };
@@ -50,12 +57,28 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   };
 
   const currentTime = useMemo(() => {
-    return duration - timeNow + startedAt;
+    return duration + startedAt - timeNow;
   }, [duration, startedAt, timeNow]);
 
+  useEffect(() => {
+    if (unfinishedTomato && !justCompletedTodo.onCounting) {
+      justCompletedTodo.CountDownStart();
+    }
+  }, [justCompletedTodo, unfinishedTomato]);
+
+  const onFinishedBreak = () => setFinishedBreak(true);
   const onFinished = () => {
-    forceUpdate();
+    setFinishedCount(true);
+    setFinishedBreak(false);
   };
+
+  const ifCountDown = useMemo(() => {
+    return timeNow - startedAt <= duration;
+  }, [duration, startedAt, timeNow]);
+
+  const ifBreak = useMemo(() => {
+    return timeNow - lastFinishedTomatoTime.getTime() <= 1000 * 60 * 5;
+  }, [lastFinishedTomatoTime, timeNow]);
 
   const abortTomato = () => {
     toggleConfirm(false);
@@ -63,46 +86,44 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     document.title = "番茄闹钟";
   };
 
-  const ifBreak = useMemo(() => {
-    return timeNow - lastFinishedTomatoTime.getTime() < 1000 * 5 * 60;
-  }, [lastFinishedTomatoTime, timeNow]);
+  const doStartTomato = () => {
+    startTomato();
+    setFinishedCount(false);
+  };
 
   const breakTime = useMemo(() => {
     return 1000 * 5 * 60 - timeNow + lastFinishedTomatoTime.getTime();
   }, [lastFinishedTomatoTime, timeNow]);
 
-  const isOnCountDown = useMemo(() => timeNow - startedAt > duration, [
-    duration,
-    startedAt,
-    timeNow,
-  ]);
+  const checkCountdown = !finishedCount && ifCountDown;
+  const checkBreak = !finishedBreak && ifBreak;
 
-  return unfinishedTomato === undefined ? (
-    ifBreak ? (
+  return !unfinishedTomato ? ( // 不存在未开始的番茄
+    checkBreak ? ( // 休息没完成
       <div className="tomatoAction">
         <CountDown
           timer={breakTime}
-          onFinished={onFinished}
-          duration={1000 * 5 * 60}
+          onFinished={() => onFinishedBreak()}
+          duration={1000 * 60 * 5}
           onPressClear={() => {}}
           isBreakTime
         ></CountDown>
       </div>
     ) : (
       <div className="tomatoAction">
-        <TomatoActionButton startTomato={startTomato} />
+        <TomatoActionButton startTomato={doStartTomato} />
       </div>
     )
-  ) : isOnCountDown ? (
+  ) : checkCountdown ? (
     <div className="tomatoAction">
-      <div className="tomatoAction-input">
-        <TomatoInput
-          updateTomato={updateTomato}
-          onPressClear={() => {
-            toggleConfirm(true);
-          }}
-        />
-      </div>
+      <CountDown
+        timer={currentTime}
+        onFinished={() => onFinished()}
+        duration={duration}
+        onPressClear={() => {
+          toggleConfirm(true);
+        }}
+      ></CountDown>
       <div className="abort">
         <AbortConfirm
           open={open}
@@ -113,14 +134,14 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     </div>
   ) : (
     <div className="tomatoAction">
-      <CountDown
-        timer={currentTime}
-        onFinished={onFinished}
-        duration={duration}
-        onPressClear={() => {
-          toggleConfirm(true);
-        }}
-      ></CountDown>
+      <div className="tomatoAction-input">
+        <TomatoInput
+          updateTomato={updateTomato}
+          onPressClear={() => {
+            toggleConfirm(true);
+          }}
+        />
+      </div>
       <div className="abort">
         <AbortConfirm
           open={open}

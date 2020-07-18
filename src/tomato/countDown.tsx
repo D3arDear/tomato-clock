@@ -44,7 +44,8 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     if (countDown < 1000) {
-      onFinished();
+      console.log("触发了forceUpdate");
+      (() => onFinished())();
       window.clearInterval(timerIdRef.current);
       document.title = "番茄闹钟";
     } else {

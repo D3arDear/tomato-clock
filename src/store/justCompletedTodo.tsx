@@ -30,18 +30,15 @@ export class justCompletedTodoState {
   @action
   CountDownStart() {
     this.onCounting = true;
-    console.log(this.onCounting);
   }
 
   @action
   CountDownEnd() {
     this.onCounting = false;
-    console.log(this.onCounting);
   }
 
   @action
   addTodo(payload: Todo) {
-    console.log(this);
     if (this.onCounting) {
       let update = false;
       const newTodos = this.todos.map((item) => {

@@ -26,7 +26,7 @@ interface Tomato {
 
 const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   const { tomatoState, justCompletedTodo } = useStores();
-  const { finishedTomato } = tomatoState;
+  const finishedTomato = tomatoState.finishedTomato;
 
   const unfinishedTomato = useMemo(() => {
     return tomatoState.tomatoes.filter(
@@ -39,9 +39,6 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
     justCompletedTodo.CountDownStart();
     tomatoState.addTomato(response.data.resource);
   };
-  useEffect(() => {
-    unfinishedTomato && justCompletedTodo.CountDownStart();
-  }, [justCompletedTodo, unfinishedTomato]);
 
   const sortedFinishedTomato = useMemo(() => {
     return _.groupBy(finishedTomato, (tomato: Tomato) => {
@@ -53,6 +50,7 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
     () => new Date(finishedTomato[0]?.ended_at),
     [finishedTomato]
   );
+  console.log(lastFinishedTomatoTime);
 
   useEffect(() => {
     const getTomato = async () => {
@@ -71,7 +69,7 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
       <TomatoAction
         startTomato={startTomato}
         unfinishedTomato={unfinishedTomato}
-        lastFinishedTomatoTime={lastFinishedTomatoTime}
+        lastFinishedTomatoTime={new Date(finishedTomato[0]?.ended_at)}
         updateTomato={doUpdateTomato}
       />
       <TomatoList finishedTomato={sortedFinishedTomato} />
