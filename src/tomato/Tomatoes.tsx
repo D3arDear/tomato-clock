@@ -50,7 +50,6 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
     () => new Date(finishedTomato[0]?.ended_at),
     [finishedTomato]
   );
-  console.log(lastFinishedTomatoTime);
 
   useEffect(() => {
     const getTomato = async () => {
@@ -69,7 +68,7 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
       <TomatoAction
         startTomato={startTomato}
         unfinishedTomato={unfinishedTomato}
-        lastFinishedTomatoTime={new Date(finishedTomato[0]?.ended_at)}
+        lastFinishedTomatoTime={lastFinishedTomatoTime}
         updateTomato={doUpdateTomato}
       />
       <TomatoList finishedTomato={sortedFinishedTomato} />
