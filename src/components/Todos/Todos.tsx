@@ -42,7 +42,7 @@ const Todos: React.FunctionComponent = observer(() => {
   useEffect(() => {
     const getTodo = async () => {
       const response = await axios.get("todos");
-      const editingTodos = response.data.resources.map((item: Todos) => Object.assign({}, item, { editing: false }));
+      const editingTodos = response.data.map((item: Todos) => Object.assign({}, item, { editing: false }));
       todoState.initTodos(editingTodos);
     };
     getTodo();

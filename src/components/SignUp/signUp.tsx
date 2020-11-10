@@ -95,12 +95,12 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
   };
   const submit = async () => {
     try {
-      await axios.post("sign_up/user", {
-        account: username,
+      await axios.post("user/register", {
+        username: username,
         password,
         password_confirmation: passwordConfirmation,
       });
-      props.history.push("/");
+      await props.history.push("/");
     } catch (e) {
       throw new Error(e);
     }

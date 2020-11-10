@@ -13,7 +13,7 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
   const svgWidth = useMemo(() => (width > 720 ? width / 2 - 10 : width - 10), [
     width,
   ]);
-  const circleR = useMemo(() => (svgWidth / 5 > 110 ? 110 : svgWidth / 5), [
+  const circleR = useMemo(() => (svgWidth / 5 > 100 ? 100 : svgWidth / 5), [
     svgWidth,
   ]);
   const pieStroke = 5;
@@ -51,7 +51,9 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
             Math.sin(
               -Math.PI / 2 + endAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
             ),
-        color: `rgba(255, 124, 54,${(time.count / bestCount) * 0.6})`,
+        color: `rgba(255, 124, 54,${
+          (bestCount === 0 ? 0 : time.count / bestCount) * 0.6
+        })`,
       };
     });
   }, [bestMoment, circleR, timeData]);

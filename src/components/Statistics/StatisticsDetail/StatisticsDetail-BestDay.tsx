@@ -66,8 +66,14 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
       <div className="BestMoment-bestDay">
         <div className="BestMoment-bestDay-detail">
           <h4>最佳工作日</h4>
-          <p>{`${findMax(weekData).time}`}</p>
-          <span>{`比平均值高出${findMax(weekData).rate}`}</span>
+          {data.length > 0 ? (
+            <div style={{ padding: "0.5em" }}>
+              <p>{`${findMax(weekData).time}`}</p>
+              <span>{`比平均值高出${findMax(weekData).rate}`}</span>
+            </div>
+          ) : (
+            <p>您还没有使用记录</p>
+          )}
           <BestDayHistogram
             bestDay={`${findMax(weekData).time}`}
             width={props.width}
@@ -78,12 +84,18 @@ const BestMoment: React.FC<BestMomentProps> = (props) => {
       <div className="BestMoment-bestTime">
         <div className="BestMoment-bestTime-detail">
           <h4>最佳工作时间</h4>
-          <p>{`${findMax(timeData).time}:00~${
-            parseInt(findMax(timeData).time) + 1 > 24
-              ? 0
-              : parseInt(findMax(timeData).time) + 1
-          }:00`}</p>
-          <span>{`比平均值高出${findMax(timeData).rate}`}</span>
+          {data.length > 0 ? (
+            <div style={{ padding: "0.5em" }}>
+              <p>{`${findMax(timeData).time}:00~${
+                parseInt(findMax(timeData).time) + 1 > 24
+                  ? 0
+                  : parseInt(findMax(timeData).time) + 1
+              }:00`}</p>
+              <span>{`比平均值高出${findMax(timeData).rate}`}</span>
+            </div>
+          ) : (
+            <p>您还没有使用记录</p>
+          )}
           <ClockCharts
             width={props.width}
             bestMoment={findMax(timeData).time}

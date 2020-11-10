@@ -54,7 +54,7 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   useEffect(() => {
     const getTomato = async () => {
       const response = await axios.get("tomatoes");
-      tomatoState.initTomato(response.data.resources);
+      tomatoState.initTomato(response.data);
     };
     getTomato();
   }, [tomatoState]);

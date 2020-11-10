@@ -39,8 +39,8 @@ const Home: React.FunctionComponent<any> = (props) => {
   };
   useEffect(() => {
     const getMe = async () => {
-      const response = await axios.get("me");
-      setUser(response.data);
+      const response = await axios.get("user/me");
+      setUser({account:response.data.data});
     };
     getMe();
   }, []);

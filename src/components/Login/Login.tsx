@@ -93,8 +93,8 @@ const Login: React.FunctionComponent<Props> = (props) => {
   };
   const submit = async () => {
     try {
-      await axios.post("sign_in/user", {
-        account: username,
+      await axios.post("user/login", {
+        username: username,
         password,
       });
       props.history.push("/");
