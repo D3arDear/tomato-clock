@@ -53,7 +53,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
       `tomatoes/${props.unfinishedTomato.id}`,
       params
     );
-    await props.updateTomato(response.data.resource);
+    await props.updateTomato(response.data);
   };
 
   const currentTime = useMemo(() => {

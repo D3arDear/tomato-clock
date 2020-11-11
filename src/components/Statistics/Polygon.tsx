@@ -29,7 +29,10 @@ const Polygon: React.FunctionComponent<PolygonProps> = (props) => {
     let lastHorizonPoint = 0;
     const points = dates.reduce((a, date) => {
       const x =
-        (1 - (today - get0(date)) / horizonRange) * polygonWidth + spaceWidth;
+        horizonRange === 0
+          ? polygonWidth + spaceWidth
+          : (1 - (today - get0(date)) / horizonRange) * polygonWidth +
+            spaceWidth;
       const y = (1 - data[date].length / verticalRange) * 57;
       lastHorizonPoint = x;
       return a.concat(` ${x},${y}`);

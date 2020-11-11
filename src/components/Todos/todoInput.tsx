@@ -11,7 +11,7 @@ const TodoInput: React.FunctionComponent<Props> = (props) => {
 
   const addTodo = async (value: string) => {
     const response = await axios.post("todos", { description: value });
-    todoState.addTodo(response.data.resource);
+    todoState.addTodo(response.data);
   };
   return <StyledInput onSubmitValue={addTodo} placeholder="新增任务" />;
 };

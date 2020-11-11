@@ -42,7 +42,9 @@ const Todos: React.FunctionComponent = observer(() => {
   useEffect(() => {
     const getTodo = async () => {
       const response = await axios.get("todos");
-      const editingTodos = response.data.map((item: Todos) => Object.assign({}, item, { editing: false }));
+      const editingTodos = response.data.map((item: Todos) =>
+        Object.assign({}, item, { editing: false })
+      );
       todoState.initTodos(editingTodos);
     };
     getTodo();
@@ -59,15 +61,30 @@ const Todos: React.FunctionComponent = observer(() => {
         </div>
         <Button
           color="primary"
-          startIcon={<ArrowRight style={{ transform: `rotate(${completedVisible ? "90deg" : "0"})` }} />}
+          startIcon={
+            <ArrowRight
+              style={{
+                transform: `rotate(${completedVisible ? "90deg" : "0"})`,
+              }}
+            />
+          }
           onClick={toggleCompletedTodos}
         >
           近一周完成的任务
         </Button>
         {
-          <SimpleBar className={completedVisible ? "completedTodos" : "completedTodos invisible"} style={{}}>
+          <SimpleBar
+            className={
+              completedVisible ? "completedTodos" : "completedTodos invisible"
+            }
+            style={{}}
+          >
             {completedTodos
-              .filter((item) => Date.parse(item.updated_at) > new Date().setHours(0, 0, 0, 0) - 6 * 24 * 60 * 60 * 1000)
+              .filter(
+                (item) =>
+                  Date.parse(item.updated_at) >
+                  new Date().setHours(0, 0, 0, 0) - 6 * 24 * 60 * 60 * 1000
+              )
               .map((item) => {
                 return <TodoItem key={item.id} {...item}></TodoItem>;
               })}

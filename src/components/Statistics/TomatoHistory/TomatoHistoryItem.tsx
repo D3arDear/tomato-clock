@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import axios from "src/config/axios";
-import { makeStyles, Theme, IconButton, createStyles, TextField } from "@material-ui/core";
+import {
+  makeStyles,
+  Theme,
+  IconButton,
+  createStyles,
+  TextField,
+} from "@material-ui/core";
 import { Delete, Edit, SettingsBackupRestore, Check } from "@material-ui/icons";
 import { format } from "date-fns";
 import { Tomato } from "src/store/tomatoState";
@@ -39,7 +45,7 @@ const useStyle = makeStyles((theme: Theme) =>
     iconButton: {
       padding: 0,
     },
-  }),
+  })
 );
 
 const TomatoHistoryItem: React.FC<IProps> = (props) => {
@@ -48,7 +54,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
   const classes = useStyle();
   const handleUpdateTomato = async (payload: any) => {
     const response = await axios.put(`tomatoes/${id}`, payload);
-    props.updateTomato(response.data.resource);
+    props.updateTomato(response.data);
   };
   const [editMode, toggleEditMode] = useState(false);
   const keyUpHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -59,11 +65,13 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
   const ListItem = (
     <div className="TomatoHistory-tomatoItem">
       <div className="text">
-        <span className="TomatoHistory-tomatoItem-time">{`${format(new Date(started_at), "HH:mm")} ~ ${format(
-          new Date(ended_at),
-          "HH:mm",
-        )}`}</span>
-        <span className="TomatoHistory-tomatoItem-description">{description}</span>
+        <span className="TomatoHistory-tomatoItem-time">{`${format(
+          new Date(started_at),
+          "HH:mm"
+        )} ~ ${format(new Date(ended_at), "HH:mm")}`}</span>
+        <span className="TomatoHistory-tomatoItem-description">
+          {description}
+        </span>
       </div>
       {itemType === "finished" ? (
         <div className="action">

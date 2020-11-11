@@ -35,7 +35,7 @@ const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (
 
   const handleUpdateTodo = async (params: any) => {
     const response = await axios.put(`todos/${id}`, params);
-    todoState.updateTodos(response.data.resource);
+    todoState.updateTodos(response.data);
   };
 
   const classes = useStyle();

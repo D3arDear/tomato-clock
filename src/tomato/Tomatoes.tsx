@@ -37,7 +37,7 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
   const startTomato = async () => {
     const response = await axios.post("tomatoes", { duration: 25 * 60 * 1000 });
     justCompletedTodo.CountDownStart();
-    tomatoState.addTomato(response.data.resource);
+    tomatoState.addTomato(response.data);
   };
 
   const sortedFinishedTomato = useMemo(() => {

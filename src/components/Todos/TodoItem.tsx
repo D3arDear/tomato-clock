@@ -61,7 +61,7 @@ const useStyle = makeStyles((theme: Theme) =>
       textDecoration: "line-through",
       color: "#a9a9a9",
     },
-  }),
+  })
 );
 
 const TodoItem: React.FunctionComponent<Props> = observer((props) => {
@@ -74,8 +74,8 @@ const TodoItem: React.FunctionComponent<Props> = observer((props) => {
       payload.completed_at = new Date();
     }
     const response = await axios.put(`todos/${props.id}`, payload);
-    todoState.updateTodos(response.data.resource);
-    justCompletedTodo.addTodo(response.data.resource);
+    todoState.updateTodos(response.data);
+    justCompletedTodo.addTodo(response.data);
   };
 
   const classes = useStyle();
@@ -89,7 +89,11 @@ const TodoItem: React.FunctionComponent<Props> = observer((props) => {
   };
   const Editing = (
     <div className="todoItem-editing">
-      <IconButton color="primary" className={classes.iconButton} onClick={(e) => update({ description: editText })}>
+      <IconButton
+        color="primary"
+        className={classes.iconButton}
+        onClick={(e) => update({ description: editText })}
+      >
         <Check />
       </IconButton>
       <TextField
@@ -100,26 +104,48 @@ const TodoItem: React.FunctionComponent<Props> = observer((props) => {
         onChange={(e) => setEditText(e.target.value)}
         onKeyUp={keyUpHandler}
       />
-      <IconButton className={classes.iconButton} onClick={(e) => update({ deleted: true })}>
+      <IconButton
+        className={classes.iconButton}
+        onClick={(e) => update({ deleted: true })}
+      >
         <Delete />
       </IconButton>
     </div>
   );
   const ListItem = (
-    <Card className={classes.root} variant="outlined" onDoubleClick={toggleEditMode}>
-      <Checkbox checked={props.completed} onChange={(e) => update({ completed: e.target.checked })} color="primary" />
+    <Card
+      className={classes.root}
+      variant="outlined"
+      onDoubleClick={toggleEditMode}
+    >
+      <Checkbox
+        checked={props.completed}
+        onChange={(e) => update({ completed: e.target.checked })}
+        color="primary"
+      />
       <div className={classes.details}>
         <CardContent className={classes.content} style={{ padding: "8px" }}>
-          <Typography className={props.completed ? classes.textCompleted : ""} variant="inherit" color="textPrimary">
+          <Typography
+            className={props.completed ? classes.textCompleted : ""}
+            variant="inherit"
+            color="textPrimary"
+          >
             {props.description}
           </Typography>
         </CardContent>
       </div>
       <div className="todoItem-action-normal">
-        <IconButton className={classes.iconButtonNormal} onClick={(e) => update({ deleted: true })}>
+        <IconButton
+          className={classes.iconButtonNormal}
+          onClick={(e) => update({ deleted: true })}
+        >
           <Delete />
         </IconButton>
-        <IconButton color="primary" className={classes.iconButtonNormalMobile} onClick={(e) => toggleEditMode}>
+        <IconButton
+          color="primary"
+          className={classes.iconButtonNormalMobile}
+          onClick={(e) => toggleEditMode}
+        >
           <Edit />
         </IconButton>
       </div>
