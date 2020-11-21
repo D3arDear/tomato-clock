@@ -6,6 +6,7 @@ import "./tomatoAction.scss";
 import TomatoActionButton from "./TomatoActionButton";
 import AbortConfirm from "./AbortConfirm";
 import TomatoInput from "./TomatoInput";
+import { createNotification } from "src/components/Common/notification";
 import { useStores } from "src/hooks/use-stores";
 
 interface Tomato {
@@ -66,9 +67,13 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     }
   }, [justCompletedTodo, unfinishedTomato]);
 
-  const onFinishedBreak = () => setFinishedBreak(true);
+  const onFinishedBreak = () => {
+    setFinishedBreak(true);
+    createNotification(false);
+  };
   const onFinished = () => {
     setFinishedCount(true);
+    createNotification(true);
     setFinishedBreak(false);
   };
 
