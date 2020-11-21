@@ -62,6 +62,10 @@ export class tomatoState {
 
   @computed
   get finishedTomato() {
-    return this.tomatoes.filter((tomato) => tomato.ended_at && !tomato.aborted);
+    return this.tomatoes
+      .filter((tomato) => tomato.ended_at && !tomato.aborted)
+      .sort((a, b) => {
+        return Date.parse(b.ended_at) - Date.parse(a.ended_at);
+      });
   }
 }

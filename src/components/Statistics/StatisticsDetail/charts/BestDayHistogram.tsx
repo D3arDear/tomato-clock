@@ -32,9 +32,17 @@ const BestDayHistogram: React.FC<BestDayHistogramProps> = (props) => {
     return data.map((day, index) => {
       return {
         x: (svgWidth / 7) * index + 30,
-        y: ( verticalRange === 0 ) ? ( 97 + 10 ) : (1 - day.count / verticalRange) * 97 + 10,
+        y:
+          verticalRange === 0
+            ? 97 + 10
+            : (1 - day.count / verticalRange) * 97 + 10,
         width: rectWidth,
-        height: day.count === 0 ? 3 : ( ( verticalRange === 0 ) ? 3 :( (day.count / verticalRange) * 100 ) ),
+        height:
+          day.count === 0
+            ? 3
+            : verticalRange === 0
+            ? 3
+            : (day.count / verticalRange) * 100,
       };
     });
   }, [bestDay, data, rectWidth, svgWidth]);
