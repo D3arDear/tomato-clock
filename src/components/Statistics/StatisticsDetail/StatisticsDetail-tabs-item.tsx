@@ -8,7 +8,7 @@ import BestMoment from "./StatisticsDetail-BestDay";
 
 interface StatisticsDetailItemProps {
   data: Todo[] | Tomato[];
-  selectedDate: DateRange;
+  selectedDate: DateRange<Date | null>;
   width: number;
   isTomato: boolean;
 }

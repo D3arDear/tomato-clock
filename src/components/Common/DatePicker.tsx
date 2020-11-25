@@ -24,7 +24,10 @@ const DatePicker = forwardRef((props: DatePickerProps, ref) => {
   const { disableFuture } = props;
   const { dateFilterState } = useStores();
   const currentDate = dateFilterState.pickersDateRange;
-  const [dateRange, setDateRange] = useState<DateRangeType>([null, null]);
+  const [dateRange, setDateRange] = useState<DateRangeType<Date | null>>([
+    null,
+    null,
+  ]);
   React.useEffect(() => {
     setDateRange(() => dateFilterState.dateRange);
   }, [dateFilterState.dateRange]);
@@ -34,7 +37,7 @@ const DatePicker = forwardRef((props: DatePickerProps, ref) => {
     setDateRange: changeHandler,
   }));
 
-  const changeHandler = (date: DateRangeType) => {
+  const changeHandler = (date: DateRangeType<Date | null>) => {
     setDateRange(date);
     dateFilterState.updatePickersDateRange(date);
   };

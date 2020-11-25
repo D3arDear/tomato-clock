@@ -1,5 +1,5 @@
 import React, { useMemo, Fragment } from "react";
-import { DateRange } from "@material-ui/pickers/src/DateRangePicker/RangeTypes";
+import { DateRange } from "@material-ui/pickers/DateRangePicker/RangeTypes";
 import { useStores } from "src/hooks/use-stores";
 import { observer } from "mobx-react";
 import "mobx-react-lite/batchingForReactDom";
@@ -11,7 +11,7 @@ import "./TomatoHistory.scss";
 
 interface TomatoHistoryProps {
   aborted?: boolean;
-  selectedDate: DateRange;
+  selectedDate: DateRange<Date | null>;
 }
 
 const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {

@@ -10,18 +10,18 @@ import { DateRange as DateRangeType } from "@material-ui/pickers";
 // );
 export class dateFilterState {
   @observable
-  dateRange: DateRangeType = [null, null];
+  dateRange: DateRangeType<Date | null> = [null, null];
 
   @observable
-  pickersDateRange: DateRangeType = [null, null];
+  pickersDateRange: DateRangeType<Date | null> = [null, null];
 
   @action
-  updatedDate(dateRange: DateRangeType) {
+  updatedDate(dateRange: DateRangeType<Date | null>) {
     this.dateRange = dateRange;
   }
 
   @action
-  updatePickersDateRange(dateRange: DateRangeType) {
+  updatePickersDateRange(dateRange: DateRangeType<Date | null>) {
     this.pickersDateRange = dateRange;
   }
 

@@ -5,7 +5,7 @@ import _ from "lodash";
 import { useStores } from "src/hooks/use-stores";
 import "./TodoHistory.scss";
 import TodoHistoryItem from "./TodoHistoryItem";
-import { MaterialUiPickersDate } from "@material-ui/pickers/src/typings/date";
+import { DateRange as MaterialUiPickersDate } from "@material-ui/pickers/DateRangePicker/RangeTypes";
 
 // interface Todo {
 //   description: string;
@@ -17,7 +17,7 @@ import { MaterialUiPickersDate } from "@material-ui/pickers/src/typings/date";
 // }
 interface TodoHistoryProps {
   finished: boolean;
-  selectedDate: MaterialUiPickersDate[];
+  selectedDate: MaterialUiPickersDate<Date | null>;
 }
 
 const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
