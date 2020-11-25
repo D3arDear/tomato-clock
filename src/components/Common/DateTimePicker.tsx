@@ -17,6 +17,7 @@ function DateTimePicker(props: any) {
     <LocalizationProvider dateAdapter={DateFnsAdapter} locale={cnLocale}>
       <MobileDateTimePicker
         disableFuture
+        ampm
         minDate={startDate ? startDate : null}
         minTime={startDate ? startDate : null}
         maxDate={endDate ? endDate : null}
