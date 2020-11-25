@@ -3,6 +3,16 @@
   &-list {
     padding: 5px;
     border-radius: 4px;
+    &-empty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #888;
+      min-height: 200px;
+      @media screen and(max-width:720px) {
+        min-height: 80px;
+      }
+    }
   }
   .completedTodos {
     transition: all 0.3s;

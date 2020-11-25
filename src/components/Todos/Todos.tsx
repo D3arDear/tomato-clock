@@ -54,11 +54,15 @@ const Todos: React.FunctionComponent = observer(() => {
     <div className="Todos" id="Todos">
       <TodoInput />
       <main className="Todos-list">
-        <div>
-          {unCompletedTodos.map((item) => {
-            return <TodoItem key={item.id} {...item}></TodoItem>;
-          })}
-        </div>
+        {currentTodos.length > 0 ? (
+          <div className="Todos-list-todo">
+            {unCompletedTodos.map((item) => {
+              return <TodoItem key={item.id} {...item}></TodoItem>;
+            })}
+          </div>
+        ) : (
+          <div className="Todos-list-empty">您还没有创建任何任务</div>
+        )}
         <Button
           color="primary"
           startIcon={

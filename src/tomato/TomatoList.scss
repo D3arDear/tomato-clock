@@ -2,6 +2,16 @@
   margin-top: 9px;
   border-top: 1px solid #ddd;
   padding: 0 10px 10px 10px;
+  &-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    min-height: 200px;
+    @media screen and(max-width:720px) {
+      min-height: 80px;
+    }
+  }
   .dailyTomato {
     padding-top: 10px;
     .title {
