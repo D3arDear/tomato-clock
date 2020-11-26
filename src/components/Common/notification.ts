@@ -1,6 +1,7 @@
 const notificationBody = (ifFinishedTomato: boolean) => {
   new Notification("番茄闹钟", {
     lang: "zh-CN",
+    icon: "/logo512.png",
     body: ifFinishedTomato ? "您已经完成了一个番茄时间" : "您已经休息了 5 分钟",
   });
 };

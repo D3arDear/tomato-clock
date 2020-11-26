@@ -4,10 +4,18 @@ import axios from "src/config/axios";
 import "./Home.scss";
 import UserMenu from "./userMenu";
 import Todos from "src/components/Todos/Todos";
-import { MenuItem, makeStyles, ListItemIcon, Toolbar, Typography, AppBar } from "@material-ui/core";
+import {
+  MenuItem,
+  makeStyles,
+  ListItemIcon,
+  Toolbar,
+  Typography,
+  AppBar,
+} from "@material-ui/core";
 import { ExitToApp, Settings } from "@material-ui/icons";
 import Tomatoes from "src/tomato/Tomatoes";
 import Statistics from "../Statistics/Statistics";
+import SvgIcon from "./svgIcon";
 
 interface HomeState {
   account: string;
@@ -22,7 +30,8 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    boxShadow: "0 4px 4px -4px rgba(0,0,0,0.2),0px 5px 5px -5px rgba(0,0,0,0.14), 0px 10px 10px -10px rgba(0,0,0,0.12)",
+    boxShadow:
+      "0 4px 4px -4px rgba(0,0,0,0.2),0px 5px 5px -5px rgba(0,0,0,0.14), 0px 10px 10px -10px rgba(0,0,0,0.12)",
   },
 });
 
@@ -40,7 +49,7 @@ const Home: React.FunctionComponent<any> = (props) => {
   useEffect(() => {
     const getMe = async () => {
       const response = await axios.get("user/me");
-      setUser({account:response.data.data});
+      setUser({ account: response.data.data });
     };
     getMe();
   }, []);
@@ -48,7 +57,12 @@ const Home: React.FunctionComponent<any> = (props) => {
     <div className="home">
       <AppBar className={classes.appBar} color="transparent" position="static">
         <Toolbar variant="dense" className="home-header">
-          <Typography variant="h6">番茄闹钟</Typography>
+          <div className="home-header-icon">
+            {SvgIcon(30)}
+            <div>
+              <Typography variant="h6">番茄闹钟</Typography>
+            </div>
+          </div>
           <div className="home-header-userButton">
             <UserMenu username={user.account}>
               <MenuItem className={classes.menuItem}>
