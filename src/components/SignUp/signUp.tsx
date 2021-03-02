@@ -5,6 +5,7 @@ import "./signUp.scss";
 import { makeStyles } from "@material-ui/core";
 import axios from "src/config/axios";
 import { History } from "history";
+import { AxiosResponse } from "axios";
 
 interface State {
   username: string;
@@ -23,9 +24,16 @@ const useStyles = makeStyles({
   },
   subTitle: {
     fontSize: "14px",
+    color: "rgba(255, 179, 113, 1)",
+    lineHeight: "1",
   },
   buttonWrapper: {
     display: "flex",
+    marginTop: "14px",
+  },
+  buttonWrapperWithError: {
+    display: "flex",
+    marginTop: "0",
   },
   button: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -54,7 +62,8 @@ const useStyles = makeStyles({
       boxShadow: "none",
     },
     display: "flex",
-    boxShadow: "0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)",
+    boxShadow:
+      "0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12)",
     borderRadius: "4px",
     overflow: "hidden",
   },
@@ -86,6 +95,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
     password: "",
     passwordConfirmation: "",
   });
+  const [error, setError] = useState<string>("");
   const { username, password, passwordConfirmation } = userForm;
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserForm({
@@ -94,16 +104,21 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
     });
   };
   const submit = async () => {
-    try {
-      await axios.post("user/register", {
+    await axios
+      .post("user/register", {
         username: username,
         password,
         password_confirmation: passwordConfirmation,
-      });
-      await props.history.push("/");
-    } catch (e) {
-      throw new Error(e);
-    }
+      })
+      .then(
+        () => {
+          props.history.push("/");
+        },
+        (error) => {
+          const response: AxiosResponse = error.response;
+          setError(response.data.msg);
+        }
+      );
   };
   const linkTo = () => {
     props.history.push("/login");
@@ -148,8 +163,13 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
             value={passwordConfirmation}
             onChange={handleChange("passwordConfirmation")}
           />
-          <div className={classes.buttonWrapper}>
-            <Button className={classes.button} color="secondary" onClick={submit} variant="contained">
+          <div className={classes.subTitle}>{error}</div>
+          <div className={error ? classes.buttonWrapperWithError : classes.buttonWrapper}>
+            <Button
+              className={classes.button}
+              color="secondary"
+              onClick={submit}
+              variant="contained">
               注册
             </Button>
             <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>

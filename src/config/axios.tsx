@@ -1,8 +1,6 @@
 import axios from "axios";
+import { appID, appSecret } from "./axiosHeader";
 import history from "./history";
-
-const appID = "2acmcPV36o2Y7HpZCX93FuHo";
-const appSecret = "a4R9QmDp3PHM2PnPqRzG82k6";
 
 const instance = axios.create({
   // baseURL: "https://gp-server.hunger-valley.com/",
