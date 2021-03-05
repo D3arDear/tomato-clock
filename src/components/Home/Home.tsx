@@ -4,15 +4,8 @@ import axios from "src/config/axios";
 import "./Home.scss";
 import UserMenu from "./userMenu";
 import Todos from "src/components/Todos/Todos";
-import {
-  MenuItem,
-  makeStyles,
-  ListItemIcon,
-  Toolbar,
-  Typography,
-  AppBar,
-} from "@material-ui/core";
-import { ExitToApp, Settings } from "@material-ui/icons";
+import { MenuItem, makeStyles, ListItemIcon, Toolbar, Typography, AppBar } from "@material-ui/core";
+import { ExitToApp } from "@material-ui/icons";
 import Tomatoes from "src/tomato/Tomatoes";
 import Statistics from "../Statistics/Statistics";
 import SvgIcon from "./svgIcon";
@@ -65,12 +58,12 @@ const Home: React.FunctionComponent<any> = (props) => {
           </div>
           <div className="home-header-userButton">
             <UserMenu username={user.account}>
-              <MenuItem className={classes.menuItem}>
+              {/* <MenuItem className={classes.menuItem}>
                 <ListItemIcon>
                   <Settings fontSize="small"></Settings>
                 </ListItemIcon>
                 偏好设置
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem className={classes.menuItem} onClick={logout}>
                 <ListItemIcon>
                   <ExitToApp fontSize="small"></ExitToApp>

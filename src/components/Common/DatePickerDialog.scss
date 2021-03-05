@@ -1,6 +1,10 @@
-.datePicker-dialog-content{
-  width:100%;
+.datePicker-dialog-content {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.datePicker-dialog-content__actions {
+  display: flex;
 }

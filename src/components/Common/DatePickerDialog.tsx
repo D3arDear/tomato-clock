@@ -44,20 +44,12 @@ const DatePickerDialog = (props: DatePickerDialogProps) => {
   };
   const selectCurrentMonth = () => {
     let firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-    let lastDay = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      0
-    );
+    let lastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
     // @ts-ignore：无法被执行的代码的错误
     datePickerRef.current.setDateRange([firstDay, lastDay]);
   };
   const selectLastMonth = () => {
-    let firstDay = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() - 1,
-      1
-    );
+    let firstDay = new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1);
     let lastDay = new Date(new Date().getFullYear(), new Date().getMonth(), 0);
     // @ts-ignore：无法被执行的代码的错误
     datePickerRef.current.setDateRange([firstDay, lastDay]);
@@ -67,18 +59,10 @@ const DatePickerDialog = (props: DatePickerDialogProps) => {
     <div>
       <IconButton aria-label="date-range" onClick={handleClickOpen}>
         <DateRange
-          color={
-            selectedDate[0] !== null && selectedDate[1] !== null
-              ? "primary"
-              : "secondary"
-          }
+          color={selectedDate[0] !== null && selectedDate[1] !== null ? "primary" : "secondary"}
         />
       </IconButton>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
+      <Dialog open={open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
         <DialogContent style={{ overflow: "hidden", padding: 0 }}>
           <div className="datePicker-dialog-content">
             <DatePicker disableFuture={disableFuture} ref={datePickerRef} />
@@ -89,8 +73,7 @@ const DatePickerDialog = (props: DatePickerDialogProps) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-          }}
-        >
+          }}>
           <IconButton onClick={clearDate} autoFocus aria-label="confirm">
             <Delete color="primary" />
           </IconButton>
@@ -100,7 +83,7 @@ const DatePickerDialog = (props: DatePickerDialogProps) => {
           <Button color="secondary" onClick={selectLastMonth}>
             上月
           </Button>
-          <div>
+          <div className="datePicker-dialog-content__actions">
             <IconButton aria-label="clear" onClick={handleClose}>
               <Clear color="secondary" />
             </IconButton>
