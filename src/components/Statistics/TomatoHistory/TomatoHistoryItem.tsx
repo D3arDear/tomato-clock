@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import axios from "src/config/axios";
-import {
-  makeStyles,
-  Theme,
-  IconButton,
-  createStyles,
-  TextField,
-} from "@material-ui/core";
+import { makeStyles, Theme, IconButton, createStyles, TextField } from "@material-ui/core";
 import { Delete, Edit, SettingsBackupRestore, Check } from "@material-ui/icons";
 import { format } from "date-fns";
 import { Tomato } from "src/store/tomatoState";
@@ -49,7 +43,10 @@ const useStyle = makeStyles((theme: Theme) =>
 );
 
 const TomatoHistoryItem: React.FC<IProps> = (props) => {
-  const { started_at, ended_at, description, id, itemType } = props;
+  const { started_at, ended_at: _ended_at, description, id, itemType, updated_at } = props;
+
+  const ended_at = useMemo(() => (_ended_at ? _ended_at : updated_at), [_ended_at, updated_at]);
+
   const [editText, setEditText] = useState(props.description);
   const classes = useStyle();
   const handleUpdateTomato = async (payload: any) => {
@@ -69,9 +66,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
           new Date(started_at),
           "HH:mm"
         )} ~ ${format(new Date(ended_at), "HH:mm")}`}</span>
-        <span className="TomatoHistory-tomatoItem-description">
-          {description}
-        </span>
+        <span className="TomatoHistory-tomatoItem-description">{description}</span>
       </div>
       {itemType === "finished" ? (
         <div className="action">
@@ -81,8 +76,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
             size="small"
             onClick={(e) => {
               toggleEditMode(true);
-            }}
-          >
+            }}>
             <Edit />
           </IconButton>
           <IconButton
@@ -90,8 +84,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
             size="small"
             onClick={(e) => {
               handleUpdateTomato({ aborted: true });
-            }}
-          >
+            }}>
             <Delete />
           </IconButton>
         </div>
@@ -103,8 +96,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
             size="small"
             onClick={(e) => {
               toggleEditMode(true);
-            }}
-          >
+            }}>
             <Edit />
           </IconButton>
           <IconButton
@@ -112,8 +104,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
             size="small"
             onClick={(e) => {
               handleUpdateTomato({ aborted: false });
-            }}
-          >
+            }}>
             <SettingsBackupRestore />
           </IconButton>
         </div>
@@ -127,8 +118,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
         className={classes.iconButton}
         onClick={(e) => {
           handleUpdateTomato({ description: editText });
-        }}
-      >
+        }}>
         <Check />
       </IconButton>
       <TextField
@@ -143,8 +133,7 @@ const TomatoHistoryItem: React.FC<IProps> = (props) => {
         className={classes.iconButton}
         onClick={(e) => {
           handleUpdateTomato({ aborted: true });
-        }}
-      >
+        }}>
         <Delete />
       </IconButton>
     </div>

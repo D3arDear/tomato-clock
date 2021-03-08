@@ -117,6 +117,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
           props.history.push("/");
         },
         (error) => {
+          console.log(error);
           const response: AxiosResponse = error.response;
           setError(response.data.msg);
         }
