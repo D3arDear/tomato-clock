@@ -108,7 +108,6 @@ const Login: React.FunctionComponent<Props> = (props) => {
     });
   };
   const submit = async () => {
-    console.log("提交了");
     await axios
       .post("user/login", {
         username: username,
@@ -116,11 +115,9 @@ const Login: React.FunctionComponent<Props> = (props) => {
       })
       .then(
         () => {
-          console.log("成功了？");
           props.history.push("/");
         },
         (error) => {
-          console.log(error);
           const response: AxiosResponse = error.response;
           setError(response.data.msg);
         }

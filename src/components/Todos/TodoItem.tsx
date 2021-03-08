@@ -74,7 +74,6 @@ const TodoItem: React.FunctionComponent<Props> = observer((props) => {
       payload.completed_at = new Date();
     }
     const response = await axios.put(`todos/${props.id}`, payload);
-    console.log(response.data);
     todoState.updateTodos(response.data);
     justCompletedTodo.addTodo(response.data);
   };

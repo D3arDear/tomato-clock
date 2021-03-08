@@ -53,7 +53,6 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
 
   const dailyAbortedTomatoes = useMemo(() => {
     return _.groupBy(abortedTomatoes, (tomato) => {
-      console.log(tomato);
       return format(new Date(tomato.ended_at ? tomato.ended_at : tomato.updated_at), "yyyy-MM-dd");
     });
   }, [abortedTomatoes]);
