@@ -7,6 +7,9 @@ import axios from "src/config/axios";
 import { History } from "history";
 import { AxiosResponse } from "axios";
 import SvgIcon from "../Home/svgIcon";
+import ReferenceFooter from "../Home/ReferenceFooter";
+import { motion } from "framer-motion";
+import { moveAndFade } from "src/config/animation";
 
 interface State {
   username: string;
@@ -127,55 +130,60 @@ const Login: React.FunctionComponent<Props> = (props) => {
     props.history.push("/signUp");
   };
   return (
-    <div className="login-wrapper">
-      <div className={classes.paper}>
-        <div className={classes.card}>
-          <div className={classes.title}>
-            <div>登录</div>
-            <div className={classes.subTitle}>欢迎使用番茄闹钟</div>
-          </div>
-          <TextField
-            className={classes.input}
-            margin="dense"
-            required
-            label="用户名"
-            placeholder="用户名"
-            variant="filled"
-            value={username}
-            onChange={handleChange("username")}
-          />
-          <TextField
-            className={classes.input}
-            required
-            margin="dense"
-            type="password"
-            label="密码"
-            placeholder="密码"
-            variant="filled"
-            value={password}
-            onChange={handleChange("password")}
-          />
-          <div className={classes.subTitle}>
-            <span>{error}</span>
-          </div>
-          <div className={error ? classes.buttonWrapperWithError : classes.buttonWrapper}>
-            <Button
-              className={classes.button}
-              color="secondary"
-              onClick={submit}
-              variant="contained">
-              登录
-            </Button>
-            <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>
-              注册
-            </Button>
+    <motion.div initial="initial" animate="enter" exit="exit" variants={moveAndFade}>
+      <div className="login">
+        <div className="login-wrapper">
+          <div className={classes.paper}>
+            <div className={classes.card}>
+              <div className={classes.title}>
+                <div>登录</div>
+                <div className={classes.subTitle}>欢迎使用番茄闹钟</div>
+              </div>
+              <TextField
+                className={classes.input}
+                margin="dense"
+                required
+                label="用户名"
+                placeholder="用户名"
+                variant="filled"
+                value={username}
+                onChange={handleChange("username")}
+              />
+              <TextField
+                className={classes.input}
+                required
+                margin="dense"
+                type="password"
+                label="密码"
+                placeholder="密码"
+                variant="filled"
+                value={password}
+                onChange={handleChange("password")}
+              />
+              <div className={classes.subTitle}>
+                <span>{error}</span>
+              </div>
+              <div className={error ? classes.buttonWrapperWithError : classes.buttonWrapper}>
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={submit}
+                  variant="contained">
+                  登录
+                </Button>
+                <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>
+                  注册
+                </Button>
+              </div>
+            </div>
+            <div className={classes.cover}>
+              {SvgIcon(240, { filter: "drop-shadow(0px 0px 10px #f0492c)" })}
+            </div>
           </div>
         </div>
-        <div className={classes.cover}>
-          {SvgIcon(240, { filter: "drop-shadow(0px 0px 10px #f0492c)" })}
-        </div>
+        <ReferenceFooter />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -10,6 +10,8 @@ import Tomatoes from "src/tomato/Tomatoes";
 import Statistics from "../Statistics/Statistics";
 import SvgIcon from "./svgIcon";
 import ReferenceFooter from "./ReferenceFooter";
+import { motion } from "framer-motion";
+import { moveAndFade } from "src/config/animation";
 
 interface HomeState {
   account: string;
@@ -48,7 +50,7 @@ const Home: React.FunctionComponent<any> = (props) => {
     getMe();
   }, []);
   return (
-    <>
+    <motion.div initial="initial" animate="enter" exit="exit" variants={moveAndFade}>
       <div>
         <div className="home">
           <AppBar className={classes.appBar} color="transparent" position="static">
@@ -91,7 +93,7 @@ const Home: React.FunctionComponent<any> = (props) => {
         </div>
         <ReferenceFooter />
       </div>
-    </>
+    </motion.div>
   );
 };
 

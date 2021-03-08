@@ -46,10 +46,9 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
     });
   }, [finishedTomato]);
 
-  const lastFinishedTomatoTime = useMemo(
-    () => new Date(finishedTomato[0]?.ended_at),
-    [finishedTomato]
-  );
+  const lastFinishedTomatoTime = useMemo(() => new Date(finishedTomato[0]?.ended_at), [
+    finishedTomato,
+  ]);
 
   useEffect(() => {
     const getTomato = async () => {

@@ -7,6 +7,9 @@ import axios from "src/config/axios";
 import { History } from "history";
 import { AxiosResponse } from "axios";
 import SvgIcon from "../Home/svgIcon";
+import ReferenceFooter from "../Home/ReferenceFooter";
+import { motion } from "framer-motion";
+import { moveAndFade } from "src/config/animation";
 
 interface State {
   username: string;
@@ -127,64 +130,69 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
     props.history.push("/login");
   };
   return (
-    <div className="signUp-wrapper">
-      <div className={classes.paper}>
-        <div className={classes.card}>
-          <div className={classes.title}>
-            <div>注册</div>
-            <div className={classes.subTitle}>注册账号以保存您的番茄进度</div>
-          </div>
-          <TextField
-            className={classes.input}
-            margin="dense"
-            required
-            label="用户名"
-            placeholder="用户名"
-            variant="filled"
-            value={username}
-            onChange={handleChange("username")}
-          />
-          <TextField
-            className={classes.input}
-            required
-            margin="dense"
-            type="password"
-            label="密码"
-            placeholder="密码"
-            variant="filled"
-            value={password}
-            onChange={handleChange("password")}
-          />
-          <TextField
-            className={classes.input}
-            required
-            margin="dense"
-            type="password"
-            label="确认密码"
-            placeholder="确认密码"
-            variant="filled"
-            value={passwordConfirmation}
-            onChange={handleChange("passwordConfirmation")}
-          />
-          <div className={classes.subTitle}>{error}</div>
-          <div className={error ? classes.buttonWrapperWithError : classes.buttonWrapper}>
-            <Button
-              className={classes.button}
-              color="secondary"
-              onClick={submit}
-              variant="contained">
-              注册
-            </Button>
-            <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>
-              登录
-            </Button>
+    <motion.div initial="initial" animate="enter" exit="exit" variants={moveAndFade}>
+      <div className="signUp">
+        <div className="signUp-wrapper">
+          <div className={classes.paper}>
+            <div className={classes.card}>
+              <div className={classes.title}>
+                <div>注册</div>
+                <div className={classes.subTitle}>注册账号以保存您的番茄进度</div>
+              </div>
+              <TextField
+                className={classes.input}
+                margin="dense"
+                required
+                label="用户名"
+                placeholder="用户名"
+                variant="filled"
+                value={username}
+                onChange={handleChange("username")}
+              />
+              <TextField
+                className={classes.input}
+                required
+                margin="dense"
+                type="password"
+                label="密码"
+                placeholder="密码"
+                variant="filled"
+                value={password}
+                onChange={handleChange("password")}
+              />
+              <TextField
+                className={classes.input}
+                required
+                margin="dense"
+                type="password"
+                label="确认密码"
+                placeholder="确认密码"
+                variant="filled"
+                value={passwordConfirmation}
+                onChange={handleChange("passwordConfirmation")}
+              />
+              <div className={classes.subTitle}>{error}</div>
+              <div className={error ? classes.buttonWrapperWithError : classes.buttonWrapper}>
+                <Button
+                  className={classes.button}
+                  color="secondary"
+                  onClick={submit}
+                  variant="contained">
+                  注册
+                </Button>
+                <Button className={classes.secondaryButton} color="primary" onClick={linkTo}>
+                  登录
+                </Button>
+              </div>
+            </div>
+            <div className={classes.cover}>
+              {SvgIcon(240, { filter: "drop-shadow(0px 0px 10px #f0492c)" })}
+            </div>
           </div>
         </div>
-        <div className={classes.cover}>
-          {SvgIcon(240, { filter: "drop-shadow(0px 0px 10px #f0492c)" })}
-        </div>
+        <ReferenceFooter />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

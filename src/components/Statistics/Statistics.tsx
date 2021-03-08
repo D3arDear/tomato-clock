@@ -41,10 +41,9 @@ const Statistics: React.FunctionComponent = () => {
 
   const [currentDisplay, handleDisplayChange] = useState(0);
 
-  const finishedTodos = useMemo(
-    () => todos.filter((todo) => todo.completed && !todo.deleted),
-    [todos]
-  );
+  const finishedTodos = useMemo(() => todos.filter((todo) => todo.completed && !todo.deleted), [
+    todos,
+  ]);
 
   const dailyTodos = useMemo(
     () =>
@@ -55,10 +54,7 @@ const Statistics: React.FunctionComponent = () => {
   );
 
   const finishedTomatoes = useMemo(
-    () =>
-      tomatoes
-        .filter((tomato) => !tomato.aborted)
-        .filter((tomato) => tomato.ended_at),
+    () => tomatoes.filter((tomato) => !tomato.aborted).filter((tomato) => tomato.ended_at),
     [tomatoes]
   );
 
@@ -66,8 +62,7 @@ const Statistics: React.FunctionComponent = () => {
     () =>
       finishedTomatoes.filter(
         (tomato) =>
-          new Date(tomato.ended_at) >
-          new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+          new Date(tomato.ended_at) > new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
       ),
     [finishedTomatoes]
   );
@@ -95,8 +90,7 @@ const Statistics: React.FunctionComponent = () => {
           className={currentDisplay === 1 ? "active" : ""}
           onClick={() => {
             handleDisplayChange(1);
-          }}
-        >
+          }}>
           <div className="titles">
             <span className="title">统计</span>
             <span className="subTitle">近30天累计</span>
@@ -108,8 +102,7 @@ const Statistics: React.FunctionComponent = () => {
           className={currentDisplay === 2 ? "active" : ""}
           onClick={() => {
             handleDisplayChange(2);
-          }}
-        >
+          }}>
           <div className="titles">
             <span className="title">番茄历史</span>
             <span className="subTitle">累计完成番茄</span>
@@ -122,8 +115,7 @@ const Statistics: React.FunctionComponent = () => {
           ref={liRef}
           onClick={() => {
             handleDisplayChange(3);
-          }}
-        >
+          }}>
           <div className="titles">
             <span className="title">任务历史</span>
             <span className="subTitle">累计完成任务</span>
@@ -134,12 +126,7 @@ const Statistics: React.FunctionComponent = () => {
       </ul>
       <div>
         {currentDisplay === 1 && (
-          <motion.div
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={scaleAndFade}
-          >
+          <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
             <StatisticsDetailTabs
               finishedTodos={finishedTodos}
               finishedTomatoes={finishedTomatoes}
@@ -148,22 +135,12 @@ const Statistics: React.FunctionComponent = () => {
           </motion.div>
         )}
         {currentDisplay === 2 && (
-          <motion.div
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={scaleAndFade}
-          >
+          <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
             <TomatoHistoryTabs />
           </motion.div>
         )}
         {currentDisplay === 3 && (
-          <motion.div
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={scaleAndFade}
-          >
+          <motion.div initial="initial" animate="enter" exit="exit" variants={scaleAndFade}>
             <TodoHistoryTabs />
           </motion.div>
         )}
