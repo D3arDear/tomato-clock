@@ -35,10 +35,9 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const { justCompletedTodo } = useStores();
 
   const timeNow = new Date().getTime();
-  const startedAt = useMemo(
-    () => Date.parse(unfinishedTomato && unfinishedTomato.started_at),
-    [unfinishedTomato]
-  );
+  const startedAt = useMemo(() => Date.parse(unfinishedTomato && unfinishedTomato.started_at), [
+    unfinishedTomato,
+  ]);
   const duration = unfinishedTomato ? unfinishedTomato.duration : 0;
 
   const [open, setOpen] = useState(false);
@@ -50,10 +49,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   };
 
   const updateTomato = async (params: any) => {
-    const response = await axios.put(
-      `tomatoes/${props.unfinishedTomato.id}`,
-      params
-    );
+    const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, params);
     await props.updateTomato(response.data);
   };
 
@@ -87,7 +83,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
 
   const abortTomato = () => {
     toggleConfirm(false);
-    updateTomato({ aborted: true });
+    updateTomato({ aborted: true, ended_at: new Date() });
     document.title = "番茄闹钟";
   };
 
@@ -111,8 +107,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
           onFinished={() => onFinishedBreak()}
           duration={1000 * 60 * 5}
           onPressClear={() => {}}
-          isBreakTime
-        ></CountDown>
+          isBreakTime></CountDown>
       </div>
     ) : (
       <div className="tomatoAction">
@@ -127,14 +122,12 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
         duration={duration}
         onPressClear={() => {
           toggleConfirm(true);
-        }}
-      ></CountDown>
+        }}></CountDown>
       <div className="abort">
         <AbortConfirm
           open={open}
           toggleConfirm={toggleConfirm}
-          abortTomato={abortTomato}
-        ></AbortConfirm>
+          abortTomato={abortTomato}></AbortConfirm>
       </div>
     </div>
   ) : (
@@ -151,8 +144,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
         <AbortConfirm
           open={open}
           toggleConfirm={toggleConfirm}
-          abortTomato={abortTomato}
-        ></AbortConfirm>
+          abortTomato={abortTomato}></AbortConfirm>
       </div>
     </div>
   );
