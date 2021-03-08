@@ -26,16 +26,13 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
   const { todos } = todoState;
 
   const finishedTodos = useMemo(() => {
-    const afterFilterTodos = todos.filter(
-      (todo) => todo.completed && !todo.deleted
-    );
+    const afterFilterTodos = todos.filter((todo) => todo.completed && !todo.deleted);
     const filterTodosWithRange = (todos: any) => {
       return selectedDate[0] !== null && selectedDate[1] !== null
         ? todos.filter(
             (todo: any) =>
               +new Date(todo.completed_at) > +new Date(selectedDate[0]!) &&
-              +new Date(todo.completed_at) <
-                +new Date(selectedDate[1]!)?.setHours(24)
+              +new Date(todo.completed_at) < +new Date(selectedDate[1]!)?.setHours(24)
           )
         : todos;
     };
@@ -49,8 +46,7 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
           .filter(
             (todo) =>
               +new Date(todo.completed_at) > +new Date(selectedDate[0]!) &&
-              +new Date(todo.completed_at) <
-                +new Date(selectedDate[1]!)?.setHours(24)
+              +new Date(todo.completed_at) < +new Date(selectedDate[1]!)?.setHours(24)
           )
       : todos.filter((todo) => todo.deleted);
   }, [selectedDate, todos]);
@@ -63,20 +59,19 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
 
   const dailyDeletedTodos = useMemo(() => {
     return _.groupBy(deletedTodos, (todo) => {
-      return format(new Date(todo.completed_at!), "yyyy-MM-dd");
+      return format(
+        new Date(todo.completed_at ? todo.completed_at : todo.updated_at),
+        "yyyy-MM-dd"
+      );
     });
   }, [deletedTodos]);
 
   const finishedDates = useMemo(() => {
-    return Object.keys(dailyFinishedTodos).sort(
-      (a, b) => Date.parse(b) - Date.parse(a)
-    );
+    return Object.keys(dailyFinishedTodos).sort((a, b) => Date.parse(b) - Date.parse(a));
   }, [dailyFinishedTodos]);
 
   const deletedDates = useMemo(() => {
-    return Object.keys(dailyDeletedTodos).sort(
-      (a, b) => Date.parse(b) - Date.parse(a)
-    );
+    return Object.keys(dailyDeletedTodos).sort((a, b) => Date.parse(b) - Date.parse(a));
   }, [dailyDeletedTodos]);
 
   const FinishedTodoList = () => {
@@ -91,9 +86,9 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
                   <span>
                     {format(
                       new Date(
-                        (finished ? dailyFinishedTodos : dailyDeletedTodos)[
-                          date
-                        ][0].completed_at
+                        (finished ? dailyFinishedTodos : dailyDeletedTodos)[date][0][
+                          finished ? "completed_at" : "updated_at"
+                        ]
                       ),
                       "eee"
                     )}
@@ -101,40 +96,20 @@ const TodoHistory: React.FunctionComponent<TodoHistoryProps> = (props) => {
                 </p>
                 <p className="finishedCount">
                   {finished ? "完成了" : "移除了"}{" "}
-                  {
-                    (finished ? dailyFinishedTodos : dailyDeletedTodos)[date]
-                      .length
-                  }{" "}
-                  个任务
+                  {(finished ? dailyFinishedTodos : dailyDeletedTodos)[date].length} 个任务
                 </p>
               </div>
               <div className="TodoHistory-todoList">
                 {finished
                   ? dailyFinishedTodos[date]
-                      .sort(
-                        (a, b) =>
-                          Date.parse(b.completed_at) -
-                          Date.parse(a.completed_at)
-                      )
+                      .sort((a, b) => Date.parse(b.completed_at) - Date.parse(a.completed_at))
                       .map((todo) => (
-                        <TodoHistoryItem
-                          key={todo.id}
-                          {...todo}
-                          itemType="finished"
-                        />
+                        <TodoHistoryItem key={todo.id} {...todo} itemType="finished" />
                       ))
                   : dailyDeletedTodos[date]
-                      .sort(
-                        (a, b) =>
-                          Date.parse(b.completed_at) -
-                          Date.parse(a.completed_at)
-                      )
+                      .sort((a, b) => Date.parse(b.completed_at) - Date.parse(a.completed_at))
                       .map((todo) => (
-                        <TodoHistoryItem
-                          key={todo.id}
-                          {...todo}
-                          itemType="deleted"
-                        />
+                        <TodoHistoryItem key={todo.id} {...todo} itemType="deleted" />
                       ))}
               </div>
             </div>

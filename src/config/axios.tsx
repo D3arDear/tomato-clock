@@ -1,9 +1,9 @@
 import axios from "axios";
-import { appID, appSecret } from "../../_axiosHeader";
+import { appID, appSecret } from "./_axiosHeader";
 import history from "./history";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://47.99.209.100:3100/",
   headers: {
     "t-app-id": appID,
     "t-app-secret": appSecret,

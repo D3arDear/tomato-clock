@@ -9,6 +9,7 @@ import { ExitToApp } from "@material-ui/icons";
 import Tomatoes from "src/tomato/Tomatoes";
 import Statistics from "../Statistics/Statistics";
 import SvgIcon from "./svgIcon";
+import ReferenceFooter from "./ReferenceFooter";
 
 interface HomeState {
   account: string;
@@ -47,45 +48,50 @@ const Home: React.FunctionComponent<any> = (props) => {
     getMe();
   }, []);
   return (
-    <div className="home">
-      <AppBar className={classes.appBar} color="transparent" position="static">
-        <Toolbar variant="dense" className="home-header">
-          <div className="home-header-icon">
-            {SvgIcon(30)}
-            <div>
-              <Typography variant="h6">番茄闹钟</Typography>
-            </div>
-          </div>
-          <div className="home-header-userButton">
-            <UserMenu username={user.account}>
-              {/* <MenuItem className={classes.menuItem}>
+    <>
+      <div>
+        <div className="home">
+          <AppBar className={classes.appBar} color="transparent" position="static">
+            <Toolbar variant="dense" className="home-header">
+              <div className="home-header-icon">
+                {SvgIcon(30, { filter: "drop-shadow(0px 0px 2px #f0492c)" })}
+                <div>
+                  <Typography variant="h6">番茄闹钟</Typography>
+                </div>
+              </div>
+              <div className="home-header-userButton">
+                <UserMenu username={user.account}>
+                  {/* <MenuItem className={classes.menuItem}>
                 <ListItemIcon>
                   <Settings fontSize="small"></Settings>
                 </ListItemIcon>
                 偏好设置
               </MenuItem> */}
-              <MenuItem className={classes.menuItem} onClick={logout}>
-                <ListItemIcon>
-                  <ExitToApp fontSize="small"></ExitToApp>
-                </ListItemIcon>
-                注销
-              </MenuItem>
-            </UserMenu>
-          </div>
-        </Toolbar>
-      </AppBar>
-      <main className="home-main">
-        <div className="home-main-clock">
-          <Tomatoes></Tomatoes>
+                  <MenuItem className={classes.menuItem} onClick={logout}>
+                    <ListItemIcon>
+                      <ExitToApp fontSize="small"></ExitToApp>
+                    </ListItemIcon>
+                    注销
+                  </MenuItem>
+                </UserMenu>
+              </div>
+            </Toolbar>
+          </AppBar>
+          <main className="home-main">
+            <div className="home-main-clock">
+              <Tomatoes></Tomatoes>
+            </div>
+            <div className="home-main-todo">
+              <Todos></Todos>
+            </div>
+          </main>
+          <main className="home-main">
+            <Statistics />
+          </main>
         </div>
-        <div className="home-main-todo">
-          <Todos></Todos>
-        </div>
-      </main>
-      <main className="home-main">
-        <Statistics />
-      </main>
-    </div>
+        <ReferenceFooter />
+      </div>
+    </>
   );
 };
 

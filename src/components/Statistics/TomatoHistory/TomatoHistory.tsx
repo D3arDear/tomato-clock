@@ -20,16 +20,13 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
   const { tomatoes } = tomatoState;
 
   const finishedTomatoes = useMemo(() => {
-    const afterFilterTomatoes = tomatoes.filter(
-      (tomato) => tomato.ended_at && !tomato.aborted
-    );
+    const afterFilterTomatoes = tomatoes.filter((tomato) => tomato.ended_at && !tomato.aborted);
     const filterTomatoesWithRange = (tomatoes: any) => {
       return selectedDate[0] !== null && selectedDate[1] !== null
         ? tomatoes.filter(
             (tomato: any) =>
               +new Date(tomato.ended_at) > +new Date(selectedDate[0]!) &&
-              +new Date(tomato.ended_at) <
-                +new Date(selectedDate[1]!)?.setHours(24)
+              +new Date(tomato.ended_at) < +new Date(selectedDate[1]!)?.setHours(24)
           )
         : tomatoes;
     };
@@ -43,8 +40,7 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
           .filter(
             (tomato) =>
               +new Date(tomato.ended_at) > +new Date(selectedDate[0]!) &&
-              +new Date(tomato.ended_at) <
-                +new Date(selectedDate[1]!)?.setHours(24)
+              +new Date(tomato.ended_at) < +new Date(selectedDate[1]!)?.setHours(24)
           )
       : tomatoes.filter((tomato) => tomato.aborted);
   }, [selectedDate, tomatoes]);
@@ -57,20 +53,17 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
 
   const dailyAbortedTomatoes = useMemo(() => {
     return _.groupBy(abortedTomatoes, (tomato) => {
-      return format(new Date(tomato.ended_at!), "yyyy-MM-dd");
+      console.log(tomato);
+      return format(new Date(tomato.ended_at ? tomato.ended_at : tomato.updated_at), "yyyy-MM-dd");
     });
   }, [abortedTomatoes]);
 
   const finishedDates = useMemo(() => {
-    return Object.keys(dailyFinishedTomatoes).sort(
-      (a, b) => Date.parse(b) - Date.parse(a)
-    );
+    return Object.keys(dailyFinishedTomatoes).sort((a, b) => Date.parse(b) - Date.parse(a));
   }, [dailyFinishedTomatoes]);
 
   const abortedDates = useMemo(() => {
-    return Object.keys(dailyAbortedTomatoes).sort(
-      (a, b) => Date.parse(b) - Date.parse(a)
-    );
+    return Object.keys(dailyAbortedTomatoes).sort((a, b) => Date.parse(b) - Date.parse(a));
   }, [dailyAbortedTomatoes]);
 
   const totalTomatoTime = (tomatoArray: Tomato[]) => {
@@ -108,11 +101,8 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
                               totalTomatoTime(dailyFinishedTomatoes[date])) *
                             100
                           }%`,
-                          background: `${
-                            index % 2 === 0 ? "#ff7c36" : "#F2C086"
-                          }`,
-                        }}
-                      ></div>
+                          background: `${index % 2 === 0 ? "#ff7c36" : "#F2C086"}`,
+                        }}></div>
                     );
                   })}
                 </div>
@@ -123,9 +113,9 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
                   <span>
                     {format(
                       new Date(
-                        (!aborted
-                          ? dailyFinishedTomatoes
-                          : dailyAbortedTomatoes)[date][0].ended_at
+                        (!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date][0][
+                          aborted ? "updated_at" : "ended_at"
+                        ]
                       ),
                       "eee"
                     )}
@@ -134,12 +124,7 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
                 <div>
                   <p className="finishedCount">
                     {!aborted ? "完成了" : "打断了"}{" "}
-                    {
-                      (!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[
-                        date
-                      ].length
-                    }{" "}
-                    个番茄
+                    {(!aborted ? dailyFinishedTomatoes : dailyAbortedTomatoes)[date].length} 个番茄
                   </p>
                   {!aborted && (
                     <p className="finishedCount">{`总计 ${totalTomatoTime(
@@ -151,10 +136,7 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
               <div className=" TomatoHistory-tomatoList">
                 {!aborted
                   ? dailyFinishedTomatoes[date]
-                      .sort(
-                        (a, b) =>
-                          Date.parse(b.ended_at) - Date.parse(a.ended_at)
-                      )
+                      .sort((a, b) => Date.parse(b.ended_at) - Date.parse(a.ended_at))
                       .map((tomato) => (
                         <TomatoHistoryItem
                           key={tomato.id}
@@ -164,10 +146,7 @@ const TomatoHistory: React.FC<TomatoHistoryProps> = (props) => {
                         />
                       ))
                   : dailyAbortedTomatoes[date]
-                      .sort(
-                        (a, b) =>
-                          Date.parse(b.ended_at) - Date.parse(a.ended_at)
-                      )
+                      .sort((a, b) => Date.parse(b.ended_at) - Date.parse(a.ended_at))
                       .map((tomato) => (
                         <TomatoHistoryItem
                           key={tomato.id}

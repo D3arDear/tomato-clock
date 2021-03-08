@@ -10,6 +10,9 @@
 li {
   list-style: none;
 }
+body {
+  position: relative;
+}
 .app-page {
   &-wrapper {
     display: flex;

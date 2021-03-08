@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { format } from "date-fns";
 import axios from "src/config/axios";
 import "./TodoHistoryItem.scss";
@@ -9,7 +9,8 @@ import { useStores } from "src/hooks/use-stores";
 
 interface TodoHistoryItemProps {
   itemType: "finished" | "deleted";
-  completed_at: string;
+  completed_at?: string;
+  updated_at: string;
   description: string;
   id: number;
 }
@@ -27,11 +28,13 @@ const useStyle = makeStyles((theme: Theme) =>
   })
 );
 
-const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (
-  props
-) => {
-  const { completed_at, description, id, itemType } = props;
+const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (props) => {
+  const { completed_at: _completed_at, description, id, itemType, updated_at } = props;
   const { todoState } = useStores();
+
+  const completed_at = useMemo(() => {
+    return _completed_at ? _completed_at : updated_at;
+  }, [_completed_at, updated_at]);
 
   const handleUpdateTodo = async (params: any) => {
     const response = await axios.put(`todos/${id}`, params);
@@ -42,9 +45,7 @@ const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (
   return (
     <div className="TodoHistory-todoItem">
       <div className="text">
-        <span className="TodoHistory-todoItem-time">
-          {format(new Date(completed_at), "HH:mm")}
-        </span>
+        <span className="TodoHistory-todoItem-time">{format(new Date(completed_at), "HH:mm")}</span>
         <span className="TodoHistory-todoItem-description">{description}</span>
       </div>
       {itemType === "finished" ? (
@@ -55,8 +56,7 @@ const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (
             size="small"
             onClick={(e) => {
               handleUpdateTodo({ completed: false });
-            }}
-          >
+            }}>
             <SettingsBackupRestore />
           </IconButton>
           <IconButton
@@ -64,8 +64,7 @@ const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (
             size="small"
             onClick={(e) => {
               handleUpdateTodo({ deleted: true });
-            }}
-          >
+            }}>
             <Delete />
           </IconButton>
         </div>
@@ -77,8 +76,7 @@ const TodoHistoryItem: React.FunctionComponent<TodoHistoryItemProps> = (
             size="small"
             onClick={(e) => {
               handleUpdateTodo({ deleted: false });
-            }}
-          >
+            }}>
             <SettingsBackupRestore />
           </IconButton>
         </div>

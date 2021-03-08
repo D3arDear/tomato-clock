@@ -1,4 +1,4 @@
-FROM node:14
+FROM nginx
 WORKDIR /usr/src/app
 COPY package.json ./
 COPY yarn.lock ./

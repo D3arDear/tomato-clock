@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core";
 import axios from "src/config/axios";
 import { History } from "history";
 import { AxiosResponse } from "axios";
+import SvgIcon from "../Home/svgIcon";
 
 interface State {
   username: string;
@@ -81,10 +82,12 @@ const useStyles = makeStyles({
   cover: {
     display: "flex",
     flex: "1",
+    justifyContent: "center",
+    alignItems: "center",
     "@media (max-width:800px)": {
       display: "none",
     },
-    background: "black",
+    background: "linear-gradient(45deg, #fe6b6b 30%, #FF8E53 90%)",
   },
 });
 
@@ -177,7 +180,9 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
             </Button>
           </div>
         </div>
-        <div className={classes.cover}></div>
+        <div className={classes.cover}>
+          {SvgIcon(240, { filter: "drop-shadow(0px 0px 10px #f0492c)" })}
+        </div>
       </div>
     </div>
   );
