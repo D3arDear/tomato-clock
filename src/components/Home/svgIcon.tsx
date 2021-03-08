@@ -38,7 +38,7 @@ const SvgIcon = (width: number, style: CSSProperties) => (
       transform="rotate(-118.486 140.772 180.959)"
       fill="#FFA26E"
     />
-    <path d="M109 43L109 188" stroke="#FFA26E" stroke-width="10" />
+    <path d="M109 43L109 188" stroke="#FFA26E" strokeWidth="10" />
     <path
       d="M66 118.04C66 118.04 48.3567 112.541 44.7243 114.374C41.0919 116.207 41.0919 120.135 44.7243 121.706C48.3567 123.277 66 118.04 66 118.04Z"
       fill="#FF9B04"
