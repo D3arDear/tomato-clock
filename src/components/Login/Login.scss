@@ -1,5 +1,9 @@
 .login {
-  width: 100%;
+  width: 100vw;
+  background: url("/tomato-background.jpg") center center;
+  @media (max-width: 800px) {
+    background: #f8f8f8;
+  }
   &-wrapper {
     display: flex;
     flex-direction: column;

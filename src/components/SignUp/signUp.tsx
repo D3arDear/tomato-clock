@@ -73,6 +73,7 @@ const useStyles = makeStyles({
   },
   card: {
     width: "50%",
+    background: "#f8f8f8",
     "@media (max-width:800px)": {
       width: "100%",
       height: "100vh",

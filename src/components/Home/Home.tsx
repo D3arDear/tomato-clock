@@ -12,10 +12,15 @@ import SvgIcon from "./svgIcon";
 import ReferenceFooter from "./ReferenceFooter";
 import { motion } from "framer-motion";
 import { moveAndFade } from "src/config/animation";
+import styled from "styled-components";
 
 interface HomeState {
   account: string;
 }
+
+const LinearBox = styled.div`
+  /* background: #fdfdfd; */
+`;
 
 const useStyles = makeStyles({
   menuItem: {
@@ -51,7 +56,7 @@ const Home: React.FunctionComponent<any> = (props) => {
   }, []);
   return (
     <motion.div initial="initial" animate="enter" exit="exit" variants={moveAndFade}>
-      <div>
+      <LinearBox>
         <div className="home">
           <AppBar className={classes.appBar} color="transparent" position="static">
             <Toolbar variant="dense" className="home-header">
@@ -92,7 +97,7 @@ const Home: React.FunctionComponent<any> = (props) => {
           </main>
         </div>
         <ReferenceFooter />
-      </div>
+      </LinearBox>
     </motion.div>
   );
 };
