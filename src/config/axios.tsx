@@ -3,7 +3,7 @@ import { appID, appSecret } from "./_axiosHeader";
 import history from "./history";
 
 const instance = axios.create({
-  baseURL: "https://tomato-server.zealot.fun/",
+  baseURL: "https://tomatoserver.zealot.fun/",
   headers: {
     "t-app-id": appID,
     "t-app-secret": appSecret,
