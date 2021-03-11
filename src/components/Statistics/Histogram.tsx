@@ -11,9 +11,7 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
   const spacePercentage = 0.35;
   const rectWidthPercentage = 0.2;
   const histogramWidth = useMemo(() => width * (1 - spacePercentage), [width]);
-  const rectWidth = useMemo(() => (histogramWidth / 7) * rectWidthPercentage, [
-    histogramWidth,
-  ]);
+  const rectWidth = useMemo(() => (histogramWidth / 7) * rectWidthPercentage, [histogramWidth]);
 
   const rectPoints = useMemo(() => {
     const today = new Date(new Date().toLocaleDateString()).getTime();
@@ -23,13 +21,9 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
       })
       .filter(
         (date) =>
-          new Date(new Date(date).toLocaleDateString()).getTime() >
-          today - 1000 * 60 * 60 * 24 * 7
+          new Date(new Date(date).toLocaleDateString()).getTime() > today - 1000 * 60 * 60 * 24 * 7
       );
-    const verticalRange = dates.reduce(
-      (a, b) => (data[b].length > a ? data[b].length : a),
-      0
-    );
+    const verticalRange = dates.reduce((a, b) => (data[b].length > a ? data[b].length : a), 0);
     let points = [];
     for (let i = 0; i < 7; i++) {
       points.push({
@@ -41,25 +35,16 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
     }
     return points.map((point, index) => {
       const formatDate = (i: number) =>
-        format(
-          Date.parse(new Date(today - (6 - i) * 3600 * 1000 * 24).toString()),
-          "yyyy-MM-dd"
-        );
+        format(Date.parse(new Date(today - (6 - i) * 3600 * 1000 * 24).toString()), "yyyy-MM-dd");
       return dates.indexOf(formatDate(index)) !== -1
         ? {
-            x:
-              width -
-              histogramWidth +
-              (index * rectWidth) / rectWidthPercentage,
+            x: width - histogramWidth + (index * rectWidth) / rectWidthPercentage,
             y: (1 - data[formatDate(index)].length / verticalRange) * 60,
             width: rectWidth,
             height: (data[formatDate(index)].length / verticalRange) * 60,
           }
         : {
-            x:
-              width -
-              histogramWidth +
-              (index * rectWidth) / rectWidthPercentage,
+            x: width - histogramWidth + (index * rectWidth) / rectWidthPercentage,
             y: 56,
             width: rectWidth,
             height: 4,
@@ -83,8 +68,7 @@ const Histogram: React.FunctionComponent<HistogramProps> = (props) => {
             x={point.x}
             y={point.y}
             height={point.height}
-            width={point.width}
-          ></rect>
+            width={point.width}></rect>
         ))}
       </svg>
     </div>

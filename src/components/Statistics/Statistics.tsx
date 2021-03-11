@@ -3,7 +3,7 @@ import "./Statistics.scss";
 import { format } from "date-fns";
 import _ from "lodash";
 import { observer } from "mobx-react";
-import React, { useMemo, useRef, useState, useEffect } from "react";
+import React, { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import { useStores } from "src/hooks/use-stores";
 
 import { motion } from "framer-motion";
@@ -23,13 +23,16 @@ const Statistics: React.FunctionComponent = () => {
   const [ulWidth, setUlWidth] = useState(0);
   const liRef = useRef<HTMLLIElement>(null);
   const ulRef = useRef<HTMLUListElement>(null);
-  const updateWidth = () => {
+  const updateWidth = useCallback(() => {
     setLiWidth(liRef.current!.getBoundingClientRect().width);
     setUlWidth(ulRef.current!.getBoundingClientRect().width);
-  };
+    console.log("转了");
+    console.log(liWidth);
+  }, [liWidth]);
+
   useEffect(() => {
     updateWidth();
-  }, [setLiWidth]);
+  }, [setLiWidth, updateWidth]);
 
   useEffect(() => {
     updateWidth();
@@ -37,7 +40,7 @@ const Statistics: React.FunctionComponent = () => {
     return () => {
       window.removeEventListener("resize", updateWidth);
     };
-  }, []);
+  }, [updateWidth]);
 
   const [currentDisplay, handleDisplayChange] = useState(0);
 
