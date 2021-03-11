@@ -30,11 +30,11 @@
       display: flex;
       cursor: pointer;
       min-height: 90px;
-      background-color: #fff;
       text-align: left;
       font-size: 14px;
       color: #666;
       position: relative;
+      background-color: #fdfdfd;
       box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
         0px 1px 3px 0px rgba(0, 0, 0, 0.12);
       transition: box-shadow 300ms, background-color 300ms;
@@ -65,7 +65,11 @@
       }
     }
     li.active {
-      background-color: #f8f8f8;
+      background-color: linear-gradient(
+        45deg,
+        rgba(254, 108, 140, 0.1) 30%,
+        rgba(255, 143, 83, 0.1) 90%
+      );
       box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
         rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
       .titles {
