@@ -1,21 +1,50 @@
-const notificationBody = (ifFinishedTomato: boolean) => {
-  new Notification("番茄闹钟", {
+const isPushNotificationSupported = () => {
+  return "serviceWorker" in navigator && "PushManager" in window;
+};
+const askUserPermission = async () => {
+  return await Notification.requestPermission();
+};
+
+const registerServiceWorker = () => {
+  return navigator.serviceWorker.register("/sw.js");
+};
+
+const sendNotification = (ifFinishedTomato: boolean) => {
+  const title = "番茄闹钟";
+  const options = {
     lang: "zh-CN",
     icon: "/logo512.png",
     body: ifFinishedTomato ? "您已经完成了一个番茄时间" : "您已经休息了 5 分钟",
+  };
+  navigator.serviceWorker.ready.then(function (serviceWorker) {
+    serviceWorker.showNotification(title, options);
   });
 };
+
 const createNotification = (ifFinishedTomato: boolean) => {
-  if (!("Notification" in window)) {
-  } else if (Notification.permission === "granted") {
-    notificationBody(ifFinishedTomato);
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(function (permission) {
-      if (permission === "granted") {
-        notificationBody(ifFinishedTomato);
-      }
-    });
+  if (isPushNotificationSupported()) {
+    registerServiceWorker();
+    if (Notification.permission === "granted") {
+      sendNotification(ifFinishedTomato);
+    } else {
+      askUserPermission().then((consent) => {
+        if (consent !== "granted") {
+          sendNotification(ifFinishedTomato);
+        }
+      });
+    }
   }
 };
+
+// if (!("Notification" in window)) {
+// } else if (Notification.permission === "granted") {
+//   sendNotification(ifFinishedTomato);
+// } else if (Notification.permission !== "denied") {
+//   Notification.requestPermission().then(function (permission) {
+//     if (permission === "granted") {
+//       sendNotification(ifFinishedTomato);
+//     }
+//   });
+// }
 
 export { createNotification };

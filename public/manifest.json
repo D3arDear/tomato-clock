@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "番茄闹钟",
+  "name": "Tomato Clock",
   "icons": [
     {
       "src": "favicon.ico",
