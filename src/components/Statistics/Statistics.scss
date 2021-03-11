@@ -37,7 +37,12 @@
       background-color: #fdfdfd;
       box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
         0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-      transition: box-shadow 300ms, background-color 300ms;
+      background-image: linear-gradient(
+        45deg,
+        rgba(254, 108, 140, 0) 30%,
+        rgba(255, 143, 83, 0) 90%
+      );
+      transition: box-shadow 300ms, background-color 300ms, background-image 300ms;
       .titles {
         padding: 5px;
         position: absolute;
@@ -65,12 +70,13 @@
       }
     }
     li.active {
-      background-color: linear-gradient(
+      background-image: linear-gradient(
         45deg,
-        rgba(254, 108, 140, 0.1) 30%,
-        rgba(255, 143, 83, 0.1) 90%
+        rgba(254, 108, 140, 0.08) 30%,
+        rgba(255, 143, 83, 0.08) 90%
       );
-      box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+      background-color: #ffffff;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px -2px 2px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
         rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
       .titles {
         .title {

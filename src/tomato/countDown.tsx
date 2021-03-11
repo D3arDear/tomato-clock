@@ -28,9 +28,7 @@ const CountDown: React.FunctionComponent<Props> = (props) => {
     return Math.floor(countDown / 1000 / 60);
   }, [countDown]);
   const time = useMemo(() => {
-    return `${min < 10 ? `0${min}` : `${min}`}:${
-      second < 10 ? `0${second}` : `${second}`
-    }`;
+    return `${min < 10 ? `0${min}` : `${min}`}:${second < 10 ? `0${second}` : `${second}`}`;
   }, [min, second]);
 
   useEffect(() => {
