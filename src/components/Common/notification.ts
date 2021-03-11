@@ -5,11 +5,7 @@ const askUserPermission = async () => {
   return await Notification.requestPermission();
 };
 
-const registerServiceWorker = () => {
-  return navigator.serviceWorker.register("/sw.js");
-};
-
-const sendNotification = (ifFinishedTomato: boolean) => {
+function sendNotification(ifFinishedTomato: boolean) {
   const title = "番茄闹钟";
   const options = {
     lang: "zh-CN",
@@ -19,20 +15,22 @@ const sendNotification = (ifFinishedTomato: boolean) => {
   navigator.serviceWorker.ready.then(function (serviceWorker) {
     serviceWorker.showNotification(title, options);
   });
-};
+}
 
 const createNotification = (ifFinishedTomato: boolean) => {
   if (isPushNotificationSupported()) {
-    registerServiceWorker();
-    if (Notification.permission === "granted") {
-      sendNotification(ifFinishedTomato);
-    } else {
-      askUserPermission().then((consent) => {
-        if (consent !== "granted") {
-          sendNotification(ifFinishedTomato);
-        }
-      });
-    }
+    navigator.serviceWorker.register("/sw.js");
+    Notification.requestPermission((result) => {
+      if (result === "granted") {
+        sendNotification(ifFinishedTomato);
+      } else {
+        askUserPermission().then((consent) => {
+          if (consent === "granted") {
+            sendNotification(ifFinishedTomato);
+          }
+        });
+      }
+    });
   }
 };
 

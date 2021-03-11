@@ -11,8 +11,12 @@ import { MuiThemeProvider } from "@material-ui/core";
 import theme from "src/config/theme";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
+import { createNotification } from "./components/Common/notification";
 
 const sc = scopeClassMaker("app-page");
+const notifi = () => {
+  createNotification(true);
+};
 
 export default function App() {
   return (
@@ -20,6 +24,7 @@ export default function App() {
       <MuiThemeProvider theme={theme}>
         <Router history={history}>
           <div className={sc("wrapper")}>
+            <button onClick={notifi}>提示</button>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/login" component={Login} />
