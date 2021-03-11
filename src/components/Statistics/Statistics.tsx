@@ -26,9 +26,7 @@ const Statistics: React.FunctionComponent = () => {
   const updateWidth = useCallback(() => {
     setLiWidth(liRef.current!.getBoundingClientRect().width);
     setUlWidth(ulRef.current!.getBoundingClientRect().width);
-    console.log("转了");
-    console.log(liWidth);
-  }, [liWidth]);
+  }, []);
 
   useEffect(() => {
     updateWidth();
