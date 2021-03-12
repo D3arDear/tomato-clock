@@ -21,18 +21,14 @@ const Polygon: React.FunctionComponent<PolygonProps> = (props) => {
       return Date.parse(a) - Date.parse(b);
     });
     const today = new Date(new Date().toLocaleDateString()).getTime();
-    const verticalRange = dates.reduce(
-      (a, b) => (data[b].length > a ? data[b].length : a),
-      0
-    );
+    const verticalRange = dates.reduce((a, b) => (data[b].length > a ? data[b].length : a), 0);
     const horizonRange = today - get0(dates[0]);
     let lastHorizonPoint = 0;
     const points = dates.reduce((a, date) => {
       const x =
         horizonRange === 0
           ? polygonWidth + spaceWidth
-          : (1 - (today - get0(date)) / horizonRange) * polygonWidth +
-            spaceWidth;
+          : (1 - (today - get0(date)) / horizonRange) * polygonWidth + spaceWidth;
       const y = (1 - data[date].length / verticalRange) * 57;
       lastHorizonPoint = x;
       return a.concat(` ${x},${y}`);

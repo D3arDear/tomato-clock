@@ -1,45 +1,74 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tomato-Clock
 
-## Available Scripts
+这是一个基于 React 的线上番茄闹钟应用
+[Pomodoro Technique](https://zh.wikipedia.org/zh-hans/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95) 能不能提升效率有待验证，有效缓解眼疲劳我倒是验证了。
 
-In the project directory, you can run:
+## 预览
 
-### `yarn start`
+[Tomato-Clock](https://tomato.zealot.fun)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 实现功能
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+1. 用户系统
+   - 用户注册、登录、鉴权
+   - 注册登录错误反馈
+2. 番茄闹钟
+   - 25 分钟定时闹钟，休息 5 分钟
+   - 完成番茄时间和休息时间后使用`serviceWorker.showNotification`推送提示
+3. todoList
+   - 番茄时间内完成的任务自动添加到该番茄时间的描述中
+   - 任务可删改可恢复
+4. 数据统计
+   - 番茄历史统计、任务统计
+     - 统计总计、月平均数、月增长数，折线图形式表达
+     - 最佳工作日( 柱状图 )，最佳工作时间( 饼图 )
+   - 番茄历史
+     - 每日已完成番茄时间、打断的番茄时间的记录( 可恢复，可删除 )
+     - 补记番茄( 选择起始时间结束时间，输入番茄时间描述 )
+     - 日期选择器显示时间范围内的任务
+   - 任务历史
+     - 每日已完成任务、删除的任务的记录( 可恢复，可删除 )
+     - 日期选择器显示时间范围内的任务
 
-### `yarn test`
+## 技术栈
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 前端：
 
-### `yarn build`
+- create-react-app 构建项目； mbox 状态管理；基本使用 hooks
+- 使用 Svg 构建图表（柱状图:`<rect>` 折线图 `<polygon>` 饼图 `<circle>` `<line>` `<path>` ）
+- 使用简单的 `serviceWorker` 实现倒计时结束推送
+- axios interceptors 存取 token
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 后端：
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+我还在研究怎么脱敏，敏感信息放在环境变量里恐怕有点不安全
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 使用 Nest.js 构建 api 服务器
+- mongoose 驱动 mongodb
+- 鉴权方式： JWT + salt
 
-### `yarn eject`
+### 部署：
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- 前后端分离 docker 部署，通过 bridge( [user-defined bridge](https://docs.docker.com/network/bridge/#manage-a-user-defined-bridge) ) 通信
+- 前端通过 nginx 容器 + 一层 nginx-proxy 容器(反向代理) + ssl 访问
+- 后端本身 docker 化，通过 bridge 与 db-docker 通信。自身接口通过 bridge 暴露给前端 nginx 容器，最后以前端 nginx 容器经由 nginx-proxy 反向代理实现接口访问
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+层级结构：
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-# tomato-clock
+```
+---proxy-docker
+    |
+    | bridge
+    |
+    |---tomato-nginx
+          |
+          | bridge
+          |
+          |--tomato-clock
+          |
+          |--tomato-server
+              |
+              | bridge
+              |
+            db-docker
+```
