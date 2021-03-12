@@ -35,6 +35,7 @@
 ### 前端：
 
 - create-react-app 构建项目； mbox 状态管理；基本使用 hooks
+- 使用 Typescript
 - 使用 Svg 构建图表（柱状图:`<rect>` 折线图 `<polygon>` 饼图 `<circle>` `<line>` `<path>` ）
 - 使用简单的 `serviceWorker` 实现倒计时结束推送
 - axios interceptors 存取 token
