@@ -28,32 +28,23 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
 
   const howManyDays = useMemo(
     () =>
-      (currentSelectedDates[1].getTime() - currentSelectedDates[0].getTime()) /
-      (3600 * 1000 * 24),
+      (currentSelectedDates[1].getTime() - currentSelectedDates[0].getTime()) / (3600 * 1000 * 24),
     [currentSelectedDates]
   );
 
   const lastMonthDates = useMemo(
     () => [
-      new Date(
-        currentSelectedDates[0].getFullYear(),
-        currentSelectedDates[0].getMonth() - 1,
-        1
-      ),
-      new Date(
-        currentSelectedDates[1].getFullYear(),
-        currentSelectedDates[1].getMonth(),
-        0
-      ),
+      new Date(currentSelectedDates[0].getFullYear(), currentSelectedDates[0].getMonth() - 1, 1),
+      new Date(currentSelectedDates[1].getFullYear(), currentSelectedDates[1].getMonth(), 0),
     ],
     [currentSelectedDates]
   );
 
-  const dataFilter: <T>(
-    data: T[],
-    time: "completed_at" | "ended_at",
-    dateRange: Date[]
-  ) => T[] = (data, time, dateRange) => {
+  const dataFilter: <T>(data: T[], time: "completed_at" | "ended_at", dateRange: Date[]) => T[] = (
+    data,
+    time,
+    dateRange
+  ) => {
     return data.filter(
       (item: any) =>
         new Date(item[time as "completed_at" | "ended_at"]) > dateRange[0] &&
@@ -76,15 +67,13 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
     [data, isTomato, lastMonthDates]
   );
   const increaseRate = useMemo(() => {
-    let rate =
-      (currentMonthEvents.length - lastMonthEvents.length) /
-      currentMonthEvents.length;
+    let rate = (currentMonthEvents.length - lastMonthEvents.length) / currentMonthEvents.length;
     if (Math.abs(rate) === Infinity) {
       rate = 1;
     } else if (!rate) {
       rate = 0;
     }
-    return parseFloat(rate.toFixed(2));
+    return parseFloat(rate.toFixed(2)) * 100;
   }, [currentMonthEvents.length, lastMonthEvents.length]);
 
   return (
@@ -101,16 +90,11 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
         <div>
           <p
             style={{
-              color: `${
-                increaseRate > 0
-                  ? "rgba(255, 179, 113, 1)"
-                  : "rgba(94, 170, 163, 1)"
-              }`,
-            }}
-          >
-            {increaseRate > 0 ? +increaseRate : increaseRate}
+              color: `${increaseRate > 0 ? "rgba(255, 179, 113, 1)" : "rgba(94, 170, 163, 1)"}`,
+            }}>
+            {increaseRate > 0 ? +increaseRate : increaseRate}%
           </p>
-          <span>月增长数</span>
+          <span>月增长率</span>
         </div>
       </header>
       <main className="TodoStatisticsDetail-main">
@@ -122,11 +106,7 @@ const StatisticsDetailItem = (props: StatisticsDetailItemProps) => {
         />
       </main>
       <footer>
-        <BestMoment
-          isTomato={isTomato}
-          width={width}
-          data={currentMonthEvents}
-        />
+        <BestMoment isTomato={isTomato} width={width} data={currentMonthEvents} />
       </footer>
     </div>
   );

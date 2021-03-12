@@ -15,9 +15,7 @@ import { useStores } from "src/hooks/use-stores";
 
 const AddTomatoDialog = () => {
   const [open, setOpen] = React.useState(false);
-  const [startDate, setStartDate] = useState<Date>(
-    new Date(new Date().getTime() - 25 * 1000 * 60)
-  );
+  const [startDate, setStartDate] = useState<Date>(new Date(new Date().getTime() - 25 * 1000 * 60));
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [description, setDescription] = useState<string>("");
   const { tomatoState } = useStores();
@@ -48,11 +46,7 @@ const AddTomatoDialog = () => {
       <IconButton aria-label="add-tomato" onClick={handleClickOpen}>
         <Add color="primary" />
       </IconButton>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
+      <Dialog open={open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
         <DialogContent style={{ overflow: "hidden", padding: 0 }}>
           <div className="addTomato-dialog-content">
             <div className="addTomato-dialog-content-startTime">
@@ -85,8 +79,8 @@ const AddTomatoDialog = () => {
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
-          }}
-        >
+            padding: "20px",
+          }}>
           <div>
             <IconButton aria-label="clear" onClick={handleClose}>
               <Clear color="secondary" />

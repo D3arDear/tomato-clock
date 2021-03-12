@@ -55,9 +55,7 @@ export class tomatoState {
 
   @computed
   get unfinishedTomato() {
-    return this.tomatoes.filter(
-      (tomato) => !tomato.ended_at && !tomato.aborted
-    )[0];
+    return this.tomatoes.filter((tomato) => !tomato.ended_at && !tomato.aborted)[0];
   }
 
   @computed

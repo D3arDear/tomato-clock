@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  makeStyles,
-  withStyles,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
+import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core/styles";
 import SwipeableViews from "react-swipeable-views";
 import Tabs from "@material-ui/core/Tabs";
 import { format } from "date-fns";
@@ -110,8 +105,7 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box css={{ padding: "12px 0" }} p={3}>
           {children}
@@ -139,12 +133,7 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
     <div className={classes.root}>
       <div className={classes.wrapper}>
         <div className={classes.action}>
-          <AntTabs
-            value={value}
-            onChange={handleChange}
-            textColor="secondary"
-            aria-label="tabs"
-          >
+          <AntTabs value={value} onChange={handleChange} textColor="secondary" aria-label="tabs">
             <AntTab label="已完成任务" />
             <AntTab label="已删除任务" />
           </AntTabs>
@@ -162,8 +151,7 @@ const TodoHistoryTabs: React.FunctionComponent<any> = (props) => {
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={value}
-          onChangeIndex={handleChangeIndex}
-        >
+          onChangeIndex={handleChangeIndex}>
           <TabPanel value={value} index={0} dir={theme.direction}>
             <TodoHistory finished selectedDate={selectedDate} />
           </TabPanel>

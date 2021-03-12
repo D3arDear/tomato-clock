@@ -8,6 +8,7 @@ import { observer } from "mobx-react";
 import { ArrowRight } from "@material-ui/icons";
 import { Button } from "@material-ui/core";
 import SimpleBar from "simplebar-react";
+import useOver2Month, { dateOfTwoMonthBefore } from "../Common/useOver2Mon";
 
 interface Todos {
   description: string;
@@ -21,7 +22,7 @@ interface Todos {
 
 const Todos: React.FunctionComponent = observer(() => {
   const [completedVisible, setCompletedVisible] = useState(false);
-  const { todoState } = useStores();
+  const { todoState, dateFilterState } = useStores();
   const { currentTodos } = todoState;
 
   const unDeletedTodos = useMemo(() => {
@@ -47,8 +48,15 @@ const Todos: React.FunctionComponent = observer(() => {
       );
       todoState.initTodos(editingTodos);
     };
-    getTodo();
-  }, [todoState]);
+    getTodo().then(
+      () => {
+        if (useOver2Month(todoState.todos)) {
+          dateFilterState.updatedDate([new Date(dateOfTwoMonthBefore), new Date()]);
+        }
+      },
+      () => {}
+    );
+  }, [dateFilterState, todoState]);
 
   return (
     <div className="Todos" id="Todos">
@@ -72,17 +80,13 @@ const Todos: React.FunctionComponent = observer(() => {
               }}
             />
           }
-          onClick={toggleCompletedTodos}
-        >
+          onClick={toggleCompletedTodos}>
           近一周完成的任务
         </Button>
         {
           <SimpleBar
-            className={
-              completedVisible ? "completedTodos" : "completedTodos invisible"
-            }
-            style={{}}
-          >
+            className={completedVisible ? "completedTodos" : "completedTodos invisible"}
+            style={{}}>
             {completedTodos
               .filter(
                 (item) =>

@@ -2,10 +2,7 @@ import React from "react";
 import DateFnsAdapter from "@material-ui/pickers/adapter/date-fns";
 import { TextField } from "@material-ui/core";
 import cnLocale from "date-fns/locale/zh-CN";
-import {
-  MobileDateTimePicker,
-  LocalizationProvider,
-} from "@material-ui/pickers";
+import { MobileDateTimePicker, LocalizationProvider } from "@material-ui/pickers";
 
 function DateTimePicker(props: any) {
   const { label, selectedDate, setSelectedDate, startDate, endDate } = props;

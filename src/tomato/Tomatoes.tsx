@@ -7,6 +7,7 @@ import axios from "src/config/axios";
 import TomatoList from "src/tomato/TomatoList";
 import _ from "lodash";
 import { format } from "date-fns";
+import useOver2Month, { dateOfTwoMonthBefore } from "src/components/Common/useOver2Mon";
 
 interface Props {}
 
@@ -25,7 +26,7 @@ interface Tomato {
 }
 
 const Tomatoes: React.FunctionComponent<Props> = observer(() => {
-  const { tomatoState, justCompletedTodo } = useStores();
+  const { tomatoState, justCompletedTodo, dateFilterState } = useStores();
   const finishedTomato = tomatoState.finishedTomato;
 
   const unfinishedTomato = useMemo(() => {
@@ -55,8 +56,15 @@ const Tomatoes: React.FunctionComponent<Props> = observer(() => {
       const response = await axios.get("tomatoes");
       tomatoState.initTomato(response.data);
     };
-    getTomato();
-  }, [tomatoState]);
+    getTomato().then(
+      () => {
+        if (useOver2Month(tomatoState.tomatoes)) {
+          dateFilterState.updatedDate([new Date(dateOfTwoMonthBefore), new Date()]);
+        }
+      },
+      () => {}
+    );
+  }, [dateFilterState, tomatoState]);
 
   const doUpdateTomato = (payload: Tomato) => {
     tomatoState.updateTomato(payload);
