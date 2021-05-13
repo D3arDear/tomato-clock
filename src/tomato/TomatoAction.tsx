@@ -35,9 +35,10 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const { justCompletedTodo } = useStores();
 
   const timeNow = new Date().getTime();
-  const startedAt = useMemo(() => Date.parse(unfinishedTomato && unfinishedTomato.started_at), [
-    unfinishedTomato,
-  ]);
+  const startedAt = useMemo(
+    () => Date.parse(unfinishedTomato && unfinishedTomato.started_at),
+    [unfinishedTomato]
+  );
   const duration = unfinishedTomato ? unfinishedTomato.duration : 0;
 
   const [open, setOpen] = useState(false);
@@ -85,6 +86,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
     toggleConfirm(false);
     updateTomato({ aborted: true, ended_at: new Date() });
     document.title = "番茄闹钟";
+    justCompletedTodo.CountDownEnd();
   };
 
   const doStartTomato = () => {
