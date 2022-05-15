@@ -10,12 +10,8 @@ interface ClockChartsProps {
 const ClockCharts: React.FC<ClockChartsProps> = (props) => {
   const { width, bestMoment, timeData } = props;
 
-  const svgWidth = useMemo(() => (width > 720 ? width / 2 - 10 : width - 10), [
-    width,
-  ]);
-  const circleR = useMemo(() => (svgWidth / 5 > 100 ? 100 : svgWidth / 5), [
-    svgWidth,
-  ]);
+  const svgWidth = useMemo(() => (width > 720 ? width / 2 - 10 : width - 10), [width]);
+  const circleR = useMemo(() => (svgWidth / 5 > 100 ? 100 : svgWidth / 5), [svgWidth]);
   const pieStroke = 5;
   const pieData = useMemo(() => {
     const bestCount = timeData[bestMoment].count;
@@ -28,32 +24,20 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
         x0:
           circleR +
           (circleR - pieStroke) *
-            Math.cos(
-              -Math.PI / 2 +
-                startAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
-            ),
+            Math.cos(-Math.PI / 2 + startAng(parseInt(time.time)) * ((Math.PI * 2) / 12)),
         y0:
           circleR +
           (circleR - pieStroke) *
-            Math.sin(
-              -Math.PI / 2 +
-                startAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
-            ),
+            Math.sin(-Math.PI / 2 + startAng(parseInt(time.time)) * ((Math.PI * 2) / 12)),
         x1:
           circleR +
           (circleR - pieStroke) *
-            Math.cos(
-              -Math.PI / 2 + endAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
-            ),
+            Math.cos(-Math.PI / 2 + endAng(parseInt(time.time)) * ((Math.PI * 2) / 12)),
         y1:
           circleR +
           (circleR - pieStroke) *
-            Math.sin(
-              -Math.PI / 2 + endAng(parseInt(time.time)) * ((Math.PI * 2) / 12)
-            ),
-        color: `rgba(255, 124, 54,${
-          (bestCount === 0 ? 0 : time.count / bestCount) * 0.6
-        })`,
+            Math.sin(-Math.PI / 2 + endAng(parseInt(time.time)) * ((Math.PI * 2) / 12)),
+        color: `rgba(255, 124, 54,${(bestCount === 0 ? 0 : time.count / bestCount) * 0.6})`,
       };
     });
   }, [bestMoment, circleR, timeData]);
@@ -69,14 +53,7 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
           strokeWidth="2"
         />
         <symbol id="tick">
-          <line
-            x1={circleR}
-            y1="0"
-            x2={circleR}
-            y2="5"
-            stroke="#999"
-            strokeWidth="1"
-          ></line>
+          <line x1={circleR} y1="0" x2={circleR} y2="5" stroke="#999" strokeWidth="1"></line>
         </symbol>
         {pieData.map((time: any, index: number) => (
           <path
@@ -90,12 +67,7 @@ const ClockCharts: React.FC<ClockChartsProps> = (props) => {
         ))}
         {CircleTrick(circleR)}
         {CircleNumber(circleR, bestMoment)}
-        <circle
-          cx={circleR}
-          cy={circleR}
-          r={circleR * 0.3}
-          fill="rgb(253,253,253)"
-        />
+        <circle cx={circleR} cy={circleR} r={circleR * 0.5} fill="rgb(253,253,253)" />
       </svg>
     </div>
   );
