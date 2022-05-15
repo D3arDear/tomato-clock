@@ -34,7 +34,9 @@ const Todos: React.FunctionComponent = observer(() => {
   }, [unDeletedTodos]);
 
   const completedTodos = useMemo(() => {
-    return unDeletedTodos.filter((todo) => todo.completed);
+    return unDeletedTodos
+      .filter((todo) => todo.completed)
+      .sort((a, b) => Date.parse(b.completed_at) - Date.parse(a.completed_at));
   }, [unDeletedTodos]);
 
   const toggleCompletedTodos = () => {

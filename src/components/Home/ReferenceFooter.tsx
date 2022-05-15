@@ -17,17 +17,18 @@ const StyledA = styled.a`
   line-height: 1;
 `;
 
-const StyledP = styled.p`
+const StyledP = styled.a`
   color: #666;
   font-size: 12px;
   padding-right: 0.5em;
+  text-decoration: none;
   line-height: 1;
 `;
 
 const ReferenceFooter = () => {
   return (
     <Footer>
-      <StyledP>© brenZ</StyledP>
+      <StyledP href="https://github.com/D3arDear/tomato-clock">© D3arDear</StyledP>
       <StyledA href="https://beian.miit.gov.cn/">蜀ICP备18039418号</StyledA>
     </Footer>
   );
