@@ -67,6 +67,7 @@ const TomatoAction: React.FunctionComponent<Props> = observer((props) => {
   const onFinishedBreak = () => {
     setFinishedBreak(true);
     createNotification(false);
+    justCompletedTodo.clearTodo();
   };
   const onFinished = () => {
     setFinishedCount(true);

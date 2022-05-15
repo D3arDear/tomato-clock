@@ -49,9 +49,7 @@ export class justCompletedTodoState {
           return item;
         }
       });
-      update
-        ? (this.todos = newTodos)
-        : (this.todos = [...this.todos, payload]);
+      update ? (this.todos = newTodos) : (this.todos = [...this.todos, payload]);
     }
   }
 
@@ -61,6 +59,11 @@ export class justCompletedTodoState {
       const newTodos = this.todos.filter((todo) => todo.completed);
       this.todos = newTodos;
     }
+  }
+
+  @action
+  clearTodo() {
+    this.todos = [];
   }
 
   @computed
