@@ -19,7 +19,7 @@ function sendNotification(ifFinishedTomato: boolean) {
 
 const createNotification = (ifFinishedTomato: boolean) => {
   if (isPushNotificationSupported()) {
-    navigator.serviceWorker.register("/sw.js");
+    navigator.serviceWorker.register("/service-worker.ts");
     Notification.requestPermission((result) => {
       if (result === "granted") {
         sendNotification(ifFinishedTomato);
