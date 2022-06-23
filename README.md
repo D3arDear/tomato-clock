@@ -55,19 +55,19 @@
 层级结构：
 
 ```
----proxy-docker
+---<proxy-docker>
     |
-    | bridge
+    | [proxy-bridge]
     |
-    |---tomato-nginx
+    |---<tomato-nginx>
         |
-        | bridge
+        | [tomato-bridge]
         |
-        |--tomato-clock
+        |--<tomato-clock>
         |
-        |--tomato-server
+        |--<tomato-server>
            |
-           | bridge
+           | [tomato-db-bridge]
            |
-           db-docker
+           <db-docker>
 ```
