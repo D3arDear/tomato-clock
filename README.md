@@ -34,7 +34,7 @@
 
 ### 前端：
 
-- create-react-app 构建项目； mbox 状态管理；基本使用 hooks
+- create-react-app 构建项目； MobX 状态管理；基本使用 hooks
 - 使用 Typescript
 - 使用 Svg 构建图表（柱状图:`<rect>` 折线图 `<polygon>` 饼图 `<circle>` `<line>` `<path>` ）
 - 使用简单的 `serviceWorker` 实现倒计时结束推送
@@ -42,17 +42,15 @@
 
 ### 后端：
 
-我还在研究怎么脱敏，敏感信息放在环境变量里恐怕有点不安全
-
 - 使用 Nest.js 构建 api 服务器
 - mongoose 驱动 mongodb
-- 鉴权方式： JWT + salt
+- 鉴权方式： JWT
 
 ### 部署：
 
-- 前后端分离 docker 部署，通过 bridge( [user-defined bridge](https://docs.docker.com/network/bridge/#manage-a-user-defined-bridge) ) 通信
-- 前端通过 nginx 容器 + 一层 nginx-proxy 容器(反向代理) + ssl 访问
-- 后端本身 docker 化，通过 bridge 与 db-docker 通信。自身接口通过 bridge 暴露给前端 nginx 容器，最后以前端 nginx 容器经由 nginx-proxy 反向代理实现接口访问
+- 前后端分离 docker 部署，通过 netowrk bridge ( [user-defined bridge](https://docs.docker.com/network/bridge/#manage-a-user-defined-bridge) ) 通信
+- 前端本身容器化 + 一层 nginx-proxy 容器(反向代理) + ssl 访问
+- 后端容器化，通过 user-defined bridge 与 db-docker 通信。经由 nginx-proxy 反向代理实现接口访问。
 
 层级结构：
 
@@ -62,14 +60,14 @@
     | bridge
     |
     |---tomato-nginx
-          |
-          | bridge
-          |
-          |--tomato-clock
-          |
-          |--tomato-server
-              |
-              | bridge
-              |
-            db-docker
+        |
+        | bridge
+        |
+        |--tomato-clock
+        |
+        |--tomato-server
+           |
+           | bridge
+           |
+           db-docker
 ```
